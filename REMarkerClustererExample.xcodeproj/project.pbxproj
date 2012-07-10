@@ -1,0 +1,314 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		308DBF3C15ABC5BB00FC89AE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 308DBF3B15ABC5BB00FC89AE /* UIKit.framework */; };
+		308DBF3E15ABC5BB00FC89AE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 308DBF3D15ABC5BB00FC89AE /* Foundation.framework */; };
+		308DBF4015ABC5BB00FC89AE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 308DBF3F15ABC5BB00FC89AE /* CoreGraphics.framework */; };
+		308DBF4615ABC5BB00FC89AE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 308DBF4415ABC5BB00FC89AE /* InfoPlist.strings */; };
+		308DBF4815ABC5BB00FC89AE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 308DBF4715ABC5BB00FC89AE /* main.m */; };
+		308DBF4C15ABC5BB00FC89AE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 308DBF4B15ABC5BB00FC89AE /* AppDelegate.m */; };
+		308DBF5415ABC5CD00FC89AE /* DemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 308DBF5315ABC5CD00FC89AE /* DemoViewController.m */; };
+		308DBF5615ABC71200FC89AE /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 308DBF5515ABC71200FC89AE /* MapKit.framework */; };
+		308DBF5815ABC71700FC89AE /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 308DBF5715ABC71700FC89AE /* CoreLocation.framework */; };
+		308DBF6715ABD09F00FC89AE /* Points.plist in Resources */ = {isa = PBXBuildFile; fileRef = 308DBF6615ABD09F00FC89AE /* Points.plist */; };
+		308DBF7015ABDBEE00FC89AE /* RECluster.m in Sources */ = {isa = PBXBuildFile; fileRef = 308DBF6915ABDBCA00FC89AE /* RECluster.m */; };
+		308DBF7115ABDBF100FC89AE /* REMarkerClusterer.m in Sources */ = {isa = PBXBuildFile; fileRef = 308DBF6F15ABDBCA00FC89AE /* REMarkerClusterer.m */; };
+		308DBF7215ABDBF300FC89AE /* REMarker.m in Sources */ = {isa = PBXBuildFile; fileRef = 308DBF6D15ABDBCA00FC89AE /* REMarker.m */; };
+		308DBF7315ABDBF500FC89AE /* RELatLngBounds.m in Sources */ = {isa = PBXBuildFile; fileRef = 308DBF6B15ABDBCA00FC89AE /* RELatLngBounds.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		308DBF3715ABC5BB00FC89AE /* REMarkerClustererExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = REMarkerClustererExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		308DBF3B15ABC5BB00FC89AE /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		308DBF3D15ABC5BB00FC89AE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		308DBF3F15ABC5BB00FC89AE /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		308DBF4315ABC5BB00FC89AE /* REMarkerClustererExample-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "REMarkerClustererExample-Info.plist"; sourceTree = "<group>"; };
+		308DBF4515ABC5BB00FC89AE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		308DBF4715ABC5BB00FC89AE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		308DBF4915ABC5BB00FC89AE /* REMarkerClustererExample-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "REMarkerClustererExample-Prefix.pch"; sourceTree = "<group>"; };
+		308DBF4A15ABC5BB00FC89AE /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		308DBF4B15ABC5BB00FC89AE /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		308DBF5215ABC5CD00FC89AE /* DemoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DemoViewController.h; sourceTree = "<group>"; };
+		308DBF5315ABC5CD00FC89AE /* DemoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DemoViewController.m; sourceTree = "<group>"; };
+		308DBF5515ABC71200FC89AE /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		308DBF5715ABC71700FC89AE /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		308DBF6615ABD09F00FC89AE /* Points.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Points.plist; sourceTree = "<group>"; };
+		308DBF6815ABDBCA00FC89AE /* RECluster.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RECluster.h; sourceTree = "<group>"; };
+		308DBF6915ABDBCA00FC89AE /* RECluster.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RECluster.m; sourceTree = "<group>"; };
+		308DBF6A15ABDBCA00FC89AE /* RELatLngBounds.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RELatLngBounds.h; sourceTree = "<group>"; };
+		308DBF6B15ABDBCA00FC89AE /* RELatLngBounds.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RELatLngBounds.m; sourceTree = "<group>"; };
+		308DBF6C15ABDBCA00FC89AE /* REMarker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = REMarker.h; sourceTree = "<group>"; };
+		308DBF6D15ABDBCA00FC89AE /* REMarker.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = REMarker.m; sourceTree = "<group>"; };
+		308DBF6E15ABDBCA00FC89AE /* REMarkerClusterer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = REMarkerClusterer.h; sourceTree = "<group>"; };
+		308DBF6F15ABDBCA00FC89AE /* REMarkerClusterer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = REMarkerClusterer.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		308DBF3415ABC5BB00FC89AE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				308DBF5815ABC71700FC89AE /* CoreLocation.framework in Frameworks */,
+				308DBF5615ABC71200FC89AE /* MapKit.framework in Frameworks */,
+				308DBF3C15ABC5BB00FC89AE /* UIKit.framework in Frameworks */,
+				308DBF3E15ABC5BB00FC89AE /* Foundation.framework in Frameworks */,
+				308DBF4015ABC5BB00FC89AE /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		308DBF2C15ABC5BB00FC89AE = {
+			isa = PBXGroup;
+			children = (
+				308DBF4115ABC5BB00FC89AE /* REMarkerClustererExample */,
+				308DBF5915ABC75D00FC89AE /* REMarkerClusterer */,
+				308DBF3A15ABC5BB00FC89AE /* Frameworks */,
+				308DBF3815ABC5BB00FC89AE /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		308DBF3815ABC5BB00FC89AE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				308DBF3715ABC5BB00FC89AE /* REMarkerClustererExample.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		308DBF3A15ABC5BB00FC89AE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				308DBF3B15ABC5BB00FC89AE /* UIKit.framework */,
+				308DBF3D15ABC5BB00FC89AE /* Foundation.framework */,
+				308DBF3F15ABC5BB00FC89AE /* CoreGraphics.framework */,
+				308DBF5715ABC71700FC89AE /* CoreLocation.framework */,
+				308DBF5515ABC71200FC89AE /* MapKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		308DBF4115ABC5BB00FC89AE /* REMarkerClustererExample */ = {
+			isa = PBXGroup;
+			children = (
+				308DBF4215ABC5BB00FC89AE /* Supporting Files */,
+				308DBF4A15ABC5BB00FC89AE /* AppDelegate.h */,
+				308DBF4B15ABC5BB00FC89AE /* AppDelegate.m */,
+				308DBF5215ABC5CD00FC89AE /* DemoViewController.h */,
+				308DBF5315ABC5CD00FC89AE /* DemoViewController.m */,
+			);
+			path = REMarkerClustererExample;
+			sourceTree = "<group>";
+		};
+		308DBF4215ABC5BB00FC89AE /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				308DBF4315ABC5BB00FC89AE /* REMarkerClustererExample-Info.plist */,
+				308DBF4415ABC5BB00FC89AE /* InfoPlist.strings */,
+				308DBF4715ABC5BB00FC89AE /* main.m */,
+				308DBF4915ABC5BB00FC89AE /* REMarkerClustererExample-Prefix.pch */,
+				308DBF6615ABD09F00FC89AE /* Points.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		308DBF5915ABC75D00FC89AE /* REMarkerClusterer */ = {
+			isa = PBXGroup;
+			children = (
+				308DBF6815ABDBCA00FC89AE /* RECluster.h */,
+				308DBF6915ABDBCA00FC89AE /* RECluster.m */,
+				308DBF6A15ABDBCA00FC89AE /* RELatLngBounds.h */,
+				308DBF6B15ABDBCA00FC89AE /* RELatLngBounds.m */,
+				308DBF6C15ABDBCA00FC89AE /* REMarker.h */,
+				308DBF6D15ABDBCA00FC89AE /* REMarker.m */,
+				308DBF6E15ABDBCA00FC89AE /* REMarkerClusterer.h */,
+				308DBF6F15ABDBCA00FC89AE /* REMarkerClusterer.m */,
+			);
+			path = REMarkerClusterer;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		308DBF3615ABC5BB00FC89AE /* REMarkerClustererExample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 308DBF4F15ABC5BB00FC89AE /* Build configuration list for PBXNativeTarget "REMarkerClustererExample" */;
+			buildPhases = (
+				308DBF3315ABC5BB00FC89AE /* Sources */,
+				308DBF3415ABC5BB00FC89AE /* Frameworks */,
+				308DBF3515ABC5BB00FC89AE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = REMarkerClustererExample;
+			productName = REMarkerClustererExample;
+			productReference = 308DBF3715ABC5BB00FC89AE /* REMarkerClustererExample.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		308DBF2E15ABC5BB00FC89AE /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0430;
+				ORGANIZATIONNAME = "Roman Efimov";
+			};
+			buildConfigurationList = 308DBF3115ABC5BB00FC89AE /* Build configuration list for PBXProject "REMarkerClustererExample" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 308DBF2C15ABC5BB00FC89AE;
+			productRefGroup = 308DBF3815ABC5BB00FC89AE /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				308DBF3615ABC5BB00FC89AE /* REMarkerClustererExample */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		308DBF3515ABC5BB00FC89AE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				308DBF4615ABC5BB00FC89AE /* InfoPlist.strings in Resources */,
+				308DBF6715ABD09F00FC89AE /* Points.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		308DBF3315ABC5BB00FC89AE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				308DBF4815ABC5BB00FC89AE /* main.m in Sources */,
+				308DBF4C15ABC5BB00FC89AE /* AppDelegate.m in Sources */,
+				308DBF5415ABC5CD00FC89AE /* DemoViewController.m in Sources */,
+				308DBF7115ABDBF100FC89AE /* REMarkerClusterer.m in Sources */,
+				308DBF7215ABDBF300FC89AE /* REMarker.m in Sources */,
+				308DBF7315ABDBF500FC89AE /* RELatLngBounds.m in Sources */,
+				308DBF7015ABDBEE00FC89AE /* RECluster.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		308DBF4415ABC5BB00FC89AE /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				308DBF4515ABC5BB00FC89AE /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		308DBF4D15ABC5BB00FC89AE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		308DBF4E15ABC5BB00FC89AE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		308DBF5015ABC5BB00FC89AE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "REMarkerClustererExample/REMarkerClustererExample-Prefix.pch";
+				INFOPLIST_FILE = "REMarkerClustererExample/REMarkerClustererExample-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		308DBF5115ABC5BB00FC89AE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "REMarkerClustererExample/REMarkerClustererExample-Prefix.pch";
+				INFOPLIST_FILE = "REMarkerClustererExample/REMarkerClustererExample-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		308DBF3115ABC5BB00FC89AE /* Build configuration list for PBXProject "REMarkerClustererExample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				308DBF4D15ABC5BB00FC89AE /* Debug */,
+				308DBF4E15ABC5BB00FC89AE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		308DBF4F15ABC5BB00FC89AE /* Build configuration list for PBXNativeTarget "REMarkerClustererExample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				308DBF5015ABC5BB00FC89AE /* Debug */,
+				308DBF5115ABC5BB00FC89AE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 308DBF2E15ABC5BB00FC89AE /* Project object */;
+}
