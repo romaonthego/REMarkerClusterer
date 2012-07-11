@@ -1,53 +1,64 @@
 //
-//  REMarkerClusterer.m
-//  REMarkerClusterer
+// REMarkerClusterer.m
+// REMarkerClusterer
 //
-//  Created by Roman Efimov on 3/8/11.
-//  Copyright 2011 Roman Efimov. All rights reserved.
+// Copyright (c) 2011-2012 Roman Efimov (http://github.com/romaonthego)
+// 
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+// 
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
 //
 
+#import <MapKit/MapKit.h>
+#import <CoreLocation/CoreLocation.h>
 #import "REMarkerClusterer.h"
 #import "RECluster.h"
-#import <CoreLocation/CLLocation.h>
-#import <MapKit/MKGeometry.h>
-#import <MapKit/MapKit.h>
-#import <MapKit/MKAnnotation.h>
 
 @implementation REMarkerClusterer
 
-@synthesize markers, clusters, mapView, gridSize;
-
-@synthesize isRedrawing, needsToRedraw;
-
+@synthesize markers, clusters, mapView, gridSize, isAverageCenter;
 @synthesize delegate;
-
-static bool averageCenter = NO;
-static double prevZoom;
+@synthesize oneItemCaption, manyItemsCaption;
 
 - (void)addMarker:(REMarker *)marker
 {
     [markers addObject:marker];
 }
 
-- (void)baseInit {
-    markers = [[NSMutableArray alloc] initWithCapacity:0];
-    clusters = [[NSMutableArray alloc] initWithCapacity:0];
-}
-
-// Initialization
-- (id)initWithFrame:(CGRect)frame {
+- (id)initWithFrame:(CGRect)frame
+{
     if ((self = [super initWithFrame:frame])) {
-        [self baseInit];
+        gridSize = 25;
+        
         mapView = [[MKMapView alloc] initWithFrame:frame];
         mapView.delegate = self;
-        gridSize = 25;
-        tempViews = [[NSMutableArray alloc] initWithCapacity:0];
+        tempViews = [[NSMutableArray alloc] init];
+        markers = [[NSMutableArray alloc] init];
+        clusters = [[NSMutableArray alloc] init];
         [self addSubview:mapView];
+        
+        oneItemCaption = @"One item";
+        manyItemsCaption = @"%i items";
     }
     return self;
 }
 
-- (bool)markerInBounds:(REMarker *)marker {
+- (bool)markerInBounds:(REMarker *)marker
+{
     CGPoint pix = [self.mapView convertCoordinate:marker.coordinate toPointToView:nil];
     if (pix.x >=-150 && pix.x <= mapView.frame.size.width+150) {
         if (pix.y >=-150 && pix.y <= mapView.frame.size.height+150) {
@@ -57,8 +68,8 @@ static double prevZoom;
     return NO;
 }
 
-- (void)zoomToAnnotationsBounds:(NSArray *)annotations {
-    
+- (void)zoomToAnnotationsBounds:(NSArray *)annotations
+{
     CLLocationDegrees minLatitude = DBL_MAX;
     CLLocationDegrees maxLatitude = -DBL_MAX;
     CLLocationDegrees minLongitude = DBL_MAX;
@@ -101,15 +112,13 @@ static double prevZoom;
     [self setMapRegionForMinLat:minLatitude minLong:minLongitude maxLat:maxLatitude maxLong:maxLongitude];
 }
 
-- (void) setMapRegionForMinLat:(double)minLatitude minLong:(double)minLongitude maxLat:(double)maxLatitude maxLong:(double)maxLongitude {
-    
+- (void) setMapRegionForMinLat:(double)minLatitude minLong:(double)minLongitude maxLat:(double)maxLatitude maxLong:(double)maxLongitude
+{    
     MKCoordinateRegion region;
     region.center.latitude = (minLatitude + maxLatitude) / 2;
     region.center.longitude = (minLongitude + maxLongitude) / 2;
     region.span.latitudeDelta = (maxLatitude - minLatitude);
     region.span.longitudeDelta = (maxLongitude - minLongitude);
-    
-   // NSLog(@"1: %f, 2: %f", region.span.latitudeDelta, region.span.longitudeDelta);
     
     if (region.span.latitudeDelta < 0.059863)
         region.span.latitudeDelta = 0.059863;
@@ -122,18 +131,19 @@ static double prevZoom;
 }
 
 
-- (void)setLatitude:(double)latitude longitude:(double)longitude delta:(double)delta {
+- (void)setLatitude:(double)latitude longitude:(double)longitude delta:(double)delta
+{
     MKCoordinateRegion newRegion;
     newRegion.center.latitude = latitude;
     newRegion.center.longitude = longitude;
     newRegion.span.latitudeDelta = delta;
     newRegion.span.longitudeDelta = delta;
-    prevZoom = mapView.region.span.latitudeDelta;
     [self.mapView setRegion:newRegion animated:YES];
 }
 
 
-- (double)distanceBetweenPoints:(CLLocationCoordinate2D)p1 p2:(CLLocationCoordinate2D)p2 {
+- (double)distanceBetweenPoints:(CLLocationCoordinate2D)p1 p2:(CLLocationCoordinate2D)p2
+{
 	double R = 6371; // Radius of the Earth in km
 	double dLat = (p2.latitude - p1.latitude) * M_PI / 180;
 	double dLon = (p2.longitude - p1.longitude) * M_PI / 180;
@@ -143,11 +153,11 @@ static double prevZoom;
 	return d;
 }
 
-- (void)addToClosestCluster:(REMarker *)marker {
+- (void)addToClosestCluster:(REMarker *)marker
+{
     double distance = 40000; // Some large number
     RECluster *clusterToAddTo = nil;
-    for (int i = 0; i < [clusters count]; i++) {
-        RECluster *cluster = (RECluster *)[clusters objectAtIndex:i];
+    for (RECluster *cluster in clusters) {
         if ([cluster hasCenter]) {
             double d = [self distanceBetweenPoints:cluster.coordinate p2:marker.coordinate];
             if (d < distance) {
@@ -166,29 +176,23 @@ static double prevZoom;
     }
 }
 
-- (void)createClusters {
+- (void)createClusters
+{
     [clusters removeAllObjects];
-    for (int i = 0; i < [markers count]; i++) {
-        REMarker *marker = (REMarker *)[markers objectAtIndex:i];
+    for (REMarker *marker in markers) {
         if (marker.coordinate.latitude == 0 && marker.coordinate.longitude == 0) 
             continue;
         if ([self markerInBounds:marker])
              [self addToClosestCluster:marker];
     }
-    
-    /*for (RECluster *cluster in clusters) {
-        [cluster setAverageCenter];
-        break;
-    }*/
 }
 
-- (void)removeAnnotation:(RECluster *)annotation views:(NSArray *)views{
+- (void)removeAnnotation:(RECluster *)annotation views:(NSArray *)views
+{
     MKAnnotationView* anView = [mapView viewForAnnotation: annotation];
     
-    CGRect endFrame;
-    
+    CGRect endFrame;    
     CGPoint closest = [self findClosestAnnotationX:anView.frame.origin.x y:anView.frame.origin.y views:views];
-    
     BOOL skipAnimations = NO;
     
     if (closest.x != 0 && closest.y != 0) {
@@ -215,13 +219,13 @@ static double prevZoom;
                      }];
 }
 
-// Refresh map
-- (void)clusterize {
+- (void)clusterize
+{
     if (isRedrawing) {
         needsToRedraw = YES;
         return;
     }
-//    NSLog(@"redraw");
+
     tempTimer = nil;
     
     NSMutableArray *remainedAnnotationViews = [[NSMutableArray alloc] init];
@@ -241,42 +245,26 @@ static double prevZoom;
             }
         }
         if (!found) {
-            
-            //[self removeAnnotation:annotation];
             [annotationsToRemove addObject:annotation];
         } else {
             if ([mapView viewForAnnotation:annotation] != nil)
                 [remainedAnnotationViews addObject:[mapView viewForAnnotation:annotation]];
             
-            
             if ([annotation isKindOfClass:[RECluster class]]) {
                 [annotation.markers removeAllObjects];
                 [annotation.markers addObjectsFromArray:fromCluster.markers];
-                //annotation.title = [NSString stringWithFormat:@"count = %i", [annotation.markers count]];
-                if ([annotation.markers count] == 1) annotation.title = @"One photo"; else
-                    annotation.title = [NSString stringWithFormat:@"%i photos", [annotation.markers count]];
+                if ([annotation.markers count] == 1) annotation.title = oneItemCaption; else
+                    annotation.title = [NSString stringWithFormat:manyItemsCaption, [annotation.markers count]];
             }
         }
     }
-    
-    // Remove annotations
+
     for (RECluster *annotation in annotationsToRemove) {
         [self removeAnnotation:annotation views:remainedAnnotationViews];
     }
     
     [tempViews removeAllObjects];
     [tempViews addObjectsFromArray:remainedAnnotationViews];
-    
-    
-    
-    /*[tempViews removeAllObjects];
-    for (id<MKAnnotation> annotation in mapView.annotations){
-        MKAnnotationView* anView = [mapView viewForAnnotation: annotation];
-        if (anView){
-            [tempViews addObject:anView];
-        }
-    }*/
-    
     
     for (int i=0; i < [clusters count]; i++) {
         RECluster *cluster = (RECluster *)[clusters objectAtIndex:i];
@@ -290,32 +278,20 @@ static double prevZoom;
         if (found) {
             continue;
         }
-        
-        //if ([cluster.markers count] == 1) {
-          //  [self.mapView addAnnotation:cluster];
-            //[self.mapView addAnnotation:[cluster.markers objectAtIndex:0]];
-        //} else {
-        NSLog(@"count = %i", [cluster.markers count]);
-            if ([cluster.markers count] == 1) cluster.title = @"One photo"; else
-                cluster.title = [NSString stringWithFormat:@"%i photos", [cluster.markers count]];
-            [self.mapView addAnnotation:cluster];
-        //}
+
+        if ([cluster.markers count] == 1) cluster.title = oneItemCaption; else
+            cluster.title = [NSString stringWithFormat:manyItemsCaption, [cluster.markers count]];
+        [self.mapView addAnnotation:cluster];
     }
 }
 
-- (int)getGridSize {
-    return gridSize;
-}
-
-- (bool)isAverageCenter {
-    return averageCenter;
-}
-
-- (CGPoint)findClosestAnnotationX:(double)x y:(double)y {
+- (CGPoint)findClosestAnnotationX:(double)x y:(double)y
+{
     return [self findClosestAnnotationX:x y:y views:tempViews];
 }
 
-- (CGPoint)findClosestAnnotationX:(double)x y:(double)y views:(NSArray *)views {
+- (CGPoint)findClosestAnnotationX:(double)x y:(double)y views:(NSArray *)views
+{
     CGPoint result = CGPointMake(0, 0);
     double diff = 10000;
     for (int i=0; i < [views count]; i++){
@@ -323,21 +299,21 @@ static double prevZoom;
         if (anView){
             CGPoint pos = anView.frame.origin;
             double newDiff = sqrt((x - pos.x) * (x - pos.x) + (y - pos.y) * (y - pos.y));
-            if (newDiff < diff /*&& (pos.x != x && pos.y != y)*/) {
+            if (newDiff < diff) {
                 result = pos;
                 diff = newDiff;
             }
         }
     }
-    //NSLog(@"diff = %f", diff);
     if (diff > 80) return CGPointMake(0, 0);
     return result;
 }
 
-
+#pragma mark -
 #pragma mark MapView delegate
 
-- (void)mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray *)views { 
+- (void)mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray *)views
+{ 
     MKAnnotationView *aV;
     for (aV in views) {
         CGRect endFrame = aV.frame;
@@ -372,12 +348,16 @@ static double prevZoom;
     }
 }
 
--(void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control {
+- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
+{
 	RECluster *cluster = view.annotation;
-    [delegate performSelector:@selector(clusterPressedWithItems:) withObject:cluster.markers];
+    if ([delegate respondsToSelector:@selector(clusterCalloutAccessoryControlTapped:)]) {
+        [delegate clusterCalloutAccessoryControlTapped:cluster.markers];
+    }
 }
 
-- (MKAnnotationView *)mapView:(MKMapView *)mV viewForAnnotation:(id <MKAnnotation>)annotation {
+- (MKAnnotationView *)mapView:(MKMapView *)mV viewForAnnotation:(id <MKAnnotation>)annotation
+{
     if ([annotation isKindOfClass:[MKUserLocation class]])
         return nil;
 	
@@ -400,13 +380,14 @@ static double prevZoom;
     return pinView;
 }
 
-- (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated {
+- (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated
+{
     
 }
 
-- (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
+- (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated
+{
     [self clusterize];
-    
     NSArray *selectedAnnotations = self.mapView.selectedAnnotations;
     RECluster *selectedAnnotation = [selectedAnnotations objectAtIndex:0];
     [self.mapView deselectAnnotation:selectedAnnotation animated:NO];

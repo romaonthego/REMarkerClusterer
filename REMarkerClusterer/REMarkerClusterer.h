@@ -1,51 +1,64 @@
 //
-//  REMarkerClusterer.h
-//  REMarkerClusterer
+// REMarkerClusterer.h
+// REMarkerClusterer
 //
-//  Created by Roman Efimov on 3/8/11.
-//  Copyright 2011 Roman Efimov. All rights reserved.
+// Copyright (c) 2011-2012 Roman Efimov (http://github.com/romaonthego)
+// 
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+// 
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
 //
 
 #import <Foundation/Foundation.h>
-#import <CoreLocation/CLLocation.h>
+#import <CoreLocation/CoreLocation.h>
 #import <MapKit/MapKit.h>
-#import <MapKit/MKAnnotation.h>
 #import "REMarker.h"
 #import "RELatLngBounds.h"
 
 @class RECluster;
 
+@protocol REMarkerClustererDelegate;
+
 @interface REMarkerClusterer : UIView <MKMapViewDelegate> {
-    NSMutableArray *markers;
-    NSMutableArray *clusters;
-    MKMapView *mapView;
-    NSInteger gridSize;
-    
-    BOOL isRedrawing;
-    BOOL needsToRedraw;
     NSMutableArray *tempViews;
     NSTimer *tempTimer;
-    id __unsafe_unretained delegate;
+    BOOL isRedrawing;
+    BOOL needsToRedraw;
 }
 
 @property (nonatomic) MKMapView *mapView;
 @property (readwrite, copy) NSMutableArray *markers;
 @property (readwrite, copy) NSMutableArray *clusters;
 @property (nonatomic, readwrite) NSInteger gridSize;
+@property (nonatomic, readwrite) BOOL isAverageCenter;
+@property (nonatomic, assign) id<REMarkerClustererDelegate> delegate;
+@property (nonatomic, copy) NSString *oneItemCaption;
+@property (nonatomic, copy) NSString *manyItemsCaption;
 
-@property (nonatomic, readwrite) BOOL isRedrawing;
-@property (nonatomic, readwrite) BOOL needsToRedraw;
-
-@property (nonatomic, unsafe_unretained) id delegate;
-
-- (void)clusterize;
 - (void)addMarker:(REMarker *)marker;
-- (int)getGridSize;
-- (bool)isAverageCenter;
 - (void)setLatitude:(double)latitude longitude:(double)longitude delta:(double)delta;
-- (void)setMapRegionForMinLat:(double)minLatitude minLong:(double)minLongitude maxLat:(double)maxLatitude maxLong:(double)maxLongitude;
 - (void)zoomToAnnotationsBounds:(NSArray *)annotations;
-- (CGPoint)findClosestAnnotationX:(double)x y:(double)y;
-- (CGPoint)findClosestAnnotationX:(double)x y:(double)y views:(NSArray *)views;
+- (void)clusterize;
+
+@end
+
+@protocol REMarkerClustererDelegate <NSObject>
+
+@optional
+- (void)clusterCalloutAccessoryControlTapped:(NSArray *)items;
 
 @end

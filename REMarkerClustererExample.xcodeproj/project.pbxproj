@@ -68,8 +68,8 @@
 		308DBF2C15ABC5BB00FC89AE = {
 			isa = PBXGroup;
 			children = (
-				308DBF4115ABC5BB00FC89AE /* REMarkerClustererExample */,
 				308DBF5915ABC75D00FC89AE /* REMarkerClusterer */,
+				308DBF4115ABC5BB00FC89AE /* REMarkerClustererExample */,
 				308DBF3A15ABC5BB00FC89AE /* Frameworks */,
 				308DBF3815ABC5BB00FC89AE /* Products */,
 			);
@@ -122,12 +122,12 @@
 		308DBF5915ABC75D00FC89AE /* REMarkerClusterer */ = {
 			isa = PBXGroup;
 			children = (
+				308DBF6C15ABDBCA00FC89AE /* REMarker.h */,
+				308DBF6D15ABDBCA00FC89AE /* REMarker.m */,
 				308DBF6815ABDBCA00FC89AE /* RECluster.h */,
 				308DBF6915ABDBCA00FC89AE /* RECluster.m */,
 				308DBF6A15ABDBCA00FC89AE /* RELatLngBounds.h */,
 				308DBF6B15ABDBCA00FC89AE /* RELatLngBounds.m */,
-				308DBF6C15ABDBCA00FC89AE /* REMarker.h */,
-				308DBF6D15ABDBCA00FC89AE /* REMarker.m */,
 				308DBF6E15ABDBCA00FC89AE /* REMarkerClusterer.h */,
 				308DBF6F15ABDBCA00FC89AE /* REMarkerClusterer.m */,
 			);
@@ -272,7 +272,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "REMarkerClustererExample/REMarkerClustererExample-Prefix.pch";
 				INFOPLIST_FILE = "REMarkerClustererExample/REMarkerClustererExample-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -283,7 +285,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "REMarkerClustererExample/REMarkerClustererExample-Prefix.pch";
 				INFOPLIST_FILE = "REMarkerClustererExample/REMarkerClustererExample-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -307,6 +311,7 @@
 				308DBF5115ABC5BB00FC89AE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

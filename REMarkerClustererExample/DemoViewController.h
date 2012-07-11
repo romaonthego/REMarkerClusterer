@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "REMarkerClusterer.h"
 
-@interface DemoViewController : UIViewController
+@interface DemoViewController : UIViewController <REMarkerClustererDelegate>
 
 @end
