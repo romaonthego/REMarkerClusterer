@@ -53,7 +53,7 @@ Roman Efimov
 
 ## Credits
 
-Partially based on MarkerClusterer Javascript library by Xiaoxi Wu (http://http://gmaps-utility-library-dev.googlecode.com)
+Partially based on MarkerClusterer Javascript library by Xiaoxi Wu (http://gmaps-utility-library-dev.googlecode.com)
 
 ## License
 
