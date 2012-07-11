@@ -1,7 +1,7 @@
 # REMarkerClusterer
 ###REMarkerClusterer creates and manages per-zoom-level clusters for large amounts of markers. 
 
-As seen in [Pinsnap](http://itunes.apple.com/us/app/pinsnap/id457407067?mt=8) iPhone app. `REMarkerClusterer` was inspired by the Apple Photo app on the iPhone, `REMarkerClusterer` mimics it's behaviour providing animations for grouping and ungrouping clusters. 
+As seen in [Pinsnap](http://itunes.apple.com/us/app/pinsnap/id457407067?mt=8) iPhone app. `REMarkerClusterer` was inspired by the Apple Photos app on the iPhone, `REMarkerClusterer` mimics it's behaviour providing animations for grouping and ungrouping clusters. 
 
 ![Screenshot of REMarkerClusterer](https://github.com/romaonthego/REMarkerClusterer/raw/master/Screenshot.png "REMarkerClusterer Screenshot")
 
