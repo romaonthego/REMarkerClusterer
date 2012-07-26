@@ -1,7 +1,7 @@
 # REMarkerClusterer
-###REMarkerClusterer creates and manages per-zoom-level clusters for large amounts of markers. 
+###REMarkerClusterer creates and manages per-zoom-level clusters for large amounts of markers.
 
-As seen in [Pinsnap](http://itunes.apple.com/us/app/pinsnap/id457407067?mt=8) iPhone app. `REMarkerClusterer` was inspired by the Apple Photos app on the iPhone, `REMarkerClusterer` mimics it's behaviour providing animations for grouping and ungrouping clusters. 
+As seen in [Pinsnap](http://itunes.apple.com/us/app/pinsnap/id457407067?mt=8) iPhone app. `REMarkerClusterer` was inspired by the Apple Photos app on the iPhone, `REMarkerClusterer` mimics it's behaviour providing animations for grouping and ungrouping clusters.
 
 ![Screenshot of REMarkerClusterer](https://github.com/romaonthego/REMarkerClusterer/raw/master/Screenshot.png "REMarkerClusterer Screenshot")
 
@@ -14,13 +14,15 @@ The `REMarkerClusterer` will group markers into clusters according to their dist
 * iOS 4 or higher
 * ARC
 
+If you are not using ARC in your project, add `-fobjc-arc` as a compiler flag for all the files in this project.
+
 ## Demo
 
 Build and run the `REMarkerClustererExample` project in Xcode to see `REMarkerClusterer` in action.
 
 ## Installation
 
-`REMarkerClusterer` requires the `MapKit` and `CoreLocation` frameworks, so the first thing you'll need to do is include the frameworks into your project. 
+`REMarkerClusterer` requires the `MapKit` and `CoreLocation` frameworks, so the first thing you'll need to do is include the frameworks into your project.
 
 Now that the framework has been linked, all you need to do is drop files from `REMarkerClusterer` folder into your project, and add `#include "REMarkerClusterer.h"` to the top of classes that will use it.
 
@@ -42,7 +44,7 @@ NSDictionary *data = [[NSDictionary alloc] initWithContentsOfFile:[[NSBundle mai
 for (NSDictionary *dict in [data objectForKey:@"Points"]) {
     REMarker *marker = [[REMarker alloc] init];
     marker.markerId = [[dict objectForKey:@"id"] intValue];
-    marker.coordinate = CLLocationCoordinate2DMake([[dict objectForKey:@"latitude"] floatValue], 
+    marker.coordinate = CLLocationCoordinate2DMake([[dict objectForKey:@"latitude"] floatValue],
                                                    [[dict objectForKey:@"longitude"] floatValue]);
     [clusterer addMarker:marker];
 }
