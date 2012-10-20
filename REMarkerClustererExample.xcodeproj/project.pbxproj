@@ -21,7 +21,7 @@
 		308DBF7115ABDBF100FC89AE /* REMarkerClusterer.m in Sources */ = {isa = PBXBuildFile; fileRef = 308DBF6F15ABDBCA00FC89AE /* REMarkerClusterer.m */; };
 		308DBF7215ABDBF300FC89AE /* REMarker.m in Sources */ = {isa = PBXBuildFile; fileRef = 308DBF6D15ABDBCA00FC89AE /* REMarker.m */; };
 		308DBF7315ABDBF500FC89AE /* RELatLngBounds.m in Sources */ = {isa = PBXBuildFile; fileRef = 308DBF6B15ABDBCA00FC89AE /* RELatLngBounds.m */; };
-		30D8DFE5163315DF00FC85A8 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 30D8DFE4163315DF00FC85A8 /* Default-568h@2x.png */; };
+		30D8E0021633173200FC85A8 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 30D8E0011633173200FC85A8 /* Default-568h@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,7 +48,7 @@
 		308DBF6D15ABDBCA00FC89AE /* REMarker.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = REMarker.m; sourceTree = "<group>"; };
 		308DBF6E15ABDBCA00FC89AE /* REMarkerClusterer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = REMarkerClusterer.h; sourceTree = "<group>"; };
 		308DBF6F15ABDBCA00FC89AE /* REMarkerClusterer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = REMarkerClusterer.m; sourceTree = "<group>"; };
-		30D8DFE4163315DF00FC85A8 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
+		30D8E0011633173200FC85A8 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,7 +112,7 @@
 		308DBF4215ABC5BB00FC89AE /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				30D8DFE4163315DF00FC85A8 /* Default-568h@2x.png */,
+				30D8E0011633173200FC85A8 /* Default-568h@2x.png */,
 				308DBF4315ABC5BB00FC89AE /* REMarkerClustererExample-Info.plist */,
 				308DBF4415ABC5BB00FC89AE /* InfoPlist.strings */,
 				308DBF4715ABC5BB00FC89AE /* main.m */,
@@ -190,7 +190,7 @@
 			files = (
 				308DBF4615ABC5BB00FC89AE /* InfoPlist.strings in Resources */,
 				308DBF6715ABD09F00FC89AE /* Points.plist in Resources */,
-				30D8DFE5163315DF00FC85A8 /* Default-568h@2x.png in Resources */,
+				30D8E0021633173200FC85A8 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
