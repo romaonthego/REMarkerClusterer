@@ -41,6 +41,7 @@
         _gridSize = 25;
         
         _mapView = [[MKMapView alloc] initWithFrame:frame];
+        _mapView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         _mapView.delegate = self;
         tempViews = [[NSMutableArray alloc] init];
         _markers = [[NSMutableArray alloc] init];

@@ -20,6 +20,7 @@
     if (self) {
         REMarkerClusterer *clusterer = [[REMarkerClusterer alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
         clusterer.delegate = self;
+        clusterer.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         [clusterer setLatitude:37.786996 longitude:-97.440100 delta:30.03863];
         
         // Set smaller grid size for an iPad
@@ -55,9 +56,14 @@
     // Release any retained subviews of the main view.
 }
 
+- (BOOL)shouldAutorotate
+{
+    return YES;
+}
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    return YES;
 }
 
 #pragma mark -
