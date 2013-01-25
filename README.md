@@ -22,6 +22,33 @@ Build and run the `REMarkerClustererExample` project in Xcode to see `REMarkerCl
 
 ## Installation
 
+### CocoaPods
+
+The recommended approach for installating RECurtainViewController is via the [CocoaPods](http://cocoapods.org/) package manager, as it provides flexible dependency management and dead simple installation.
+
+Install CocoaPods if not already available:
+
+``` bash
+$ [sudo] gem install cocoapods
+$ pod setup
+```
+
+Edit your Podfile and add REMarkerClusterer:
+
+``` bash
+$ edit Podfile
+platform :ios, '5.0'
+pod 'REMarkerClusterer', '~> 1.0'
+```
+
+Install into your Xcode project:
+
+``` bash
+$ pod install
+```
+
+### Simple Install
+
 `REMarkerClusterer` requires the `MapKit` and `CoreLocation` frameworks, so the first thing you'll need to do is include the frameworks into your project.
 
 Now that the framework has been linked, all you need to do is drop files from `REMarkerClusterer` folder into your project, and add `#include "REMarkerClusterer.h"` to the top of classes that will use it.
