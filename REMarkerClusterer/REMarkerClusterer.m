@@ -30,29 +30,25 @@
 
 @implementation REMarkerClusterer
 
-@synthesize markers, clusters, mapView, gridSize, isAverageCenter;
-@synthesize delegate;
-@synthesize oneItemCaption, manyItemsCaption;
-
 - (void)addMarker:(REMarker *)marker
 {
-    [markers addObject:marker];
+    [_markers addObject:marker];
 }
 
 - (id)initWithFrame:(CGRect)frame
 {
     if ((self = [super initWithFrame:frame])) {
-        gridSize = 25;
+        _gridSize = 25;
         
-        mapView = [[MKMapView alloc] initWithFrame:frame];
-        mapView.delegate = self;
+        _mapView = [[MKMapView alloc] initWithFrame:frame];
+        _mapView.delegate = self;
         tempViews = [[NSMutableArray alloc] init];
-        markers = [[NSMutableArray alloc] init];
-        clusters = [[NSMutableArray alloc] init];
-        [self addSubview:mapView];
+        _markers = [[NSMutableArray alloc] init];
+        _clusters = [[NSMutableArray alloc] init];
+        [self addSubview:_mapView];
         
-        oneItemCaption = @"One item";
-        manyItemsCaption = @"%i items";
+        _oneItemCaption = @"One item";
+        _manyItemsCaption = @"%i items";
     }
     return self;
 }
@@ -60,8 +56,8 @@
 - (bool)markerInBounds:(REMarker *)marker
 {
     CGPoint pix = [self.mapView convertCoordinate:marker.coordinate toPointToView:nil];
-    if (pix.x >=-150 && pix.x <= mapView.frame.size.width+150) {
-        if (pix.y >=-150 && pix.y <= mapView.frame.size.height+150) {
+    if (pix.x >=-150 && pix.x <= _mapView.frame.size.width+150) {
+        if (pix.y >=-150 && pix.y <= _mapView.frame.size.height+150) {
             return YES;
         }
     }
@@ -157,7 +153,7 @@
 {
     double distance = 40000; // Some large number
     RECluster *clusterToAddTo = nil;
-    for (RECluster *cluster in clusters) {
+    for (RECluster *cluster in _clusters) {
         if ([cluster hasCenter]) {
             double d = [self distanceBetweenPoints:cluster.coordinate p2:marker.coordinate];
             if (d < distance) {
@@ -172,14 +168,14 @@
     } else {
         RECluster *cluster = [[RECluster alloc] initWithClusterer:self];
         [cluster addMarker:marker];
-        [clusters addObject:cluster];
+        [_clusters addObject:cluster];
     }
 }
 
 - (void)createClusters
 {
-    [clusters removeAllObjects];
-    for (REMarker *marker in markers) {
+    [_clusters removeAllObjects];
+    for (REMarker *marker in _markers) {
         if (marker.coordinate.latitude == 0 && marker.coordinate.longitude == 0) 
             continue;
         if ([self markerInBounds:marker])
@@ -189,7 +185,7 @@
 
 - (void)removeAnnotation:(RECluster *)annotation views:(NSArray *)views
 {
-    MKAnnotationView* anView = [mapView viewForAnnotation: annotation];
+    MKAnnotationView* anView = [_mapView viewForAnnotation: annotation];
     
     CGRect endFrame;    
     CGPoint closest = [self findClosestAnnotationX:anView.frame.origin.x y:anView.frame.origin.y views:views];
@@ -214,7 +210,7 @@
                      animations:^{ 
                          [anView setFrame:endFrame];
                      }  completion:^(BOOL finished){
-                         [mapView removeAnnotation:annotation];
+                         [_mapView removeAnnotation:annotation];
                          isRedrawing = NO;
                      }];
 }
@@ -232,12 +228,12 @@
     NSMutableArray *annotationsToRemove = [[NSMutableArray alloc] init];
     
     [self createClusters];
-    for (int j=0; j < [mapView.annotations count]; j++) {
-        RECluster *annotation = (RECluster *)[mapView.annotations objectAtIndex:j];
+    for (int j=0; j < [_mapView.annotations count]; j++) {
+        RECluster *annotation = (RECluster *)[_mapView.annotations objectAtIndex:j];
         RECluster *fromCluster;
         BOOL found = NO;
-        for (int i=0; i < [clusters count]; i++) {
-            fromCluster = (RECluster *)[clusters objectAtIndex:i];
+        for (int i=0; i < [_clusters count]; i++) {
+            fromCluster = (RECluster *)[_clusters objectAtIndex:i];
             if (fromCluster.coordinate.latitude == annotation.coordinate.latitude &&
                 fromCluster.coordinate.longitude == annotation.coordinate.longitude) {
                 found = YES;
@@ -247,14 +243,14 @@
         if (!found) {
             [annotationsToRemove addObject:annotation];
         } else {
-            if ([mapView viewForAnnotation:annotation] != nil)
-                [remainedAnnotationViews addObject:[mapView viewForAnnotation:annotation]];
+            if ([_mapView viewForAnnotation:annotation] != nil)
+                [remainedAnnotationViews addObject:[_mapView viewForAnnotation:annotation]];
             
             if ([annotation isKindOfClass:[RECluster class]]) {
                 [annotation.markers removeAllObjects];
                 [annotation.markers addObjectsFromArray:fromCluster.markers];
-                if ([annotation.markers count] == 1) annotation.title = oneItemCaption; else
-                    annotation.title = [NSString stringWithFormat:manyItemsCaption, [annotation.markers count]];
+                if ([annotation.markers count] == 1) annotation.title = _oneItemCaption; else
+                    annotation.title = [NSString stringWithFormat:_manyItemsCaption, [annotation.markers count]];
             }
         }
     }
@@ -266,11 +262,11 @@
     [tempViews removeAllObjects];
     [tempViews addObjectsFromArray:remainedAnnotationViews];
     
-    for (int i=0; i < [clusters count]; i++) {
-        RECluster *cluster = (RECluster *)[clusters objectAtIndex:i];
+    for (int i=0; i < [_clusters count]; i++) {
+        RECluster *cluster = (RECluster *)[_clusters objectAtIndex:i];
         BOOL found = NO;
-        for (int j=0; j < [mapView.annotations count]; j++) {
-            REMarker *annotation = (REMarker *)[mapView.annotations objectAtIndex:j];
+        for (int j=0; j < [_mapView.annotations count]; j++) {
+            REMarker *annotation = (REMarker *)[_mapView.annotations objectAtIndex:j];
             if (cluster.coordinate.latitude == annotation.coordinate.latitude &&
                 cluster.coordinate.longitude == annotation.coordinate.longitude) 
                 found = YES;
@@ -279,8 +275,8 @@
             continue;
         }
 
-        if ([cluster.markers count] == 1) cluster.title = oneItemCaption; else
-            cluster.title = [NSString stringWithFormat:manyItemsCaption, [cluster.markers count]];
+        if ([cluster.markers count] == 1) cluster.title = _oneItemCaption; else
+            cluster.title = [NSString stringWithFormat:_manyItemsCaption, [cluster.markers count]];
         [self.mapView addAnnotation:cluster];
     }
 }
@@ -351,8 +347,8 @@
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
 {
 	RECluster *cluster = view.annotation;
-    if ([delegate respondsToSelector:@selector(clusterCalloutAccessoryControlTapped:)]) {
-        [delegate clusterCalloutAccessoryControlTapped:cluster.markers];
+    if ([_delegate respondsToSelector:@selector(clusterCalloutAccessoryControlTapped:)]) {
+        [_delegate clusterCalloutAccessoryControlTapped:cluster.markers];
     }
 }
 

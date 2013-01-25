@@ -27,34 +27,32 @@
 
 @implementation RECluster
 
-@synthesize markerClusterer, coordinate, markers, averageCenter, hasCenter, title, bounds;
-
 - (id)initWithClusterer:(REMarkerClusterer *)clusterer
 {
     if ((self = [super init])) {
-        markerClusterer = clusterer;
-        averageCenter = [clusterer isAverageCenter];
-        markers = [[NSMutableArray alloc] initWithCapacity:0];
-        hasCenter = NO;
-        bounds = [[RELatLngBounds alloc] initWithMapView:markerClusterer.mapView];
+        _markerClusterer = clusterer;
+        _averageCenter = [clusterer isAverageCenter];
+        _markers = [[NSMutableArray alloc] initWithCapacity:0];
+        _hasCenter = NO;
+        _bounds = [[RELatLngBounds alloc] initWithMapView:_markerClusterer.mapView];
     }
     return self;
 }
 
 - (void)calculateBounds
 {
-    [bounds setSouthWest:coordinate northEast:coordinate];
-    [bounds setExtendedBounds:markerClusterer.gridSize];
+    [_bounds setSouthWest:_coordinate northEast:_coordinate];
+    [_bounds setExtendedBounds:_markerClusterer.gridSize];
 }
 
 - (BOOL)isMarkerInClusterBounds:(REMarker *)marker
 {
-    return [bounds contains:marker.coordinate];
+    return [_bounds contains:marker.coordinate];
 }
 
 - (BOOL)isMarkerAlreadyAdded:(REMarker *)marker
 {
-    for (REMarker *m in markers) {
+    for (REMarker *m in _markers) {
         if ([m isEqual:marker])
             return YES;
     }
@@ -67,7 +65,7 @@
     double y = 0;
     double z = 0;
     
-    for (REMarker *marker in markers) {
+    for (REMarker *marker in _markers) {
         double lat = marker.coordinate.latitude * M_PI /  180;
         double lon = marker.coordinate.longitude * M_PI / 180;
 
@@ -76,15 +74,15 @@
         z += sin(lat);
     }
     
-    x = x / [markers count];
-    y = y / [markers count];
-    z = z / [markers count];
+    x = x / [_markers count];
+    y = y / [_markers count];
+    z = z / [_markers count];
     
     double r = sqrt(x * x + y * y + z * z);
     double lat1 = asin(z / r) / (M_PI / 180);
     double lon1 = atan2(y, x) / (M_PI / 180);
     
-    coordinate = CLLocationCoordinate2DMake(lat1, lon1);
+    _coordinate = CLLocationCoordinate2DMake(lat1, lon1);
 }
 
 - (BOOL)addMarker:(REMarker *)marker 
@@ -93,21 +91,21 @@
         return NO;
     }
     
-    if (!hasCenter) {
-        coordinate = marker.coordinate;
-        hasCenter = YES;
+    if (!_hasCenter) {
+        _coordinate = marker.coordinate;
+        _hasCenter = YES;
         [self calculateBounds];
     } else {
-        if (averageCenter && [markers count] >= 10) {
-            double l = [markers count] + 1;
-            double lat = (coordinate.latitude * (l - 1) + marker.coordinate.latitude) / l;
-            double lng = (coordinate.longitude * (l - 1) + marker.coordinate.longitude) / l;
-            coordinate = CLLocationCoordinate2DMake(lat, lng);
-            hasCenter = YES;
+        if (_averageCenter && [_markers count] >= 10) {
+            double l = [_markers count] + 1;
+            double lat = (_coordinate.latitude * (l - 1) + marker.coordinate.latitude) / l;
+            double lng = (_coordinate.longitude * (l - 1) + marker.coordinate.longitude) / l;
+            _coordinate = CLLocationCoordinate2DMake(lat, lng);
+            _hasCenter = YES;
             [self calculateBounds];
         }
     }
-    [markers addObject:marker];
+    [_markers addObject:marker];
     return YES;
 }
 

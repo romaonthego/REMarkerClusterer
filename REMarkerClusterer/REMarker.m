@@ -27,6 +27,4 @@
 
 @implementation REMarker
 
-@synthesize markerId, title, coordinate;
-
 @end

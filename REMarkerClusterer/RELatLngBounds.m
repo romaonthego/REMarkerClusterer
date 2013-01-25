@@ -27,9 +27,6 @@
 
 @implementation RELatLngBounds
 
-@synthesize southEast, northEast, southWest, northWest;
-@synthesize mapView = _mapView;
-
 - (id)initWithMapView:(MKMapView *)mapView
 {
     if ((self = [super init])) {
@@ -40,16 +37,16 @@
 
 - (void)setSouthWest:(CLLocationCoordinate2D)sw northEast:(CLLocationCoordinate2D)ne
 {
-    southWest = sw;
-    northEast = ne;
-    southEast = CLLocationCoordinate2DMake(sw.latitude, ne.longitude);
-    northWest = CLLocationCoordinate2DMake(ne.latitude, sw.longitude);
+    _southWest = sw;
+    _northEast = ne;
+    _southEast = CLLocationCoordinate2DMake(sw.latitude, ne.longitude);
+    _northWest = CLLocationCoordinate2DMake(ne.latitude, sw.longitude);
 }
 
 - (void)setExtendedBounds:(int)gridSize
 {
-    CLLocationCoordinate2D tr = CLLocationCoordinate2DMake(northEast.latitude, northEast.longitude);
-    CLLocationCoordinate2D bl = CLLocationCoordinate2DMake(southWest.latitude, southWest.longitude);
+    CLLocationCoordinate2D tr = CLLocationCoordinate2DMake(_northEast.latitude, _northEast.longitude);
+    CLLocationCoordinate2D bl = CLLocationCoordinate2DMake(_southWest.latitude, _southWest.longitude);
     
     CGPoint trPix = [_mapView convertCoordinate:tr toPointToView:_mapView];
     trPix.x += gridSize;
@@ -62,18 +59,18 @@
     CLLocationCoordinate2D ne = [_mapView convertPoint:trPix toCoordinateFromView:_mapView];
     CLLocationCoordinate2D sw = [_mapView convertPoint:blPix toCoordinateFromView:_mapView];
     
-    northEast = ne;
-    southWest = sw;
-    southEast = CLLocationCoordinate2DMake(sw.latitude, ne.longitude);
-    northWest = CLLocationCoordinate2DMake(ne.latitude, sw.longitude);
+    _northEast = ne;
+    _southWest = sw;
+    _southEast = CLLocationCoordinate2DMake(sw.latitude, ne.longitude);
+    _northWest = CLLocationCoordinate2DMake(ne.latitude, sw.longitude);
 }
 
 - (bool)contains:(CLLocationCoordinate2D)coordinate
 {
     CGPoint point = [_mapView convertCoordinate:coordinate toPointToView:_mapView];
-    CGPoint topLeft = [_mapView convertCoordinate:northWest toPointToView:_mapView];
-    CGPoint bottomRight = [_mapView convertCoordinate:southEast toPointToView:_mapView];
-    CGPoint topRight = [_mapView convertCoordinate:northEast toPointToView:_mapView];
+    CGPoint topLeft = [_mapView convertCoordinate:_northWest toPointToView:_mapView];
+    CGPoint bottomRight = [_mapView convertCoordinate:_southEast toPointToView:_mapView];
+    CGPoint topRight = [_mapView convertCoordinate:_northEast toPointToView:_mapView];
 
     if (point.x >= topLeft.x && point.x <= topRight.x) {
         if (point.y >= topLeft.y && point.y <= bottomRight.y)
