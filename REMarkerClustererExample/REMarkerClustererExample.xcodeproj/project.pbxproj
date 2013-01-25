@@ -17,10 +17,10 @@
 		308DBF5615ABC71200FC89AE /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 308DBF5515ABC71200FC89AE /* MapKit.framework */; };
 		308DBF5815ABC71700FC89AE /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 308DBF5715ABC71700FC89AE /* CoreLocation.framework */; };
 		308DBF6715ABD09F00FC89AE /* Points.plist in Resources */ = {isa = PBXBuildFile; fileRef = 308DBF6615ABD09F00FC89AE /* Points.plist */; };
-		308DBF7015ABDBEE00FC89AE /* RECluster.m in Sources */ = {isa = PBXBuildFile; fileRef = 308DBF6915ABDBCA00FC89AE /* RECluster.m */; };
-		308DBF7115ABDBF100FC89AE /* REMarkerClusterer.m in Sources */ = {isa = PBXBuildFile; fileRef = 308DBF6F15ABDBCA00FC89AE /* REMarkerClusterer.m */; };
-		308DBF7215ABDBF300FC89AE /* REMarker.m in Sources */ = {isa = PBXBuildFile; fileRef = 308DBF6D15ABDBCA00FC89AE /* REMarker.m */; };
-		308DBF7315ABDBF500FC89AE /* RELatLngBounds.m in Sources */ = {isa = PBXBuildFile; fileRef = 308DBF6B15ABDBCA00FC89AE /* RELatLngBounds.m */; };
+		309664D816B2EC1B00440203 /* RECluster.m in Sources */ = {isa = PBXBuildFile; fileRef = 309664D116B2EC1B00440203 /* RECluster.m */; };
+		309664D916B2EC1B00440203 /* RELatLngBounds.m in Sources */ = {isa = PBXBuildFile; fileRef = 309664D316B2EC1B00440203 /* RELatLngBounds.m */; };
+		309664DA16B2EC1B00440203 /* REMarker.m in Sources */ = {isa = PBXBuildFile; fileRef = 309664D516B2EC1B00440203 /* REMarker.m */; };
+		309664DB16B2EC1B00440203 /* REMarkerClusterer.m in Sources */ = {isa = PBXBuildFile; fileRef = 309664D716B2EC1B00440203 /* REMarkerClusterer.m */; };
 		30D8E0021633173200FC85A8 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 30D8E0011633173200FC85A8 /* Default-568h@2x.png */; };
 /* End PBXBuildFile section */
 
@@ -40,14 +40,14 @@
 		308DBF5515ABC71200FC89AE /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		308DBF5715ABC71700FC89AE /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		308DBF6615ABD09F00FC89AE /* Points.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Points.plist; sourceTree = "<group>"; };
-		308DBF6815ABDBCA00FC89AE /* RECluster.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RECluster.h; sourceTree = "<group>"; };
-		308DBF6915ABDBCA00FC89AE /* RECluster.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RECluster.m; sourceTree = "<group>"; };
-		308DBF6A15ABDBCA00FC89AE /* RELatLngBounds.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RELatLngBounds.h; sourceTree = "<group>"; };
-		308DBF6B15ABDBCA00FC89AE /* RELatLngBounds.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RELatLngBounds.m; sourceTree = "<group>"; };
-		308DBF6C15ABDBCA00FC89AE /* REMarker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = REMarker.h; sourceTree = "<group>"; };
-		308DBF6D15ABDBCA00FC89AE /* REMarker.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = REMarker.m; sourceTree = "<group>"; };
-		308DBF6E15ABDBCA00FC89AE /* REMarkerClusterer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = REMarkerClusterer.h; sourceTree = "<group>"; };
-		308DBF6F15ABDBCA00FC89AE /* REMarkerClusterer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = REMarkerClusterer.m; sourceTree = "<group>"; };
+		309664D016B2EC1B00440203 /* RECluster.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RECluster.h; sourceTree = "<group>"; };
+		309664D116B2EC1B00440203 /* RECluster.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RECluster.m; sourceTree = "<group>"; };
+		309664D216B2EC1B00440203 /* RELatLngBounds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RELatLngBounds.h; sourceTree = "<group>"; };
+		309664D316B2EC1B00440203 /* RELatLngBounds.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RELatLngBounds.m; sourceTree = "<group>"; };
+		309664D416B2EC1B00440203 /* REMarker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = REMarker.h; sourceTree = "<group>"; };
+		309664D516B2EC1B00440203 /* REMarker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = REMarker.m; sourceTree = "<group>"; };
+		309664D616B2EC1B00440203 /* REMarkerClusterer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = REMarkerClusterer.h; sourceTree = "<group>"; };
+		309664D716B2EC1B00440203 /* REMarkerClusterer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = REMarkerClusterer.m; sourceTree = "<group>"; };
 		30D8E0011633173200FC85A8 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -70,7 +70,7 @@
 		308DBF2C15ABC5BB00FC89AE = {
 			isa = PBXGroup;
 			children = (
-				308DBF5915ABC75D00FC89AE /* REMarkerClusterer */,
+				309664CF16B2EC1B00440203 /* REMarkerClusterer */,
 				308DBF4115ABC5BB00FC89AE /* REMarkerClustererExample */,
 				308DBF3A15ABC5BB00FC89AE /* Frameworks */,
 				308DBF3815ABC5BB00FC89AE /* Products */,
@@ -122,19 +122,20 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		308DBF5915ABC75D00FC89AE /* REMarkerClusterer */ = {
+		309664CF16B2EC1B00440203 /* REMarkerClusterer */ = {
 			isa = PBXGroup;
 			children = (
-				308DBF6C15ABDBCA00FC89AE /* REMarker.h */,
-				308DBF6D15ABDBCA00FC89AE /* REMarker.m */,
-				308DBF6815ABDBCA00FC89AE /* RECluster.h */,
-				308DBF6915ABDBCA00FC89AE /* RECluster.m */,
-				308DBF6A15ABDBCA00FC89AE /* RELatLngBounds.h */,
-				308DBF6B15ABDBCA00FC89AE /* RELatLngBounds.m */,
-				308DBF6E15ABDBCA00FC89AE /* REMarkerClusterer.h */,
-				308DBF6F15ABDBCA00FC89AE /* REMarkerClusterer.m */,
+				309664D016B2EC1B00440203 /* RECluster.h */,
+				309664D116B2EC1B00440203 /* RECluster.m */,
+				309664D216B2EC1B00440203 /* RELatLngBounds.h */,
+				309664D316B2EC1B00440203 /* RELatLngBounds.m */,
+				309664D416B2EC1B00440203 /* REMarker.h */,
+				309664D516B2EC1B00440203 /* REMarker.m */,
+				309664D616B2EC1B00440203 /* REMarkerClusterer.h */,
+				309664D716B2EC1B00440203 /* REMarkerClusterer.m */,
 			);
-			path = REMarkerClusterer;
+			name = REMarkerClusterer;
+			path = ../REMarkerClusterer;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -204,10 +205,10 @@
 				308DBF4815ABC5BB00FC89AE /* main.m in Sources */,
 				308DBF4C15ABC5BB00FC89AE /* AppDelegate.m in Sources */,
 				308DBF5415ABC5CD00FC89AE /* DemoViewController.m in Sources */,
-				308DBF7115ABDBF100FC89AE /* REMarkerClusterer.m in Sources */,
-				308DBF7215ABDBF300FC89AE /* REMarker.m in Sources */,
-				308DBF7315ABDBF500FC89AE /* RELatLngBounds.m in Sources */,
-				308DBF7015ABDBEE00FC89AE /* RECluster.m in Sources */,
+				309664D816B2EC1B00440203 /* RECluster.m in Sources */,
+				309664D916B2EC1B00440203 /* RELatLngBounds.m in Sources */,
+				309664DA16B2EC1B00440203 /* REMarker.m in Sources */,
+				309664DB16B2EC1B00440203 /* REMarkerClusterer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
