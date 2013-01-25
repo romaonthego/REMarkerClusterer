@@ -43,7 +43,7 @@
         _mapView = [[MKMapView alloc] initWithFrame:frame];
         _mapView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         _mapView.delegate = self;
-        tempViews = [[NSMutableArray alloc] init];
+        _tempViews = [[NSMutableArray alloc] init];
         _markers = [[NSMutableArray alloc] init];
         _clusters = [[NSMutableArray alloc] init];
         [self addSubview:_mapView];
@@ -204,7 +204,7 @@
     
     if (skipAnimations) return;
     
-    isRedrawing = YES;
+    _isRedrawing = YES;
     
     [UIView animateWithDuration:0.25 delay:0 
                         options:UIViewAnimationCurveEaseInOut | UIViewAnimationOptionAllowUserInteraction
@@ -212,18 +212,18 @@
                          [anView setFrame:endFrame];
                      }  completion:^(BOOL finished){
                          [_mapView removeAnnotation:annotation];
-                         isRedrawing = NO;
+                         _isRedrawing = NO;
                      }];
 }
 
 - (void)clusterize
 {
-    if (isRedrawing) {
-        needsToRedraw = YES;
+    if (_isRedrawing) {
+        _needsToRedraw = YES;
         return;
     }
 
-    tempTimer = nil;
+    _tempTimer = nil;
     
     NSMutableArray *remainedAnnotationViews = [[NSMutableArray alloc] init];
     NSMutableArray *annotationsToRemove = [[NSMutableArray alloc] init];
@@ -260,8 +260,8 @@
         [self removeAnnotation:annotation views:remainedAnnotationViews];
     }
     
-    [tempViews removeAllObjects];
-    [tempViews addObjectsFromArray:remainedAnnotationViews];
+    [_tempViews removeAllObjects];
+    [_tempViews addObjectsFromArray:remainedAnnotationViews];
     
     for (int i=0; i < [_clusters count]; i++) {
         RECluster *cluster = (RECluster *)[_clusters objectAtIndex:i];
@@ -284,7 +284,7 @@
 
 - (CGPoint)findClosestAnnotationX:(double)x y:(double)y
 {
-    return [self findClosestAnnotationX:x y:y views:tempViews];
+    return [self findClosestAnnotationX:x y:y views:_tempViews];
 }
 
 - (CGPoint)findClosestAnnotationX:(double)x y:(double)y views:(NSArray *)views
@@ -333,14 +333,14 @@
         
         if (skipAnimations) continue;
         
-        isRedrawing = YES;
+        _isRedrawing = YES;
         
         [UIView animateWithDuration:0.25 delay:0 
                             options:UIViewAnimationCurveEaseInOut | UIViewAnimationOptionAllowUserInteraction
                          animations:^{ 
                              [aV setFrame:endFrame];
                          }  completion:^(BOOL finished){
-                            isRedrawing = NO;
+                            _isRedrawing = NO;
                          }];
     }
 }

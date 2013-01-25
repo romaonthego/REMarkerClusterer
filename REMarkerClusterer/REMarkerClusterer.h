@@ -34,10 +34,10 @@
 @protocol REMarkerClustererDelegate;
 
 @interface REMarkerClusterer : UIView <MKMapViewDelegate> {
-    NSMutableArray *tempViews;
-    NSTimer *tempTimer;
-    BOOL isRedrawing;
-    BOOL needsToRedraw;
+    NSMutableArray *_tempViews;
+    NSTimer *_tempTimer;
+    BOOL _isRedrawing;
+    BOOL _needsToRedraw;
 }
 
 @property (nonatomic) MKMapView *mapView;
