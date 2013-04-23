@@ -24,6 +24,7 @@
 //
 
 #import "RECluster.h"
+#import "REMarkerClusterer.h"
 
 @implementation RECluster
 

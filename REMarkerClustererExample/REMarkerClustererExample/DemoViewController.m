@@ -27,7 +27,7 @@
     clusterer.gridSize = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ? 25 : 20;
     [self.view addSubview:clusterer];
     
-    clusterer.manyItemsCaption = @"%i items";
+    clusterer.clusterTitle = @"%i items";
     
     NSDictionary *data = [[NSDictionary alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Points" ofType:@"plist"]];
     
@@ -57,14 +57,15 @@
 }
 
 #pragma mark -
-#pragma mark REMarkerClustererDelegate functions
+#pragma mark MKMapViewDeletate
 
-- (void)clusterCalloutAccessoryControlTapped:(NSArray *)items
+- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
 {
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Test" 
-                                                        message:[NSString stringWithFormat:@"Count: %i", [items count]] 
+    RECluster *cluster = view.annotation;
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Test"
+                                                        message:[NSString stringWithFormat:@"Count: %i", cluster.markers.count]
                                                        delegate:nil
-                                              cancelButtonTitle:@"OK" 
+                                              cancelButtonTitle:@"OK"
                                               otherButtonTitles: nil];
     [alertView show];
 }

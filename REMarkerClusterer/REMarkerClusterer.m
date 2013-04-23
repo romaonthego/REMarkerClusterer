@@ -48,8 +48,7 @@
         _clusters = [[NSMutableArray alloc] init];
         [self addSubview:_mapView];
         
-        _oneItemCaption = @"One item";
-        _manyItemsCaption = @"%i items";
+        _clusterTitle = @"%i items";
     }
     return self;
 }
@@ -254,7 +253,7 @@
                     REMarker *marker = [annotation.markers objectAtIndex:0];
                     annotation.title = marker.title;
                 } else {
-                    annotation.title = [NSString stringWithFormat:_manyItemsCaption, [annotation.markers count]];
+                    annotation.title = [NSString stringWithFormat:_clusterTitle, [annotation.markers count]];
                 }
             }
         }
@@ -284,7 +283,7 @@
             REMarker *marker = [cluster.markers objectAtIndex:0];
             cluster.title = marker.title;
         } else {
-            cluster.title = [NSString stringWithFormat:_manyItemsCaption, [cluster.markers count]];
+            cluster.title = [NSString stringWithFormat:_clusterTitle, [cluster.markers count]];
         }
         [self.mapView addAnnotation:cluster];
     }
@@ -315,54 +314,49 @@
 }
 
 #pragma mark -
-#pragma mark MapView delegate
+#pragma mark MKMapViewDelegate
 
-- (void)mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray *)views
-{ 
-    MKAnnotationView *aV;
-    for (aV in views) {
-        CGRect endFrame = aV.frame;
-        
-        CGPoint closest = [self findClosestAnnotationX:aV.frame.origin.x y:aV.frame.origin.y];
-        BOOL skipAnimations = NO;
-        
-        if (closest.x != 0 && closest.y != 0) {
-            aV.frame = CGRectMake(closest.x, 
-                                  closest.y, 
-                                  aV.frame.size.width, 
-                                  aV.frame.size.height);
-        } else {
-            skipAnimations = YES;
-            aV.frame = CGRectMake(aV.frame.origin.x, 
-                                  aV.frame.origin.y, 
-                                  aV.frame.size.width, 
-                                  aV.frame.size.height);
-        }
-        
-        if (skipAnimations) continue;
-        
-        _isRedrawing = YES;
-        
-        [UIView animateWithDuration:0.25 delay:0 
-                            options:UIViewAnimationCurveEaseInOut | UIViewAnimationOptionAllowUserInteraction
-                         animations:^{ 
-                             [aV setFrame:endFrame];
-                         }  completion:^(BOOL finished){
-                            _isRedrawing = NO;
-                         }];
-    }
+- (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated
+{
+    if ([_delegate respondsToSelector:@selector(mapView:regionWillChangeAnimated:)])
+        [_delegate mapView:mapView regionWillChangeAnimated:animated];
 }
 
-- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
+- (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated
 {
-	RECluster *cluster = view.annotation;
-    if ([_delegate respondsToSelector:@selector(clusterCalloutAccessoryControlTapped:)]) {
-        [_delegate clusterCalloutAccessoryControlTapped:cluster.markers];
-    }
+    [self clusterize];
+    NSArray *selectedAnnotations = self.mapView.selectedAnnotations;
+    RECluster *selectedAnnotation = [selectedAnnotations objectAtIndex:0];
+    [self.mapView deselectAnnotation:selectedAnnotation animated:NO];
+    
+    if ([_delegate respondsToSelector:@selector(mapView:regionDidChangeAnimated:)])
+        [_delegate mapView:mapView regionDidChangeAnimated:animated];
 }
 
-- (MKAnnotationView *)mapView:(MKMapView *)mV viewForAnnotation:(id <MKAnnotation>)annotation
+- (void)mapViewWillStartLoadingMap:(MKMapView *)mapView
 {
+    if ([_delegate respondsToSelector:@selector(mapViewWillStartLoadingMap:)])
+        [_delegate mapViewWillStartLoadingMap:mapView];
+}
+
+- (void)mapViewDidFinishLoadingMap:(MKMapView *)mapView
+{
+    if ([_delegate respondsToSelector:@selector(mapViewDidFinishLoadingMap:)])
+        [_delegate mapViewDidFinishLoadingMap:mapView];
+}
+
+- (void)mapViewDidFailLoadingMap:(MKMapView *)mapView withError:(NSError *)error
+{
+    if ([_delegate respondsToSelector:@selector(mapViewDidFailLoadingMap:withError:)])
+        [_delegate mapViewDidFailLoadingMap:mapView withError:error];
+}
+
+- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation
+{
+    if ([_delegate respondsToSelector:@selector(mapView:viewForAnnotation:)]) {
+        return [_delegate mapView:mapView viewForAnnotation:annotation];
+    }
+    
     if ([annotation isKindOfClass:[MKUserLocation class]])
         return nil;
 	
@@ -387,18 +381,112 @@
     return pinView;
 }
 
-- (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated
+- (void)mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray *)views
 {
+    for (MKAnnotationView *annotationView in views) {
+        CGRect endFrame = annotationView.frame;
+        
+        CGPoint closest = [self findClosestAnnotationX:annotationView.frame.origin.x y:annotationView.frame.origin.y];
+        BOOL skipAnimations = NO;
+        
+        if (closest.x != 0 && closest.y != 0) {
+            annotationView.frame = CGRectMake(closest.x,
+                                              closest.y,
+                                              annotationView.frame.size.width,
+                                              annotationView.frame.size.height);
+        } else {
+            skipAnimations = YES;
+            annotationView.frame = CGRectMake(annotationView.frame.origin.x,
+                                              annotationView.frame.origin.y,
+                                              annotationView.frame.size.width,
+                                              annotationView.frame.size.height);
+        }
+        
+        if (skipAnimations) continue;
+        
+        _isRedrawing = YES;
+        
+        [UIView animateWithDuration:0.25 delay:0
+                            options:UIViewAnimationCurveEaseInOut | UIViewAnimationOptionAllowUserInteraction
+                         animations:^{
+                             [annotationView setFrame:endFrame];
+                         }  completion:^(BOOL finished){
+                             _isRedrawing = NO;
+                         }];
+    }
     
+    if ([_delegate respondsToSelector:@selector(mapView:didAddAnnotationViews:)]) {
+        [_delegate mapView:mapView didAddAnnotationViews:views];
+    }
 }
 
-- (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated
+- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
 {
-    [self clusterize];
-    NSArray *selectedAnnotations = self.mapView.selectedAnnotations;
-    RECluster *selectedAnnotation = [selectedAnnotations objectAtIndex:0];
-    [self.mapView deselectAnnotation:selectedAnnotation animated:NO];
+    if ([_delegate respondsToSelector:@selector(mapView:annotationView:calloutAccessoryControlTapped:)])
+        [_delegate mapView:mapView annotationView:view calloutAccessoryControlTapped:control];
 }
 
+- (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view NS_AVAILABLE(NA, 4_0)
+{
+    if ([_delegate respondsToSelector:@selector(mapView:didSelectAnnotationView:)])
+        [_delegate mapView:mapView didSelectAnnotationView:view];
+}
+
+- (void)mapView:(MKMapView *)mapView didDeselectAnnotationView:(MKAnnotationView *)view NS_AVAILABLE(NA, 4_0)
+{
+    if ([_delegate respondsToSelector:@selector(mapView:didDeselectAnnotationView:)])
+        [_delegate mapView:mapView didDeselectAnnotationView:view];
+}
+
+- (void)mapViewWillStartLocatingUser:(MKMapView *)mapView NS_AVAILABLE(NA, 4_0)
+{
+    if ([_delegate respondsToSelector:@selector(mapViewWillStartLocatingUser:)])
+        [_delegate mapViewWillStartLocatingUser:mapView];
+}
+
+- (void)mapViewDidStopLocatingUser:(MKMapView *)mapView NS_AVAILABLE(NA, 4_0)
+{
+    if ([_delegate respondsToSelector:@selector(mapViewDidStopLocatingUser:)])
+        [_delegate mapViewDidStopLocatingUser:mapView];
+}
+
+- (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation NS_AVAILABLE(NA, 4_0)
+{
+    if ([_delegate respondsToSelector:@selector(mapView:didUpdateUserLocation:)])
+        [_delegate mapView:mapView didUpdateUserLocation:userLocation];
+}
+
+- (void)mapView:(MKMapView *)mapView didFailToLocateUserWithError:(NSError *)error NS_AVAILABLE(NA, 4_0)
+{
+    if ([_delegate respondsToSelector:@selector(mapView:didFailToLocateUserWithError:)])
+        [_delegate mapView:mapView didFailToLocateUserWithError:error];
+}
+
+- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view didChangeDragState:(MKAnnotationViewDragState)newState
+fromOldState:(MKAnnotationViewDragState)oldState NS_AVAILABLE(NA, 4_0)
+{
+    if ([_delegate respondsToSelector:@selector(mapView:annotationView:didChangeDragState:fromOldState:)])
+        [_delegate mapView:mapView annotationView:view didChangeDragState:newState fromOldState:oldState];
+}
+
+- (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id <MKOverlay>)overlay NS_AVAILABLE(NA, 4_0)
+{
+    if ([_delegate respondsToSelector:@selector(mapView:viewForOverlay:)])
+        return [_delegate mapView:mapView viewForOverlay:overlay];
+    
+    return nil;
+}
+
+- (void)mapView:(MKMapView *)mapView didAddOverlayViews:(NSArray *)overlayViews NS_AVAILABLE(NA, 4_0)
+{
+    if ([_delegate respondsToSelector:@selector(mapView:didAddOverlayViews:)])
+        [_delegate mapView:mapView didAddOverlayViews:overlayViews];
+}
+
+- (void)mapView:(MKMapView *)mapView didChangeUserTrackingMode:(MKUserTrackingMode)mode animated:(BOOL)animated NS_AVAILABLE(NA, 5_0)
+{
+    if ([_delegate respondsToSelector:@selector(mapView:didChangeUserTrackingMode:animated:)])
+        [_delegate mapView:mapView didChangeUserTrackingMode:mode animated:animated];
+}
 
 @end

@@ -28,10 +28,7 @@
 #import <MapKit/MapKit.h>
 #import "REMarker.h"
 #import "RELatLngBounds.h"
-
-@class RECluster;
-
-@protocol REMarkerClustererDelegate;
+#import "RECluster.h"
 
 @interface REMarkerClusterer : UIView <MKMapViewDelegate> {
     NSMutableArray *_tempViews;
@@ -45,22 +42,12 @@
 @property (strong, readonly, nonatomic) NSMutableArray *clusters;
 @property (assign, readwrite, nonatomic) NSInteger gridSize;
 @property (assign, readwrite, nonatomic) BOOL isAverageCenter;
-@property (weak, readwrite, nonatomic) id<REMarkerClustererDelegate> delegate;
-@property (copy, readwrite, nonatomic) NSString *oneItemCaption;
-@property (copy, readwrite, nonatomic) NSString *manyItemsCaption;
+@property (weak, readwrite, nonatomic) id<MKMapViewDelegate> delegate;
+@property (copy, readwrite, nonatomic) NSString *clusterTitle;
 
 - (void)addMarker:(REMarker *)marker;
 - (void)setLatitude:(double)latitude longitude:(double)longitude delta:(double)delta;
 - (void)zoomToAnnotationsBounds:(NSArray *)annotations;
 - (void)clusterize;
-
-@end
-
-@protocol REMarkerClustererDelegate <NSObject>
-
-@optional
-
-- (void)clusterCalloutAccessoryControlTapped:(NSArray *)items;
-
 
 @end

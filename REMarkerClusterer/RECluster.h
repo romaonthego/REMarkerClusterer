@@ -25,8 +25,10 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
-#import "REMarkerClusterer.h"
 #import "RELatLngBounds.h"
+
+@class REMarkerClusterer;
+@class REMarker;
 
 @interface RECluster : NSObject <MKAnnotation>
 

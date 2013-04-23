@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "REMarkerClusterer.h"
 
-@interface DemoViewController : UIViewController <REMarkerClustererDelegate>
+@interface DemoViewController : UIViewController <MKMapViewDelegate>
 
 @end
