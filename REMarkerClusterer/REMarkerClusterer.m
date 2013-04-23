@@ -253,6 +253,12 @@
     [self createClusters];
     for (NSInteger j=0; j < [_mapView.annotations count]; j++) {
         RECluster *annotation = (RECluster *)[_mapView.annotations objectAtIndex:j];
+
+        // ignore annotations not managed by REMarkerCluster
+        if ([annotation isKindOfClass:[RECluster class]] == NO) {
+            continue;
+        }
+
         RECluster *fromCluster;
         BOOL found = NO;
         for (NSInteger i=0; i < [_clusters count]; i++) {
