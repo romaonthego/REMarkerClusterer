@@ -29,6 +29,7 @@
 
 @property (assign, readwrite, nonatomic) NSUInteger markerId;
 @property (copy, readwrite, nonatomic) NSString *title;
+@property (copy, readwrite, nonatomic) NSString *subtitle;
 @property (assign, readwrite, nonatomic) CLLocationCoordinate2D coordinate;
 @property (strong, readwrite, nonatomic) NSDictionary *userInfo;
 

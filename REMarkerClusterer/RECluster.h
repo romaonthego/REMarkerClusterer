@@ -38,6 +38,7 @@
 @property (assign, readwrite, nonatomic) BOOL averageCenter;
 @property (assign, readwrite, nonatomic) BOOL hasCenter;
 @property (copy, readwrite, nonatomic) NSString *title;
+@property (copy, readwrite, nonatomic) NSString *subtitle;
 @property (strong, readonly, nonatomic) NSMutableArray *markers;
 
 - (id)initWithClusterer:(REMarkerClusterer *)clusterer;
