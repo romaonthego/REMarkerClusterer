@@ -278,6 +278,7 @@
                     annotation.subtitle = marker.subtitle;
                 } else {
                     annotation.title = [NSString stringWithFormat:_clusterTitle, [annotation.markers count]];
+                    annotation.subtitle = nil;
                 }
             }
         }
