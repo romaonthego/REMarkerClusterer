@@ -2,7 +2,7 @@
 // REMarkerClusterer.m
 // REMarkerClusterer
 //
-// Copyright (c) 2011-2013 Roman Efimov (http://github.com/romaonthego)
+// Copyright (c) 2011-2013 Roman Efimov (https://github.com/romaonthego)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
