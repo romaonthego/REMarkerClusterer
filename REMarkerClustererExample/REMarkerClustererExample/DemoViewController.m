@@ -34,23 +34,31 @@
     _clusterer.gridSize = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ? 25 : 20;    
     _clusterer.clusterTitle = @"%i items";
     
+    // Populate with sample data
+    //
     NSDictionary *data = [[NSDictionary alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Points" ofType:@"plist"]];
-    
     NSInteger index = 0;
     for (NSDictionary *dict in [data objectForKey:@"Points"]) {
         REMarker *marker = [[REMarker alloc] init];
         marker.markerId = [[dict objectForKey:@"id"] intValue];
-        marker.coordinate = CLLocationCoordinate2DMake([[dict objectForKey:@"latitude"] floatValue],
-                                                       [[dict objectForKey:@"longitude"] floatValue]);
+        marker.coordinate = CLLocationCoordinate2DMake([[dict objectForKey:@"latitude"] floatValue], [[dict objectForKey:@"longitude"] floatValue]);
         marker.title = [NSString stringWithFormat:@"One item <id: %i>", index];
         marker.userInfo = @{@"index": @(index)};
         [_clusterer addMarker:marker];
-        
         index++;
     }
-    [_clusterer zoomToAnnotationsBounds:_clusterer.markers];
+    
+    // Create clusters
+    //
     [_clusterer clusterize];
+    
+    // Zoom to show all clusters/markers on the map
+    //
+    [_clusterer zoomToAnnotationsBounds:_clusterer.markers];
 }
+
+#pragma mark -
+#pragma mark Rotation
 
 - (BOOL)shouldAutorotate
 {
