@@ -30,13 +30,13 @@
 
 @interface RECluster : NSObject <MKAnnotation>
 
-@property (nonatomic) RELatLngBounds *bounds;
-@property (nonatomic, assign) REMarkerClusterer *markerClusterer;
-@property (nonatomic, readwrite) CLLocationCoordinate2D coordinate;
-@property (nonatomic, readwrite) BOOL averageCenter;
-@property (nonatomic, readwrite) BOOL hasCenter;
-@property (nonatomic, copy) NSString *title;
-@property (nonatomic) NSMutableArray *markers;
+@property (strong, readwrite, nonatomic) RELatLngBounds *bounds;
+@property (weak, readwrite, nonatomic) REMarkerClusterer *markerClusterer;
+@property (assign, readwrite, nonatomic) CLLocationCoordinate2D coordinate;
+@property (assign, readwrite, nonatomic) BOOL averageCenter;
+@property (assign, readwrite, nonatomic) BOOL hasCenter;
+@property (copy, readwrite, nonatomic) NSString *title;
+@property (strong, readonly, nonatomic) NSMutableArray *markers;
 
 - (id)initWithClusterer:(REMarkerClusterer *)clusterer;
 - (BOOL)isMarkerAlreadyAdded:(REMarker *)marker;

@@ -250,8 +250,12 @@
             if ([annotation isKindOfClass:[RECluster class]]) {
                 [annotation.markers removeAllObjects];
                 [annotation.markers addObjectsFromArray:fromCluster.markers];
-                if ([annotation.markers count] == 1) annotation.title = _oneItemCaption; else
+                if ([annotation.markers count] == 1) {
+                    REMarker *marker = [annotation.markers objectAtIndex:0];
+                    annotation.title = marker.title;
+                } else {
                     annotation.title = [NSString stringWithFormat:_manyItemsCaption, [annotation.markers count]];
+                }
             }
         }
     }
@@ -276,8 +280,12 @@
             continue;
         }
 
-        if ([cluster.markers count] == 1) cluster.title = _oneItemCaption; else
+        if ([cluster.markers count] == 1) {
+            REMarker *marker = [cluster.markers objectAtIndex:0];
+            cluster.title = marker.title;
+        } else {
             cluster.title = [NSString stringWithFormat:_manyItemsCaption, [cluster.markers count]];
+        }
         [self.mapView addAnnotation:cluster];
     }
 }
@@ -359,21 +367,23 @@
         return nil;
 	
 	MKPinAnnotationView *pinView = nil;
-	static NSString *defaultPinID = @"defaultPinID";
-	pinView = (MKPinAnnotationView *)[self.mapView dequeueReusableAnnotationViewWithIdentifier:defaultPinID];
-	if ( pinView == nil )
-		pinView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:defaultPinID];
+    
+	static NSString *pinID = @"REMarkerClustererPin";
+    
+	pinView = (MKPinAnnotationView *)[self.mapView dequeueReusableAnnotationViewWithIdentifier:pinID];
+    
+	if (pinView == nil) {
+		pinView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:pinID];
+        
+        UIButton *detailButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+        detailButton.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+        detailButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+        detailButton.tag = 1;
+        pinView.rightCalloutAccessoryView = detailButton;
+    }
 	
 	pinView.pinColor = MKPinAnnotationColorRed;
-    
     pinView.canShowCallout = YES;
-    
-    UIButton *detailButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-    detailButton.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-    detailButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
-    detailButton.tag = 1;
-    pinView.rightCalloutAccessoryView = detailButton;
-	
     return pinView;
 }
 

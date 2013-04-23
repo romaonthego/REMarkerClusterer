@@ -28,11 +28,11 @@
 
 @interface RELatLngBounds : NSObject
 
-@property (nonatomic, readwrite) CLLocationCoordinate2D northEast;
-@property (nonatomic, readwrite) CLLocationCoordinate2D northWest;
-@property (nonatomic, readwrite) CLLocationCoordinate2D southWest;
-@property (nonatomic, readwrite) CLLocationCoordinate2D southEast;
-@property (nonatomic, copy) MKMapView *mapView;
+@property (assign, readwrite, nonatomic) CLLocationCoordinate2D northEast;
+@property (assign, readwrite, nonatomic) CLLocationCoordinate2D northWest;
+@property (assign, readwrite, nonatomic) CLLocationCoordinate2D southWest;
+@property (assign, readwrite, nonatomic) CLLocationCoordinate2D southEast;
+@property (weak, readwrite, nonatomic) MKMapView *mapView;
 
 - (id)initWithMapView:(MKMapView *)mapView;
 - (void)setSouthWest:(CLLocationCoordinate2D)sw northEast:(CLLocationCoordinate2D)ne;

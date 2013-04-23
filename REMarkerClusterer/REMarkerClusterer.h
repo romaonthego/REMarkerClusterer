@@ -40,14 +40,14 @@
     BOOL _needsToRedraw;
 }
 
-@property (nonatomic) MKMapView *mapView;
-@property (readwrite, copy) NSMutableArray *markers;
-@property (readwrite, copy) NSMutableArray *clusters;
-@property (nonatomic, readwrite) NSInteger gridSize;
-@property (nonatomic, readwrite) BOOL isAverageCenter;
-@property (nonatomic, assign) id<REMarkerClustererDelegate> delegate;
-@property (nonatomic, copy) NSString *oneItemCaption;
-@property (nonatomic, copy) NSString *manyItemsCaption;
+@property (strong, readonly, nonatomic) MKMapView *mapView;
+@property (strong, readonly, nonatomic) NSMutableArray *markers;
+@property (strong, readonly, nonatomic) NSMutableArray *clusters;
+@property (assign, readwrite, nonatomic) NSInteger gridSize;
+@property (assign, readwrite, nonatomic) BOOL isAverageCenter;
+@property (weak, readwrite, nonatomic) id<REMarkerClustererDelegate> delegate;
+@property (copy, readwrite, nonatomic) NSString *oneItemCaption;
+@property (copy, readwrite, nonatomic) NSString *manyItemsCaption;
 
 - (void)addMarker:(REMarker *)marker;
 - (void)setLatitude:(double)latitude longitude:(double)longitude delta:(double)delta;
@@ -59,6 +59,8 @@
 @protocol REMarkerClustererDelegate <NSObject>
 
 @optional
+
 - (void)clusterCalloutAccessoryControlTapped:(NSArray *)items;
+
 
 @end
