@@ -9,9 +9,9 @@ As seen in [Pinsnap](http://itunes.apple.com/us/app/pinsnap/id457407067?mt=8) iP
 The `REMarkerClusterer` will group markers into clusters according to their distance from a cluster's center. When a marker is added, the marker cluster will find a position in all the clusters, and if it fails to find one, it will create a new cluster with the marker. The number of markers in a cluster will be displayed on the cluster marker. When the map viewport changes, `REMarkerClusterer` will destroy the clusters in the viewport and regroup them into new clusters.
 
 ## Requirements
-* Xcode 4.3 or higher
+* Xcode 4.6 or higher
 * Apple LLVM compiler
-* iOS 4 or higher
+* iOS 5.0 or higher
 * ARC
 
 ## Demo
