@@ -27,8 +27,8 @@
 
 @interface REMarker : NSObject <MKAnnotation>
 
-@property (nonatomic, readwrite) NSUInteger markerId;
-@property (nonatomic, copy) NSString *title;
-@property (nonatomic, readwrite) CLLocationCoordinate2D coordinate;
+@property (assign, readwrite, nonatomic) NSUInteger markerId;
+@property (copy, readwrite, nonatomic) NSString *title;
+@property (assign, readwrite, nonatomic) CLLocationCoordinate2D coordinate;
 
 @end
