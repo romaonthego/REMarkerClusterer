@@ -36,7 +36,7 @@ Edit your Podfile and add REMarkerClusterer:
 ``` bash
 $ edit Podfile
 platform :ios, '5.0'
-pod 'REMarkerClusterer', '~> 1.0'
+pod 'REMarkerClusterer', '~> 2.0'
 ```
 
 Install into your Xcode project:
@@ -54,27 +54,43 @@ Now that the framework has been linked, all you need to do is drop files from `R
 ## Example Usage
 
 ``` objective-c
-REMarkerClusterer *clusterer = [[REMarkerClusterer alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
-clusterer.delegate = self;
-[clusterer setLatitude:37.786996 longitude:-97.440100 delta:30.03863];
+// Add map view
+//
+_mapView = [[MKMapView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+_mapView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+[self.view addSubview:_mapView];
+
+// Create clusterer, assign a map view and delegate (MKMapViewDelegate)
+//
+_clusterer = [[REMarkerClusterer alloc] initWithMapView:_mapView delegate:self];
+[_clusterer setLatitude:37.786996 longitude:-97.440100 delta:30.03863];
 
 // Set smaller grid size for an iPad
-clusterer.gridSize = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ? 25 : 20;
-[self.view addSubview:clusterer];
+//
+_clusterer.gridSize = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ? 25 : 20;
+_clusterer.clusterTitle = @"%i items";
 
-clusterer.oneItemCaption = @"One item";
-clusterer.manyItemsCaption = @"%i items";
-
+// Populate with sample data
+//
 NSDictionary *data = [[NSDictionary alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Points" ofType:@"plist"]];
+NSInteger index = 0;
 for (NSDictionary *dict in [data objectForKey:@"Points"]) {
     REMarker *marker = [[REMarker alloc] init];
     marker.markerId = [[dict objectForKey:@"id"] intValue];
-    marker.coordinate = CLLocationCoordinate2DMake([[dict objectForKey:@"latitude"] floatValue],
-                                                   [[dict objectForKey:@"longitude"] floatValue]);
-    [clusterer addMarker:marker];
+    marker.coordinate = CLLocationCoordinate2DMake([[dict objectForKey:@"latitude"] floatValue], [[dict objectForKey:@"longitude"] floatValue]);
+    marker.title = [NSString stringWithFormat:@"One item <id: %i>", index];
+    marker.userInfo = @{@"index": @(index)};
+    [_clusterer addMarker:marker];
+    index++;
 }
-[clusterer zoomToAnnotationsBounds:clusterer.markers];
-[clusterer clusterize];
+
+// Create clusters
+//
+[_clusterer clusterize];
+
+// Zoom to show all clusters/markers on the map
+//
+[_clusterer zoomToAnnotationsBounds:_clusterer.markers];
 ```
 
 ## Contact
@@ -83,6 +99,7 @@ Roman Efimov
 
 - http://github.com/romaonthego
 - http://twitter.com/romaonthego
+- romefimov@gmail.com
 
 ## Credits
 
@@ -92,7 +109,7 @@ Partially based on MarkerClusterer Javascript library by Xiaoxi Wu (http://gmaps
 
 REMarkerClusterer is available under the MIT license.
 
-Copyright © 2011-2012 Roman Efimov.
+Copyright © 2011-2013 Roman Efimov.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
