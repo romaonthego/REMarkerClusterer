@@ -28,6 +28,12 @@
 #import "REMarkerClusterer.h"
 #import "RECluster.h"
 
+@interface REMarkerClusterer ()
+
+@property (assign, readwrite, nonatomic) BOOL isRedrawing;
+
+@end
+
 @implementation REMarkerClusterer
 
 - (void)addMarker:(REMarker *)marker
@@ -43,6 +49,7 @@
         _mapView = [[MKMapView alloc] initWithFrame:frame];
         _mapView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         _mapView.delegate = self;
+        
         _tempViews = [[NSMutableArray alloc] init];
         _markers = [[NSMutableArray alloc] init];
         _clusters = [[NSMutableArray alloc] init];
@@ -137,7 +144,6 @@
     [self.mapView setRegion:newRegion animated:YES];
 }
 
-
 - (double)distanceBetweenPoints:(CLLocationCoordinate2D)p1 p2:(CLLocationCoordinate2D)p2
 {
 	double R = 6371; // Radius of the Earth in km
@@ -205,13 +211,15 @@
     
     _isRedrawing = YES;
     
+    __typeof (&*self) __weak weakSelf = self;
+    
     [UIView animateWithDuration:0.25 delay:0 
                         options:UIViewAnimationCurveEaseInOut | UIViewAnimationOptionAllowUserInteraction
                      animations:^{ 
                          [anView setFrame:endFrame];
                      }  completion:^(BOOL finished){
-                         [_mapView removeAnnotation:annotation];
-                         _isRedrawing = NO;
+                         [weakSelf.mapView removeAnnotation:annotation];
+                         weakSelf.isRedrawing = NO;
                      }];
 }
 
