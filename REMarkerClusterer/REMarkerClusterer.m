@@ -41,12 +41,12 @@
     [_markers addObject:marker];
 }
 
-- (id)initWithFrame:(CGRect)frame
+/*- (id)initWithFrame:(CGRect)frame
 {
     if ((self = [super initWithFrame:frame])) {
         _gridSize = 25;
         
-        _mapView = [[MKMapView alloc] initWithFrame:frame];
+        //_mapView = [[MKMapView alloc] initWithFrame:frame];
         _mapView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         _mapView.delegate = self;
         
@@ -58,6 +58,40 @@
         _clusterTitle = @"%i items";
     }
     return self;
+}*/
+
+- (id)init
+{
+    self = [super init];
+    if (!self)
+        return nil;
+    
+    _gridSize = 25;
+    _tempViews = [[NSMutableArray alloc] init];
+    _markers = [[NSMutableArray alloc] init];
+    _clusters = [[NSMutableArray alloc] init];
+    
+    _clusterTitle = @"%i items";
+    
+    return self;
+}
+
+- (id)initWithMapView:(MKMapView *)mapView delegate:(id <MKMapViewDelegate>)delegate
+{
+    self = [self init];
+    if (!self)
+        return nil;
+    
+    self.mapView = mapView;
+    self.delegate = delegate;
+    
+    return self;
+}
+
+- (void)setMapView:(MKMapView *)mapView
+{
+    _mapView = mapView;
+    _mapView.delegate = self;
 }
 
 - (bool)markerInBounds:(REMarker *)marker

@@ -11,4 +11,7 @@
 
 @interface DemoViewController : UIViewController <MKMapViewDelegate>
 
+@property (strong, readonly, nonatomic) MKMapView *mapView;
+@property (strong, readonly, nonatomic) REMarkerClusterer *clusterer;
+
 @end

@@ -30,14 +30,14 @@
 #import "RELatLngBounds.h"
 #import "RECluster.h"
 
-@interface REMarkerClusterer : UIView <MKMapViewDelegate> {
+@interface REMarkerClusterer : NSObject <MKMapViewDelegate> {
     NSMutableArray *_tempViews;
     NSTimer *_tempTimer;
     BOOL _isRedrawing;
     BOOL _needsToRedraw;
 }
 
-@property (strong, readonly, nonatomic) MKMapView *mapView;
+@property (weak, readwrite, nonatomic) MKMapView *mapView;
 @property (strong, readonly, nonatomic) NSMutableArray *markers;
 @property (strong, readonly, nonatomic) NSMutableArray *clusters;
 @property (assign, readwrite, nonatomic) NSInteger gridSize;
@@ -45,6 +45,7 @@
 @property (weak, readwrite, nonatomic) id<MKMapViewDelegate> delegate;
 @property (copy, readwrite, nonatomic) NSString *clusterTitle;
 
+- (id)initWithMapView:(MKMapView *)mapView delegate:(id <MKMapViewDelegate>)delegate;
 - (void)addMarker:(REMarker *)marker;
 - (void)setLatitude:(double)latitude longitude:(double)longitude delta:(double)delta;
 - (void)zoomToAnnotationsBounds:(NSArray *)annotations;

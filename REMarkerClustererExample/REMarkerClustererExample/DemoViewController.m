@@ -18,16 +18,17 @@
 {
     [super viewDidLoad];
     
-	REMarkerClusterer *clusterer = [[REMarkerClusterer alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
-    clusterer.delegate = self;
-    clusterer.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    [clusterer setLatitude:37.786996 longitude:-97.440100 delta:30.03863];
+	_mapView = [[MKMapView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    _mapView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    [self.view addSubview:_mapView];
+    
+    _clusterer = [[REMarkerClusterer alloc] initWithMapView:_mapView delegate:self];
+    [_clusterer setLatitude:37.786996 longitude:-97.440100 delta:30.03863];
     
     // Set smaller grid size for an iPad
-    clusterer.gridSize = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ? 25 : 20;
-    [self.view addSubview:clusterer];
-    
-    clusterer.clusterTitle = @"%i items";
+    //
+    _clusterer.gridSize = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ? 25 : 20;    
+    _clusterer.clusterTitle = @"%i items";
     
     NSDictionary *data = [[NSDictionary alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Points" ofType:@"plist"]];
     
@@ -39,12 +40,12 @@
                                                        [[dict objectForKey:@"longitude"] floatValue]);
         marker.title = [NSString stringWithFormat:@"One item <id: %i>", index];
         marker.userInfo = @{@"index": @(index)};
-        [clusterer addMarker:marker];
+        [_clusterer addMarker:marker];
         
         index++;
     }
-    [clusterer zoomToAnnotationsBounds:clusterer.markers];
-    [clusterer clusterize];
+    [_clusterer zoomToAnnotationsBounds:_clusterer.markers];
+    [_clusterer clusterize];
 }
 
 - (BOOL)shouldAutorotate
