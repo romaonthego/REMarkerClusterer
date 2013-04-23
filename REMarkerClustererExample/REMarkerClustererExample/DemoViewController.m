@@ -38,6 +38,7 @@
         marker.coordinate = CLLocationCoordinate2DMake([[dict objectForKey:@"latitude"] floatValue],
                                                        [[dict objectForKey:@"longitude"] floatValue]);
         marker.title = [NSString stringWithFormat:@"One item <id: %i>", index];
+        marker.userInfo = @{@"index": @(index)};
         [clusterer addMarker:marker];
         
         index++;
@@ -62,8 +63,17 @@
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
 {
     RECluster *cluster = view.annotation;
+    NSString *message;
+    
+    if (cluster.markers.count == 1) {
+        REMarker *marker = [cluster.markers objectAtIndex:0];
+        message = [NSString stringWithFormat:@"%@", marker.userInfo];
+    } else {
+         message = [NSString stringWithFormat:@"Count: %i", cluster.markers.count];
+    }   
+    
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Test"
-                                                        message:[NSString stringWithFormat:@"Count: %i", cluster.markers.count]
+                                                        message:message
                                                        delegate:nil
                                               cancelButtonTitle:@"OK"
                                               otherButtonTitles: nil];
