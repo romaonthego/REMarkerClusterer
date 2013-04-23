@@ -35,7 +35,7 @@
     NSTimer *_tempTimer;
     BOOL _isRedrawing;
     BOOL _needsToRedraw;
-
+}
 
 @property (strong, readonly, nonatomic) MKMapView *mapView;
 @property (strong, readonly, nonatomic) NSMutableArray *markers;
