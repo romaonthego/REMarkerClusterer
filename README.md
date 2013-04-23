@@ -3,7 +3,7 @@
 
 As seen in [Pinsnap](http://itunes.apple.com/us/app/pinsnap/id457407067?mt=8) iPhone app. `REMarkerClusterer` was inspired by the Apple Photos app on the iPhone, `REMarkerClusterer` mimics it's behaviour providing animations for grouping and ungrouping clusters.
 
-![Screenshot of REMarkerClusterer](https://github.com/romaonthego/REMarkerClusterer/raw/master/Screenshot.png "REMarkerClusterer Screenshot")
+<img src="https://github.com/romaonthego/REMarkerClusterer/raw/master/Screenshot.png" alt="REMarkerClusterer Screenshot" width="320" height="480" />
 
 ## How it works
 The `REMarkerClusterer` will group markers into clusters according to their distance from a cluster's center. When a marker is added, the marker cluster will find a position in all the clusters, and if it fails to find one, it will create a new cluster with the marker. The number of markers in a cluster will be displayed on the cluster marker. When the map viewport changes, `REMarkerClusterer` will destroy the clusters in the viewport and regroup them into new clusters.
