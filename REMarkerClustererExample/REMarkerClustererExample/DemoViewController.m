@@ -18,10 +18,14 @@
 {
     [super viewDidLoad];
     
+    // Add map view
+    //
 	_mapView = [[MKMapView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     _mapView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [self.view addSubview:_mapView];
     
+    // Create clusterer, assign a map view and delegate (MKMapViewDelegate)
+    //
     _clusterer = [[REMarkerClusterer alloc] initWithMapView:_mapView delegate:self];
     [_clusterer setLatitude:37.786996 longitude:-97.440100 delta:30.03863];
     

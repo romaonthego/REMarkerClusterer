@@ -36,30 +36,6 @@
 
 @implementation REMarkerClusterer
 
-- (void)addMarker:(REMarker *)marker
-{
-    [_markers addObject:marker];
-}
-
-/*- (id)initWithFrame:(CGRect)frame
-{
-    if ((self = [super initWithFrame:frame])) {
-        _gridSize = 25;
-        
-        //_mapView = [[MKMapView alloc] initWithFrame:frame];
-        _mapView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-        _mapView.delegate = self;
-        
-        _tempViews = [[NSMutableArray alloc] init];
-        _markers = [[NSMutableArray alloc] init];
-        _clusters = [[NSMutableArray alloc] init];
-        [self addSubview:_mapView];
-        
-        _clusterTitle = @"%i items";
-    }
-    return self;
-}*/
-
 - (id)init
 {
     self = [super init];
@@ -94,7 +70,12 @@
     _mapView.delegate = self;
 }
 
-- (bool)markerInBounds:(REMarker *)marker
+- (void)addMarker:(REMarker *)marker
+{
+    [_markers addObject:marker];
+}
+
+- (BOOL)markerInBounds:(REMarker *)marker
 {
     CGPoint pix = [self.mapView convertCoordinate:marker.coordinate toPointToView:nil];
     if (pix.x >=-150 && pix.x <= _mapView.frame.size.width+150) {
@@ -270,11 +251,11 @@
     NSMutableArray *annotationsToRemove = [[NSMutableArray alloc] init];
     
     [self createClusters];
-    for (int j=0; j < [_mapView.annotations count]; j++) {
+    for (NSInteger j=0; j < [_mapView.annotations count]; j++) {
         RECluster *annotation = (RECluster *)[_mapView.annotations objectAtIndex:j];
         RECluster *fromCluster;
         BOOL found = NO;
-        for (int i=0; i < [_clusters count]; i++) {
+        for (NSInteger i=0; i < [_clusters count]; i++) {
             fromCluster = (RECluster *)[_clusters objectAtIndex:i];
             if (fromCluster.coordinate.latitude == annotation.coordinate.latitude &&
                 fromCluster.coordinate.longitude == annotation.coordinate.longitude) {
@@ -308,10 +289,10 @@
     [_tempViews removeAllObjects];
     [_tempViews addObjectsFromArray:remainedAnnotationViews];
     
-    for (int i=0; i < [_clusters count]; i++) {
+    for (NSInteger i=0; i < [_clusters count]; i++) {
         RECluster *cluster = (RECluster *)[_clusters objectAtIndex:i];
         BOOL found = NO;
-        for (int j=0; j < [_mapView.annotations count]; j++) {
+        for (NSInteger j=0; j < [_mapView.annotations count]; j++) {
             REMarker *annotation = (REMarker *)[_mapView.annotations objectAtIndex:j];
             if (cluster.coordinate.latitude == annotation.coordinate.latitude &&
                 cluster.coordinate.longitude == annotation.coordinate.longitude) 
@@ -340,7 +321,7 @@
 {
     CGPoint result = CGPointMake(0, 0);
     double diff = 10000;
-    for (int i=0; i < [views count]; i++){
+    for (NSInteger i=0; i < [views count]; i++){
         MKAnnotationView* anView = [views objectAtIndex:i];
         if (anView){
             CGPoint pos = anView.frame.origin;
