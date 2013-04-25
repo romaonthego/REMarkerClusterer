@@ -252,7 +252,8 @@
     for (NSInteger j=0; j < [_mapView.annotations count]; j++) {
         RECluster *annotation = (RECluster *)[_mapView.annotations objectAtIndex:j];
         
-        // ignore annotations not managed by REMarkerCluster
+        // Ignore annotations not managed by REMarkerClusterer
+        //
         if ([annotation isKindOfClass:[RECluster class]] == NO) {
             continue;
         }
