@@ -162,7 +162,7 @@
 - (void)addToClosestCluster:(REMarker *)marker
 {
     double distance = 40000; // Some large number
-    RECluster *clusterToAddTo = nil;
+    RECluster *clusterToAddTo;
     for (RECluster *cluster in _clusters) {
         if ([cluster hasCenter]) {
             double d = [self distanceBetweenPoints:cluster.coordinate p2:marker.coordinate];
@@ -240,9 +240,9 @@
 
 - (void)clusterize:(BOOL)animated
 {
-    if (_animating && animated) {
+    if (_animating && animated)
         return;
-    }
+        
     _animated = animated;
     
     NSMutableArray *remainedAnnotationViews = [[NSMutableArray alloc] init];
@@ -254,9 +254,8 @@
         
         // Ignore annotations not managed by REMarkerClusterer
         //
-        if ([annotation isKindOfClass:[RECluster class]] == NO) {
+        if (![annotation isKindOfClass:[RECluster class]])
             continue;
-        }
         
         RECluster *fromCluster;
         BOOL found = NO;
@@ -289,9 +288,8 @@
         }
     }
     
-    for (RECluster *annotation in annotationsToRemove) {
+    for (RECluster *annotation in annotationsToRemove)
         [self removeAnnotation:annotation views:remainedAnnotationViews];
-    }
     
     [_tempViews removeAllObjects];
     [_tempViews addObjectsFromArray:remainedAnnotationViews];
@@ -305,9 +303,8 @@
                 cluster.coordinate.longitude == annotation.coordinate.longitude)
                 found = YES;
         }
-        if (found) {
+        if (found)
             continue;
-        }
         
         if ([cluster.markers count] == 1) {
             REMarker *marker = [cluster.markers objectAtIndex:0];
@@ -330,7 +327,7 @@
     double diff = 10000;
     for (NSInteger i=0; i < [views count]; i++){
         MKAnnotationView* anView = [views objectAtIndex:i];
-        if (anView){
+        if (anView) {
             CGPoint pos = anView.frame.origin;
             double newDiff = sqrt((x - pos.x) * (x - pos.x) + (y - pos.y) * (y - pos.y));
             if (newDiff < diff) {
@@ -339,7 +336,9 @@
             }
         }
     }
-    if (diff > 80) return CGPointMake(0, 0);
+    if (diff > 80)
+        return CGPointMake(0, 0);
+    
     return result;
 }
 
@@ -355,9 +354,7 @@
 - (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated
 {
     [self clusterize:YES];
-    NSArray *selectedAnnotations = self.mapView.selectedAnnotations;
-    RECluster *selectedAnnotation = [selectedAnnotations objectAtIndex:0];
-    [self.mapView deselectAnnotation:selectedAnnotation animated:NO];
+    [self.mapView deselectAnnotation:[self.mapView.selectedAnnotations objectAtIndex:0] animated:NO];
     
     if ([_delegate respondsToSelector:@selector(mapView:regionDidChangeAnimated:)])
         [_delegate mapView:mapView regionDidChangeAnimated:animated];
@@ -389,12 +386,10 @@
     
     if ([annotation isKindOfClass:[MKUserLocation class]])
         return nil;
-	
-	MKPinAnnotationView *pinView = nil;
     
 	static NSString *pinID = @"REMarkerClustererPin";
     
-	pinView = (MKPinAnnotationView *)[self.mapView dequeueReusableAnnotationViewWithIdentifier:pinID];
+	MKPinAnnotationView *pinView = (MKPinAnnotationView *)[self.mapView dequeueReusableAnnotationViewWithIdentifier:pinID];
     
 	if (pinView == nil) {
 		pinView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:pinID];
