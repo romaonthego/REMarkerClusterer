@@ -33,7 +33,7 @@
     if ((self = [super init])) {
         _markerClusterer = clusterer;
         _averageCenter = [clusterer isAverageCenter];
-        _markers = [[NSMutableArray alloc] initWithCapacity:0];
+        _markers = [[NSMutableArray alloc] init];
         _hasCenter = NO;
         _bounds = [[RELatLngBounds alloc] initWithMapView:_markerClusterer.mapView];
     }
@@ -88,10 +88,9 @@
 
 - (BOOL)addMarker:(REMarker *)marker 
 {
-    if ([self isMarkerAlreadyAdded:marker]) {
+    if ([self isMarkerAlreadyAdded:marker])
         return NO;
-    }
-    
+
     if (!_hasCenter) {
         _coordinate = marker.coordinate;
         _hasCenter = YES;

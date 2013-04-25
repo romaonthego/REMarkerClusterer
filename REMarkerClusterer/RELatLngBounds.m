@@ -72,10 +72,10 @@
     CGPoint bottomRight = [_mapView convertCoordinate:_southEast toPointToView:_mapView];
     CGPoint topRight = [_mapView convertCoordinate:_northEast toPointToView:_mapView];
 
-    if (point.x >= topLeft.x && point.x <= topRight.x) {
+    if (point.x >= topLeft.x && point.x <= topRight.x)
         if (point.y >= topLeft.y && point.y <= bottomRight.y)
             return YES;
-    }
+    
     return NO;
 }
 
