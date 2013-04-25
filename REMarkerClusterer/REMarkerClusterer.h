@@ -46,7 +46,6 @@
 
 - (id)initWithMapView:(MKMapView *)mapView delegate:(id <MKMapViewDelegate>)delegate;
 - (void)addMarker:(REMarker *)marker;
-- (void)setLatitude:(double)latitude longitude:(double)longitude delta:(double)delta;
 - (void)zoomToAnnotationsBounds:(NSArray *)annotations;
 - (void)clusterize:(BOOL)animated;
 

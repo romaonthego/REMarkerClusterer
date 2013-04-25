@@ -148,17 +148,6 @@
     [self.mapView setRegion:region animated:YES];
 }
 
-
-- (void)setLatitude:(double)latitude longitude:(double)longitude delta:(double)delta
-{
-    MKCoordinateRegion newRegion;
-    newRegion.center.latitude = latitude;
-    newRegion.center.longitude = longitude;
-    newRegion.span.latitudeDelta = delta;
-    newRegion.span.longitudeDelta = delta;
-    [self.mapView setRegion:newRegion animated:YES];
-}
-
 - (double)distanceBetweenPoints:(CLLocationCoordinate2D)p1 p2:(CLLocationCoordinate2D)p2
 {
 	double R = 6371; // Radius of the Earth in km
