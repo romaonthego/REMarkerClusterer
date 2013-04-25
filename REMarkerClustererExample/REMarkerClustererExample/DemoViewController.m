@@ -48,7 +48,7 @@
         index++;
     }
     
-    // Create clusters
+    // Create clusters (without animations on view load)
     //
     [_clusterer clusterize:NO];
     
