@@ -50,7 +50,7 @@
     
     // Create clusters
     //
-    [_clusterer clusterize];
+    [_clusterer clusterize:NO];
     
     // Zoom to show all clusters/markers on the map
     //

@@ -32,8 +32,7 @@
 
 @interface REMarkerClusterer : NSObject <MKMapViewDelegate> {
     NSMutableArray *_tempViews;
-    BOOL _isRedrawing;
-    BOOL _needsToRedraw;
+    BOOL _animated;
 }
 
 @property (weak, readwrite, nonatomic) MKMapView *mapView;
@@ -43,11 +42,16 @@
 @property (assign, readwrite, nonatomic) BOOL isAverageCenter;
 @property (weak, readwrite, nonatomic) id<MKMapViewDelegate> delegate;
 @property (copy, readwrite, nonatomic) NSString *clusterTitle;
+@property (assign, readonly, nonatomic) BOOL animating;
 
 - (id)initWithMapView:(MKMapView *)mapView delegate:(id <MKMapViewDelegate>)delegate;
 - (void)addMarker:(REMarker *)marker;
 - (void)setLatitude:(double)latitude longitude:(double)longitude delta:(double)delta;
 - (void)zoomToAnnotationsBounds:(NSArray *)annotations;
-- (void)clusterize;
+- (void)clusterize:(BOOL)animated;
+
+// Deprecated methods
+//
+- (void)clusterize __attribute__ ((deprecated)); // Use - (void)clusterize:(BOOL)animated;
 
 @end

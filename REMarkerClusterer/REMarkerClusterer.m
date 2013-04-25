@@ -30,7 +30,7 @@
 
 @interface REMarkerClusterer ()
 
-@property (assign, readwrite, nonatomic) BOOL isRedrawing;
+@property (assign, readwrite, nonatomic) BOOL animating;
 
 @end
 
@@ -206,57 +206,68 @@
 
 - (void)removeAnnotation:(RECluster *)annotation views:(NSArray *)views
 {
-    MKAnnotationView* anView = [_mapView viewForAnnotation: annotation];
-    
-    CGRect endFrame;    
-    CGPoint closest = [self findClosestAnnotationX:anView.frame.origin.x y:anView.frame.origin.y views:views];
-    BOOL skipAnimations = NO;
-    
-    if (closest.x != 0 && closest.y != 0) {
-        endFrame = CGRectMake(closest.x, 
-                                  closest.y, 
-                                  anView.frame.size.width, 
-                                  anView.frame.size.height);
+    if (_animated) {
+        MKAnnotationView* anView = [_mapView viewForAnnotation: annotation];
+        
+        CGRect endFrame;    
+        CGPoint closest = [self findClosestAnnotationX:anView.frame.origin.x y:anView.frame.origin.y views:views];
+        BOOL skipAnimations = NO;
+        
+        if (closest.x != 0 && closest.y != 0) {
+            endFrame = CGRectMake(closest.x, 
+                                      closest.y, 
+                                      anView.frame.size.width, 
+                                      anView.frame.size.height);
+        } else {
+            skipAnimations = YES;
+            endFrame = anView.frame;
+        }
+        
+        if (skipAnimations) return;
+        
+        _animating = YES;
+        
+        __typeof (&*self) __weak weakSelf = self;
+        
+        [UIView animateWithDuration:0.25 delay:0 
+                            options:UIViewAnimationCurveEaseInOut | UIViewAnimationOptionAllowUserInteraction
+                         animations:^{ 
+                             [anView setFrame:endFrame];
+                         }  completion:^(BOOL finished){
+                             [weakSelf.mapView removeAnnotation:annotation];
+                             weakSelf.animating = NO;
+                         }];
     } else {
-        skipAnimations = YES;
-        endFrame = anView.frame;
+        [self.mapView removeAnnotation:annotation];
+        self.animating = NO;
+
     }
-    
-    if (skipAnimations) return;
-    
-    _isRedrawing = YES;
-    
-    __typeof (&*self) __weak weakSelf = self;
-    
-    [UIView animateWithDuration:0.25 delay:0 
-                        options:UIViewAnimationCurveEaseInOut | UIViewAnimationOptionAllowUserInteraction
-                     animations:^{ 
-                         [anView setFrame:endFrame];
-                     }  completion:^(BOOL finished){
-                         [weakSelf.mapView removeAnnotation:annotation];
-                         weakSelf.isRedrawing = NO;
-                     }];
 }
 
 - (void)clusterize
 {
-    if (_isRedrawing) {
-        _needsToRedraw = YES;
+    [self clusterize:YES];
+}
+
+- (void)clusterize:(BOOL)animated
+{
+    if (_animating && animated) {
         return;
     }
-
+    _animated = animated;
+    
     NSMutableArray *remainedAnnotationViews = [[NSMutableArray alloc] init];
     NSMutableArray *annotationsToRemove = [[NSMutableArray alloc] init];
     
     [self createClusters];
     for (NSInteger j=0; j < [_mapView.annotations count]; j++) {
         RECluster *annotation = (RECluster *)[_mapView.annotations objectAtIndex:j];
-
+        
         // ignore annotations not managed by REMarkerCluster
         if ([annotation isKindOfClass:[RECluster class]] == NO) {
             continue;
         }
-
+        
         RECluster *fromCluster;
         BOOL found = NO;
         for (NSInteger i=0; i < [_clusters count]; i++) {
@@ -287,7 +298,7 @@
             }
         }
     }
-
+    
     for (RECluster *annotation in annotationsToRemove) {
         [self removeAnnotation:annotation views:remainedAnnotationViews];
     }
@@ -301,13 +312,13 @@
         for (NSInteger j=0; j < [_mapView.annotations count]; j++) {
             REMarker *annotation = (REMarker *)[_mapView.annotations objectAtIndex:j];
             if (cluster.coordinate.latitude == annotation.coordinate.latitude &&
-                cluster.coordinate.longitude == annotation.coordinate.longitude) 
+                cluster.coordinate.longitude == annotation.coordinate.longitude)
                 found = YES;
         }
         if (found) {
             continue;
         }
-
+        
         if ([cluster.markers count] == 1) {
             REMarker *marker = [cluster.markers objectAtIndex:0];
             cluster.title = marker.title;
@@ -353,7 +364,7 @@
 
 - (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated
 {
-    [self clusterize];
+    [self clusterize:YES];
     NSArray *selectedAnnotations = self.mapView.selectedAnnotations;
     RECluster *selectedAnnotation = [selectedAnnotations objectAtIndex:0];
     [self.mapView deselectAnnotation:selectedAnnotation animated:NO];
@@ -412,36 +423,39 @@
 
 - (void)mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray *)views
 {
-    for (MKAnnotationView *annotationView in views) {
-        CGRect endFrame = annotationView.frame;
-        
-        CGPoint closest = [self findClosestAnnotationX:annotationView.frame.origin.x y:annotationView.frame.origin.y];
-        BOOL skipAnimations = NO;
-        
-        if (closest.x != 0 && closest.y != 0) {
-            annotationView.frame = CGRectMake(closest.x,
-                                              closest.y,
-                                              annotationView.frame.size.width,
-                                              annotationView.frame.size.height);
-        } else {
-            skipAnimations = YES;
-            annotationView.frame = CGRectMake(annotationView.frame.origin.x,
-                                              annotationView.frame.origin.y,
-                                              annotationView.frame.size.width,
-                                              annotationView.frame.size.height);
+    if (_animated) {
+        for (MKAnnotationView *annotationView in views) {
+            CGRect endFrame = annotationView.frame;
+            
+            CGPoint closest = [self findClosestAnnotationX:annotationView.frame.origin.x y:annotationView.frame.origin.y];
+            BOOL skipAnimations = NO;
+            
+            if (closest.x != 0 && closest.y != 0) {
+                annotationView.frame = CGRectMake(closest.x,
+                                                  closest.y,
+                                                  annotationView.frame.size.width,
+                                                  annotationView.frame.size.height);
+            } else {
+                skipAnimations = YES;
+                annotationView.frame = CGRectMake(annotationView.frame.origin.x,
+                                                  annotationView.frame.origin.y,
+                                                  annotationView.frame.size.width,
+                                                  annotationView.frame.size.height);
+            }
+            
+            if (skipAnimations) continue;
+            
+            _animating = YES;
+            
+            __typeof (&*self) __weak weakSelf = self;
+            [UIView animateWithDuration:0.25 delay:0
+                                options:UIViewAnimationCurveEaseInOut | UIViewAnimationOptionAllowUserInteraction
+                             animations:^{
+                                 [annotationView setFrame:endFrame];
+                             }  completion:^(BOOL finished){
+                                 weakSelf.animating = NO;
+                             }];
         }
-        
-        if (skipAnimations) continue;
-        
-        _isRedrawing = YES;
-        
-        [UIView animateWithDuration:0.25 delay:0
-                            options:UIViewAnimationCurveEaseInOut | UIViewAnimationOptionAllowUserInteraction
-                         animations:^{
-                             [annotationView setFrame:endFrame];
-                         }  completion:^(BOOL finished){
-                             _isRedrawing = NO;
-                         }];
     }
     
     if ([_delegate respondsToSelector:@selector(mapView:didAddAnnotationViews:)]) {
@@ -491,8 +505,7 @@
         [_delegate mapView:mapView didFailToLocateUserWithError:error];
 }
 
-- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view didChangeDragState:(MKAnnotationViewDragState)newState
-fromOldState:(MKAnnotationViewDragState)oldState NS_AVAILABLE(NA, 4_0)
+- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view didChangeDragState:(MKAnnotationViewDragState)newState fromOldState:(MKAnnotationViewDragState)oldState NS_AVAILABLE(NA, 4_0)
 {
     if ([_delegate respondsToSelector:@selector(mapView:annotationView:didChangeDragState:fromOldState:)])
         [_delegate mapView:mapView annotationView:view didChangeDragState:newState fromOldState:oldState];
