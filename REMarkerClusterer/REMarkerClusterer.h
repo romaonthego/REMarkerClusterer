@@ -32,7 +32,6 @@
 
 @interface REMarkerClusterer : NSObject <MKMapViewDelegate> {
     NSMutableArray *_tempViews;
-    NSTimer *_tempTimer;
     BOOL _isRedrawing;
     BOOL _needsToRedraw;
 }

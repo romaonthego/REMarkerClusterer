@@ -245,8 +245,6 @@
         return;
     }
 
-    _tempTimer = nil;
-    
     NSMutableArray *remainedAnnotationViews = [[NSMutableArray alloc] init];
     NSMutableArray *annotationsToRemove = [[NSMutableArray alloc] init];
     
