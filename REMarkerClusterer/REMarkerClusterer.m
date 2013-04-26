@@ -309,8 +309,10 @@
         if ([cluster.markers count] == 1) {
             REMarker *marker = [cluster.markers objectAtIndex:0];
             cluster.title = marker.title;
+            cluster.subtitle = marker.subtitle;
         } else {
             cluster.title = [NSString stringWithFormat:_clusterTitle, [cluster.markers count]];
+            cluster.subtitle = nil;
         }
         [self.mapView addAnnotation:cluster];
     }
