@@ -79,7 +79,6 @@ _mapView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizing
 // Create clusterer, assign a map view and delegate (MKMapViewDelegate)
 //
 _clusterer = [[REMarkerClusterer alloc] initWithMapView:_mapView delegate:self];
-[_clusterer setLatitude:37.786996 longitude:-97.440100 delta:30.03863];
 
 // Set smaller grid size for an iPad
 //
