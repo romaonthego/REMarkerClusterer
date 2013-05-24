@@ -257,9 +257,10 @@
         
         RECluster *fromCluster;
         BOOL found = NO;
-        for (RECluster *fromCluster in _clusters) {
-            if (fromCluster.coordinate.latitude == annotation.coordinate.latitude &&
-                fromCluster.coordinate.longitude == annotation.coordinate.longitude) {
+        for (RECluster *cluster in _clusters) {
+            fromCluster = cluster;
+            if (cluster.coordinate.latitude == annotation.coordinate.latitude &&
+                cluster.coordinate.longitude == annotation.coordinate.longitude) {
                 found = YES;
                 break;
             }
@@ -298,7 +299,6 @@
             if (cluster.coordinate.latitude == annotation.coordinate.latitude &&
                 cluster.coordinate.longitude == annotation.coordinate.longitude) {
                 found = YES;
-                break;
             }
         }
         if (found)
