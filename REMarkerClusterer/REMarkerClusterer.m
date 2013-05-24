@@ -249,9 +249,7 @@
     NSMutableArray *annotationsToRemove = [[NSMutableArray alloc] init];
     
     [self createClusters];
-    for (NSInteger j=0; j < [_mapView.annotations count]; j++) {
-        RECluster *annotation = (RECluster *)[_mapView.annotations objectAtIndex:j];
-        
+    for (RECluster *annotation in _mapView.annotations) {
         // Ignore annotations not managed by REMarkerClusterer
         //
         if (![annotation isKindOfClass:[RECluster class]])
@@ -259,8 +257,7 @@
         
         RECluster *fromCluster;
         BOOL found = NO;
-        for (NSInteger i=0; i < [_clusters count]; i++) {
-            fromCluster = (RECluster *)[_clusters objectAtIndex:i];
+        for (RECluster *fromCluster in _clusters) {
             if (fromCluster.coordinate.latitude == annotation.coordinate.latitude &&
                 fromCluster.coordinate.longitude == annotation.coordinate.longitude) {
                 found = YES;
@@ -294,14 +291,15 @@
     [_tempViews removeAllObjects];
     [_tempViews addObjectsFromArray:remainedAnnotationViews];
     
-    for (NSInteger i=0; i < [_clusters count]; i++) {
-        RECluster *cluster = (RECluster *)[_clusters objectAtIndex:i];
+    for (RECluster *cluster in _clusters) {
         BOOL found = NO;
-        for (NSInteger j=0; j < [_mapView.annotations count]; j++) {
-            REMarker *annotation = (REMarker *)[_mapView.annotations objectAtIndex:j];
+        NSArray *annotations = _mapView.annotations;
+        for (REMarker *annotation in annotations) {
             if (cluster.coordinate.latitude == annotation.coordinate.latitude &&
-                cluster.coordinate.longitude == annotation.coordinate.longitude)
+                cluster.coordinate.longitude == annotation.coordinate.longitude) {
                 found = YES;
+                break;
+            }
         }
         if (found)
             continue;
@@ -339,7 +337,7 @@
         }
     }
     if (diff > 80)
-        return CGPointMake(0, 0);
+        return CGPointZero;
     
     return result;
 }
