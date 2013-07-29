@@ -48,6 +48,7 @@
 - (void)addMarker:(REMarker *)marker;
 - (void)zoomToAnnotationsBounds:(NSArray *)annotations;
 - (void)clusterize:(BOOL)animated;
+- (void)removeAllMarkers;
 
 // Deprecated methods
 //

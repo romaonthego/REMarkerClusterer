@@ -75,6 +75,13 @@
     [_markers addObject:marker];
 }
 
+- (void)removeAllMarkers
+{
+    [_markers removeAllObjects];
+    [_clusters removeAllObjects];
+    [_mapView removeAnnotations:_mapView.annotations];
+}
+
 - (BOOL)markerInBounds:(REMarker *)marker
 {
     CGPoint pix = [self.mapView convertCoordinate:marker.coordinate toPointToView:nil];
@@ -130,7 +137,7 @@
     [self setMapRegionForMinLat:minLatitude minLong:minLongitude maxLat:maxLatitude maxLong:maxLongitude];
 }
 
-- (void) setMapRegionForMinLat:(double)minLatitude minLong:(double)minLongitude maxLat:(double)maxLatitude maxLong:(double)maxLongitude
+- (void)setMapRegionForMinLat:(double)minLatitude minLong:(double)minLongitude maxLat:(double)maxLatitude maxLong:(double)maxLongitude
 {    
     MKCoordinateRegion region;
     region.center.latitude = (minLatitude + maxLatitude) / 2;
