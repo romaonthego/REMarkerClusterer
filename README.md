@@ -111,7 +111,7 @@ for (NSDictionary *dict in [data objectForKey:@"Points"]) {
 ## Contributors
 
 Nicolas Yuste ([@nicoyuste](https://github.com/nicoyuste))<br />
-Thomas Kollbach ([@nicoyuste](https://github.com/nicoyuste))
+Thomas Kollbach ([@toto](https://github.com/toto))
 
 ## Contact
 
