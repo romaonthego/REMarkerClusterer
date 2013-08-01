@@ -39,12 +39,15 @@
 @property (assign, readwrite, nonatomic) BOOL hasCenter;
 @property (copy, readwrite, nonatomic) NSString *title;
 @property (copy, readwrite, nonatomic) NSString *subtitle;
-@property (strong, readonly, nonatomic) NSMutableArray *markers;
+@property (strong, readwrite, nonatomic) NSMutableArray *markers;
+@property (strong, readonly, nonatomic) NSString *coordinateTag;
 
 - (id)initWithClusterer:(REMarkerClusterer *)clusterer;
 - (BOOL)isMarkerAlreadyAdded:(REMarker *)marker;
+- (NSInteger) markersInClusterFromMarkers:(NSArray *) markers;
 - (BOOL)addMarker:(REMarker *)marker;
 - (BOOL)isMarkerInClusterBounds:(REMarker *)marker;
 - (void)setAverageCenter;
+- (void) printDescription;
 
 @end
