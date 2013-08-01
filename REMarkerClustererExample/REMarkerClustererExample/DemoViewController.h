@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "REMarkerClusterer.h"
 
-@interface DemoViewController : UIViewController <MKMapViewDelegate>
+@interface DemoViewController : UIViewController <REMarkerClusterDelegate>
 
 @property (strong, readonly, nonatomic) MKMapView *mapView;
 @property (strong, readonly, nonatomic) REMarkerClusterer *clusterer;
