@@ -51,11 +51,11 @@
     return [_bounds contains:marker.coordinate];
 }
 
-- (NSInteger) markersInClusterFromMarkers:(NSArray *) markers
+- (NSInteger)markersInClusterFromMarkers:(NSArray *) markers
 {
     int result = 0;
-    for(REMarker *marker in markers){
-        if([self isMarkerAlreadyAdded:marker]) result++;
+    for (REMarker *marker in markers) {
+        if ([self isMarkerAlreadyAdded:marker]) result++;
     }
     return result;
 }
@@ -118,10 +118,10 @@
     }
     [_markers addObject:marker];
     
-    if(_markers.count == 1){
+    if (_markers.count == 1){
         self.title = ((REMarker *)[_markers lastObject]).title;
         self.subtitle = ((REMarker *)[_markers lastObject]).title;
-    }else{
+    } else{
         self.title = [NSString stringWithFormat:self.markerClusterer.clusterTitle, _markers.count];
         self.subtitle = @"";
     }
@@ -131,11 +131,10 @@
 
 - (void)printDescription
 {
-    NSLog(@"---- CLUSTER: %@ - %d ----",_coordinateTag,_markers.count);
-    for(REMarker *marker in _markers){
-        NSLog(@"  MARKER: %@-%@",marker.title,marker.subtitle);
+    NSLog(@"---- CLUSTER: %@ - %d ----",_coordinateTag, _markers.count);
+    for (REMarker *marker in _markers) {
+        NSLog(@"  MARKER: %@-%@", marker.title, marker.subtitle);
     }
 }
-
 
 @end

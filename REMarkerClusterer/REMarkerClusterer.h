@@ -32,7 +32,9 @@
 
 @protocol REMarkerClusterDelegate <MKMapViewDelegate>
 
-@optional - (void) markerClusterer:(REMarkerClusterer *) markerCluster withMapView:(MKMapView *) mapView updateViewOfAnnotation:(id<MKAnnotation>) annotation withView:(MKAnnotationView *) annotationView;
+@optional
+
+- (void)markerClusterer:(REMarkerClusterer *)markerCluster withMapView:(MKMapView *)mapView updateViewOfAnnotation:(id<MKAnnotation>)annotation withView:(MKAnnotationView *)annotationView;
 
 @end
 

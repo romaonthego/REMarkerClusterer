@@ -48,6 +48,6 @@
 - (BOOL)addMarker:(REMarker *)marker;
 - (BOOL)isMarkerInClusterBounds:(REMarker *)marker;
 - (void)setAverageCenter;
-- (void) printDescription;
+- (void)printDescription;
 
 @end
