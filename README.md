@@ -110,7 +110,8 @@ for (NSDictionary *dict in [data objectForKey:@"Points"]) {
 
 ## Contributors
 
-Nicolas Yuste ([@nicoyuste](https://github.com/nicoyuste))
+Nicolas Yuste ([@nicoyuste](https://github.com/nicoyuste))<br />
+Thomas Kollbach ([@nicoyuste](https://github.com/nicoyuste))
 
 ## Contact
 
