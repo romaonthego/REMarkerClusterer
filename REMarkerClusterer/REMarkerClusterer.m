@@ -46,6 +46,8 @@
         return nil;
     
     _gridSize = 25;
+    _maxDelayOfSplitAnimation = 0;
+    _maxDelayOfSplitAnimation = 0.25;
     _tempViews = [[NSMutableArray alloc] init];
     _markers = [[NSMutableArray alloc] init];
     _clusters = [[NSMutableArray alloc] init];
@@ -220,6 +222,12 @@
     }
 }
 
+- (float)randomFloatBetween:(float)smallNumber and:(float)bigNumber
+{
+    float diff = bigNumber - smallNumber;
+    return (((float) (arc4random() % ((unsigned)RAND_MAX + 1)) / RAND_MAX) * diff) + smallNumber;
+}
+
 - (void) splitAnnotationsWithDictionary:(NSDictionary *) dictionary
 {
     
@@ -238,7 +246,7 @@
                 [_mapView addAnnotation:annotation];
                 _animating = YES;
                 __typeof (&*self) __weak weakSelf = self;
-                [UIView animateWithDuration:0.25 delay:0
+                [UIView animateWithDuration:[self randomFloatBetween:0.25 and:_maxDurationOfSplitAnimation] delay:[self randomFloatBetween:0 and:_maxDelayOfSplitAnimation]
                                     options:UIViewAnimationCurveEaseInOut | UIViewAnimationOptionAllowUserInteraction
                                  animations:^{
                                      annotation.coordinate = realCoordinate;
@@ -249,8 +257,8 @@
                 
             }
         }else{
-            [_mapView removeAnnotations:annotations];
-            [_mapView addAnnotation:endCluster];
+            [_mapView addAnnotations:annotations];
+            [_mapView removeAnnotation:endCluster];
         }
     }
 }
@@ -268,7 +276,7 @@
             if(_animated){
                 _animating = YES;
                 __typeof (&*self) __weak weakSelf = self;
-                [UIView animateWithDuration:0.25 delay:0
+                [UIView animateWithDuration:[self randomFloatBetween:0.25 and:_maxDurationOfSplitAnimation] delay:[self randomFloatBetween:0 and:_maxDelayOfSplitAnimation]
                                     options:UIViewAnimationCurveEaseInOut | UIViewAnimationOptionAllowUserInteraction
                                  animations:^{
                                      annotation.coordinate = endCluster.coordinate;

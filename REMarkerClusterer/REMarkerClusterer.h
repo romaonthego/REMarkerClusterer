@@ -46,6 +46,8 @@
 @property (strong, readonly, nonatomic) NSMutableArray *clusters;
 @property (assign, readwrite, nonatomic) NSInteger gridSize;
 @property (assign, readwrite, nonatomic) BOOL isAverageCenter;
+@property (assign, readwrite, nonatomic) CGFloat maxDelayOfSplitAnimation;
+@property (assign, readwrite, nonatomic) CGFloat maxDurationOfSplitAnimation;
 @property (weak, readwrite, nonatomic) id<REMarkerClusterDelegate> delegate;
 @property (copy, readwrite, nonatomic) NSString *clusterTitle;
 @property (assign, readonly, nonatomic) BOOL animating;
