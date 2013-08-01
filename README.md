@@ -12,7 +12,7 @@ The `REMarkerClusterer` will group markers into clusters according to their dist
 * Xcode 4.6 or higher
 * Apple LLVM compiler
 * iOS 5.0 or higher
-* ARC
+* ARC (if you want to use in a project without ARC just add the flag `-fobjc-arc` to the files in the Build Phases tab of your project)
 
 ## Demo
 
