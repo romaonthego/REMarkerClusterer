@@ -51,6 +51,15 @@
     return [_bounds contains:marker.coordinate];
 }
 
+- (NSInteger) markersInClusterFromMarkers:(NSArray *) markers
+{
+    int result = 0;
+    for(REMarker *marker in markers){
+        if([self isMarkerAlreadyAdded:marker]) result++;
+    }
+    return result;
+}
+
 - (BOOL)isMarkerAlreadyAdded:(REMarker *)marker
 {
     for (REMarker *m in _markers) {
@@ -93,20 +102,30 @@
 
     if (!_hasCenter) {
         _coordinate = marker.coordinate;
+        _coordinateTag = [NSString stringWithFormat:@"%f%f",_coordinate.latitude,_coordinate.longitude];
         _hasCenter = YES;
         [self calculateBounds];
     } else {
-        if (_averageCenter && [_markers count] >= 10) {
+        if (_averageCenter && [_markers count] >= 2) {
             double l = [_markers count] + 1;
             double lat = (_coordinate.latitude * (l - 1) + marker.coordinate.latitude) / l;
             double lng = (_coordinate.longitude * (l - 1) + marker.coordinate.longitude) / l;
             _coordinate = CLLocationCoordinate2DMake(lat, lng);
+            _coordinateTag = [NSString stringWithFormat:@"%f%f",_coordinate.latitude,_coordinate.longitude];
             _hasCenter = YES;
             [self calculateBounds];
         }
     }
     [_markers addObject:marker];
     return YES;
+}
+
+- (void) printDescription
+{
+    NSLog(@"---- CLUSTER: %@ - %d ----",_coordinateTag,_markers.count);
+    for(REMarker *marker in _markers){
+        NSLog(@"  MARKER: %@-%@",marker.title,marker.subtitle);
+    }
 }
 
 
