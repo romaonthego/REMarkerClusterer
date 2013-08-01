@@ -44,7 +44,7 @@
 
 - (id)initWithClusterer:(REMarkerClusterer *)clusterer;
 - (BOOL)isMarkerAlreadyAdded:(REMarker *)marker;
-- (NSInteger) markersInClusterFromMarkers:(NSArray *) markers;
+- (NSInteger)markersInClusterFromMarkers:(NSArray *)markers;
 - (BOOL)addMarker:(REMarker *)marker;
 - (BOOL)isMarkerInClusterBounds:(REMarker *)marker;
 - (void)setAverageCenter;

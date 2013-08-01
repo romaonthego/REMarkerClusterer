@@ -55,7 +55,8 @@
 {
     int result = 0;
     for (REMarker *marker in markers) {
-        if ([self isMarkerAlreadyAdded:marker]) result++;
+        if ([self isMarkerAlreadyAdded:marker])
+            result++;
     }
     return result;
 }
