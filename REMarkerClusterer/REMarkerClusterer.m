@@ -57,7 +57,7 @@
     return self;
 }
 
-- (id)initWithMapView:(MKMapView *)mapView delegate:(id <REMarkerClusterDelegate>)delegate
+- (id)initWithMapView:(MKMapView *)mapView delegate:(id<REMarkerClusterDelegate>)delegate
 {
     self = [self init];
     if (!self)
@@ -142,7 +142,7 @@
     [self setMapRegionForMinLat:minLatitude minLong:minLongitude maxLat:maxLatitude maxLong:maxLongitude];
 }
 
-- (void) setMapRegionForMinLat:(double)minLatitude minLong:(double)minLongitude maxLat:(double)maxLatitude maxLong:(double)maxLongitude
+- (void)setMapRegionForMinLat:(double)minLatitude minLong:(double)minLongitude maxLat:(double)maxLatitude maxLong:(double)maxLongitude
 {    
     MKCoordinateRegion region;
     region.center.latitude = (minLatitude + maxLatitude) / 2;
@@ -157,6 +157,7 @@
         region.span.longitudeDelta = 0.059863;
     
     // MKMapView BUG: this snaps to the nearest whole zoom level, which is wrong- it doesn't respect the exact region you asked for. See http://stackoverflow.com/questions/1383296/why-mkmapview-region-is-different-than-requested
+    //
     [self.mapView setRegion:region animated:YES];
 }
 
@@ -210,7 +211,7 @@
     [self clusterize:YES];
 }
 
-- (void) addObject:(id) object toDictionary:(NSMutableDictionary *) dictionary withKey:(NSString *) key
+- (void)addObject:(id) object toDictionary:(NSMutableDictionary *)dictionary withKey:(NSString *)key
 {
     NSMutableArray *objectInKey = [dictionary objectForKey:key];
     if(objectInKey == nil){
@@ -228,19 +229,17 @@
     return (((float) (arc4random() % ((unsigned)RAND_MAX + 1)) / RAND_MAX) * diff) + smallNumber;
 }
 
-- (void) splitAnnotationsWithDictionary:(NSDictionary *) dictionary
+- (void)splitAnnotationsWithDictionary:(NSDictionary *)dictionary
 {
-    
     NSDictionary *mergeators = [dictionary objectForKey:mergeatorsKey];
     NSDictionary *mixes = [dictionary objectForKey:mixesKey];
     
-    for(NSString *mergeatorKey in [mergeators allKeys]){
+    for (NSString *mergeatorKey in [mergeators allKeys]){
         NSArray *annotations = [mixes objectForKey:mergeatorKey];
         RECluster *endCluster = [mergeators objectForKey:mergeatorKey];
         
-        if(_animated){
-            
-            for(RECluster *annotation in annotations){
+        if (_animated) {
+            for (RECluster *annotation in annotations) {
                 CLLocationCoordinate2D realCoordinate = annotation.coordinate;
                 annotation.coordinate = endCluster.coordinate;
                 [_mapView addAnnotation:annotation];
@@ -256,24 +255,23 @@
                 [_mapView removeAnnotation:endCluster];
                 
             }
-        }else{
+        } else {
             [_mapView addAnnotations:annotations];
             [_mapView removeAnnotation:endCluster];
         }
     }
 }
 
-- (void) joinAnnotationsWithDictionary:(NSDictionary *) dictionary
+- (void)joinAnnotationsWithDictionary:(NSDictionary *)dictionary
 {
-    
     NSDictionary *mergeators = [dictionary objectForKey:mergeatorsKey];
     NSDictionary *mixes = [dictionary objectForKey:mixesKey];
     
-    for(NSString *mergeatorKey in [mergeators allKeys]){
+    for (NSString *mergeatorKey in [mergeators allKeys]) {
         NSArray *annotations = [mixes objectForKey:mergeatorKey];
         RECluster *endCluster = [mergeators objectForKey:mergeatorKey];
-        for(RECluster *annotation in annotations){
-            if(_animated){
+        for (RECluster *annotation in annotations){
+            if (_animated) {
                 _animating = YES;
                 __typeof (&*self) __weak weakSelf = self;
                 [UIView animateWithDuration:[self randomFloatBetween:0.25 and:_maxDurationOfSplitAnimation] delay:[self randomFloatBetween:0 and:_maxDelayOfSplitAnimation]
@@ -282,7 +280,7 @@
                                      annotation.coordinate = endCluster.coordinate;
                                  }  completion:^(BOOL finished){
                                      weakSelf.animating = NO;
-                                     if(annotation != [annotations lastObject]){
+                                     if (annotation != [annotations lastObject]) {
                                          [weakSelf.mapView removeAnnotation:annotation];
                                      }else{
                                          
@@ -292,15 +290,14 @@
                 [_mapView removeAnnotations:annotations];
                 [_mapView addAnnotation:endCluster];
             }
-            ((RECluster *) [annotations lastObject]).title = endCluster.title;
-            ((RECluster *) [annotations lastObject]).subtitle = endCluster.subtitle;
+            ((RECluster *)[annotations lastObject]).title = endCluster.title;
+            ((RECluster *)[annotations lastObject]).subtitle = endCluster.subtitle;
             MKAnnotationView *view = [_mapView viewForAnnotation:(_animated)?[annotations lastObject]:endCluster];
             [[view superview] bringSubviewToFront:view];
-            if(_animated) ((RECluster *)[annotations lastObject]).markers = endCluster.markers;
-            if([self.delegate respondsToSelector:@selector(markerClusterer:withMapView:updateViewOfAnnotation:withView:)]){
+            if (_animated) ((RECluster *)[annotations lastObject]).markers = endCluster.markers;
+            if ([self.delegate respondsToSelector:@selector(markerClusterer:withMapView:updateViewOfAnnotation:withView:)]) {
                 [self.delegate markerClusterer:self withMapView:_mapView updateViewOfAnnotation:annotation withView:[_mapView viewForAnnotation:annotation]];
             }
-            
         }
     }
 }
@@ -316,7 +313,6 @@
     
     NSMutableDictionary *mixDictionary = [NSMutableDictionary dictionaryWithCapacity:0];
     NSMutableArray *remainingAnnotations = [NSMutableArray arrayWithCapacity:0];
-    
     
     for(RECluster *cluster in ((_mapView.annotations.count > _clusters.count)?_mapView.annotations:_clusters)){
         int numberOfMarkers = 1;
@@ -347,7 +343,8 @@
     }
     
     NSMutableDictionary *mergeators = [NSMutableDictionary dictionaryWithCapacity:0];
-    for(RECluster *cluster in ((_mapView.annotations.count <= _clusters.count)?_mapView.annotations:_clusters)){
+    
+    for (RECluster *cluster in ((_mapView.annotations.count <= _clusters.count)?_mapView.annotations:_clusters)) {
         [mergeators setObject:cluster forKey:cluster.coordinateTag];
     }
     
@@ -356,15 +353,15 @@
                          mixDictionary,mixesKey,
                          nil];
     
-    if(_mapView.annotations.count == 0){
+    if (_mapView.annotations.count == 0) {
         [_mapView addAnnotations:_clusters];
     }
-    else if(_mapView.annotations.count > _clusters.count){
+    else if (_mapView.annotations.count > _clusters.count) {
         [self joinAnnotationsWithDictionary:dic];
         //[self addAnnotationsWithOutSpliting:remainingAnnotations];
-    }else if(_mapView.annotations.count < _clusters.count){
+    } else if(_mapView.annotations.count < _clusters.count) {
         [self splitAnnotationsWithDictionary:dic];
-    }else{
+    } else {
     }
 
 }
@@ -431,7 +428,7 @@
         [_delegate mapViewDidFailLoadingMap:mapView withError:error];
 }
 
-- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation
+- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation
 {
     if ([_delegate respondsToSelector:@selector(mapView:viewForAnnotation:)]) {
         return [_delegate mapView:mapView viewForAnnotation:annotation];
