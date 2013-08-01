@@ -44,7 +44,7 @@ Edit your Podfile and add REMarkerClusterer:
 
 ``` bash
 platform :ios, '5.0'
-pod 'REMarkerClusterer', '~> 2.1.3'
+pod 'REMarkerClusterer', '~> 2.2'
 ```
 
 Install into your Xcode project:
