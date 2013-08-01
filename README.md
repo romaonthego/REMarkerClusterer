@@ -108,6 +108,10 @@ for (NSDictionary *dict in [data objectForKey:@"Points"]) {
 [_clusterer zoomToAnnotationsBounds:_clusterer.markers];
 ```
 
+## Contributors
+
+Nicolas Yuste ([@nicoyuste](https://github.com/nicoyuste))
+
 ## Contact
 
 Roman Efimov
