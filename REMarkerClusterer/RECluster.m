@@ -117,6 +117,15 @@
         }
     }
     [_markers addObject:marker];
+    
+    if(_markers.count == 1){
+        self.title = ((REMarker *)[_markers lastObject]).title;
+        self.subtitle = ((REMarker *)[_markers lastObject]).title;
+    }else{
+        self.title = [NSString stringWithFormat:@"%d items",_markers.count];
+        self.subtitle = @"";
+    }
+    
     return YES;
 }
 

@@ -292,6 +292,8 @@
                 [_mapView removeAnnotations:annotations];
                 [_mapView addAnnotation:endCluster];
             }
+            ((RECluster *) [annotations lastObject]).title = endCluster.title;
+            ((RECluster *) [annotations lastObject]).subtitle = endCluster.subtitle;
             MKAnnotationView *view = [_mapView viewForAnnotation:(_animated)?[annotations lastObject]:endCluster];
             [[view superview] bringSubviewToFront:view];
             if(_animated) ((RECluster *)[annotations lastObject]).markers = endCluster.markers;
