@@ -122,14 +122,14 @@
         self.title = ((REMarker *)[_markers lastObject]).title;
         self.subtitle = ((REMarker *)[_markers lastObject]).title;
     }else{
-        self.title = [NSString stringWithFormat:@"%d items",_markers.count];
+        self.title = [NSString stringWithFormat:self.markerClusterer.clusterTitle, _markers.count];
         self.subtitle = @"";
     }
     
     return YES;
 }
 
-- (void) printDescription
+- (void)printDescription
 {
     NSLog(@"---- CLUSTER: %@ - %d ----",_coordinateTag,_markers.count);
     for(REMarker *marker in _markers){
