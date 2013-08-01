@@ -282,7 +282,7 @@
                                      weakSelf.animating = NO;
                                      if (annotation != [annotations lastObject]) {
                                          [weakSelf.mapView removeAnnotation:annotation];
-                                     }else{
+                                     } else {
                                          
                                      }
                                  }];
