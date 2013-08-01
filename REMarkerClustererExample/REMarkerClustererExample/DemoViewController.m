@@ -8,10 +8,6 @@
 
 #import "DemoViewController.h"
 
-@interface DemoViewController ()
-
-@end
-
 @implementation DemoViewController
 
 - (void)viewDidLoad
