@@ -317,7 +317,7 @@
     for (RECluster *cluster in ((_mapView.annotations.count > _clusters.count)?_mapView.annotations:_clusters)) {
         int numberOfMarkers = 1;
         NSMutableArray *posiblesArrays = [NSMutableArray arrayWithCapacity:0];
-        for(RECluster *cluster2 in ((_mapView.annotations.count <= _clusters.count)?_mapView.annotations:_clusters)){
+        for (RECluster *cluster2 in ((_mapView.annotations.count <= _clusters.count)?_mapView.annotations:_clusters)) {
             int markers = [cluster markersInClusterFromMarkers:cluster2.markers];
             if(markers >= numberOfMarkers){
                 [posiblesArrays addObject:cluster2];
@@ -329,11 +329,11 @@
             [self addObject:cluster toDictionary:mixDictionary withKey:((RECluster *)[posiblesArrays lastObject]).coordinateTag];
         } else if(posiblesArrays.count == 0) {
             [remainingAnnotations addObject:cluster];
-        } else{
+        } else {
             int minor = INT16_MAX;
             int index = posiblesArrays.count-1;
             for (RECluster *cluster in posiblesArrays) {
-                if(cluster.markers.count < minor){
+                if (cluster.markers.count < minor) {
                     index = [posiblesArrays indexOfObject:cluster];
                     minor = cluster.markers.count;
                 }
@@ -344,7 +344,7 @@
     
     NSMutableDictionary *mergeators = [NSMutableDictionary dictionaryWithCapacity:0];
     
-    for (RECluster *cluster in ((_mapView.annotations.count <= _clusters.count)?_mapView.annotations:_clusters)) {
+    for (RECluster *cluster in ((_mapView.annotations.count <= _clusters.count) ? _mapView.annotations : _clusters)) {
         [mergeators setObject:cluster forKey:cluster.coordinateTag];
     }
     
@@ -375,7 +375,7 @@
 {
     CGPoint result = CGPointMake(0, 0);
     double diff = 10000;
-    for (NSInteger i=0; i < [views count]; i++){
+    for (NSInteger i=0; i < [views count]; i++) {
         MKAnnotationView* anView = [views objectAtIndex:i];
         if (anView) {
             CGPoint pos = anView.frame.origin;
