@@ -74,6 +74,7 @@ Now that the framework has been linked, all you need to do is drop files from `R
 //
 _mapView = [[MKMapView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
 _mapView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+[_mapView setRegion:MKCoordinateRegionMake(CLLocationCoordinate2DMake(37.786996, -97.440100), MKCoordinateSpanMake(30.03863, 30.03863)) animated:YES];
 [self.view addSubview:_mapView];
 
 // Create clusterer, assign a map view and delegate (MKMapViewDelegate)
@@ -99,9 +100,9 @@ for (NSDictionary *dict in [data objectForKey:@"Points"]) {
     index++;
 }
 
-// Create clusters
+// Create clusters (without animations on view load)
 //
-[_clusterer clusterize];
+[_clusterer clusterize:NO];
 
 // Zoom to show all clusters/markers on the map
 //
