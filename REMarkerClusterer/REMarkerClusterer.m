@@ -314,7 +314,7 @@
     NSMutableDictionary *mixDictionary = [NSMutableDictionary dictionaryWithCapacity:0];
     NSMutableArray *remainingAnnotations = [NSMutableArray arrayWithCapacity:0];
     
-    for(RECluster *cluster in ((_mapView.annotations.count > _clusters.count)?_mapView.annotations:_clusters)){
+    for (RECluster *cluster in ((_mapView.annotations.count > _clusters.count)?_mapView.annotations:_clusters)) {
         int numberOfMarkers = 1;
         NSMutableArray *posiblesArrays = [NSMutableArray arrayWithCapacity:0];
         for(RECluster *cluster2 in ((_mapView.annotations.count <= _clusters.count)?_mapView.annotations:_clusters)){
@@ -325,14 +325,14 @@
             }
         }
         
-        if(posiblesArrays.count == 1){
+        if (posiblesArrays.count == 1) {
             [self addObject:cluster toDictionary:mixDictionary withKey:((RECluster *)[posiblesArrays lastObject]).coordinateTag];
-        }else if(posiblesArrays.count == 0){
+        } else if(posiblesArrays.count == 0) {
             [remainingAnnotations addObject:cluster];
-        }else{
+        } else{
             int minor = INT16_MAX;
             int index = posiblesArrays.count-1;
-            for(RECluster *cluster in posiblesArrays){
+            for (RECluster *cluster in posiblesArrays) {
                 if(cluster.markers.count < minor){
                     index = [posiblesArrays indexOfObject:cluster];
                     minor = cluster.markers.count;
