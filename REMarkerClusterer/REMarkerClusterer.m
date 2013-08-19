@@ -158,7 +158,9 @@
     
     // MKMapView BUG: this snaps to the nearest whole zoom level, which is wrong- it doesn't respect the exact region you asked for. See http://stackoverflow.com/questions/1383296/why-mkmapview-region-is-different-than-requested
     //
-    [self.mapView setRegion:region animated:YES];
+    if ((region.center.latitude >= -90) && (region.center.latitude <= 90) && (region.center.longitude >= -180) && (region.center.longitude <= 180)) {
+        [self.mapView setRegion:[self.mapView regionThatFits:region]];
+    }
 }
 
 - (double)distanceBetweenPoints:(CLLocationCoordinate2D)p1 p2:(CLLocationCoordinate2D)p2
