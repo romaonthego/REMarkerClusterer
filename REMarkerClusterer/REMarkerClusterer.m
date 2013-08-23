@@ -317,9 +317,13 @@
     NSMutableArray *remainingAnnotations = [NSMutableArray arrayWithCapacity:0];
     
     for (RECluster *cluster in ((_mapView.annotations.count > _clusters.count)?_mapView.annotations:_clusters)) {
+        if ([cluster isKindOfClass:[MKUserLocation class]])
+            continue;
         int numberOfMarkers = 1;
         NSMutableArray *posiblesArrays = [NSMutableArray arrayWithCapacity:0];
         for (RECluster *cluster2 in ((_mapView.annotations.count <= _clusters.count)?_mapView.annotations:_clusters)) {
+            if ([cluster2 isKindOfClass:[MKUserLocation class]])
+                continue;
             int markers = [cluster markersInClusterFromMarkers:cluster2.markers];
             if(markers >= numberOfMarkers){
                 [posiblesArrays addObject:cluster2];
@@ -347,6 +351,8 @@
     NSMutableDictionary *mergeators = [NSMutableDictionary dictionaryWithCapacity:0];
     
     for (RECluster *cluster in ((_mapView.annotations.count <= _clusters.count) ? _mapView.annotations : _clusters)) {
+        if ([cluster isKindOfClass:[MKUserLocation class]])
+            continue;
         [mergeators setObject:cluster forKey:cluster.coordinateTag];
     }
     

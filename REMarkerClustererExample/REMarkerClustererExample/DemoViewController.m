@@ -19,6 +19,7 @@
 	_mapView = [[MKMapView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     _mapView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [_mapView setRegion:MKCoordinateRegionMake(CLLocationCoordinate2DMake(37.786996, -97.440100), MKCoordinateSpanMake(30.03863, 30.03863)) animated:YES];
+    _mapView.showsUserLocation = YES;
     [self.view addSubview:_mapView];
     
     // Create clusterer, assign a map view and delegate (MKMapViewDelegate)
