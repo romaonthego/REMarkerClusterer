@@ -8,6 +8,13 @@
 
 #import "DemoViewController.h"
 
+@interface DemoViewController ()
+
+@property (strong, readwrite, nonatomic) MKMapView *mapView;
+@property (strong, readwrite, nonatomic) REMarkerClusterer *clusterer;
+
+@end
+
 @implementation DemoViewController
 
 - (void)viewDidLoad
@@ -16,19 +23,19 @@
     
     // Add map view
     //
-	_mapView = [[MKMapView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
-    _mapView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    [_mapView setRegion:MKCoordinateRegionMake(CLLocationCoordinate2DMake(37.786996, -97.440100), MKCoordinateSpanMake(30.03863, 30.03863)) animated:YES];
-    [self.view addSubview:_mapView];
+	self.mapView = [[MKMapView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    self.mapView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    [self.mapView setRegion:MKCoordinateRegionMake(CLLocationCoordinate2DMake(37.786996, -97.440100), MKCoordinateSpanMake(30.03863, 30.03863)) animated:YES];
+    [self.view addSubview:self.mapView];
     
     // Create clusterer, assign a map view and delegate (MKMapViewDelegate)
     //
-    _clusterer = [[REMarkerClusterer alloc] initWithMapView:_mapView delegate:self];
+    self.clusterer = [[REMarkerClusterer alloc] initWithMapView:self.mapView delegate:self];
 
     // Set smaller grid size for an iPad
     //
-    _clusterer.gridSize = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ? 25 : 20;    
-    _clusterer.clusterTitle = @"%i items";
+    self.clusterer.gridSize = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ? 25 : 20;    
+    self.clusterer.clusterTitle = @"%i items";
     
     // Populate with sample data
     //
@@ -40,17 +47,17 @@
         marker.coordinate = CLLocationCoordinate2DMake([[dict objectForKey:@"latitude"] floatValue], [[dict objectForKey:@"longitude"] floatValue]);
         marker.title = [NSString stringWithFormat:@"One item <id: %i>", index];
         marker.userInfo = @{@"index": @(index)};
-        [_clusterer addMarker:marker];
+        [self.clusterer addMarker:marker];
         index++;
     }
     
     // Create clusters (without animations on view load)
     //
-    [_clusterer clusterize:NO];
+    [self.clusterer clusterize:NO];
     
     // Zoom to show all clusters/markers on the map
     //
-    [_clusterer zoomToAnnotationsBounds:_clusterer.markers];
+    [self.clusterer zoomToAnnotationsBounds:self.clusterer.markers];
 }
 
 #pragma mark -
@@ -81,11 +88,7 @@
          message = [NSString stringWithFormat:@"Count: %i", cluster.markers.count];
     }   
     
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Test"
-                                                        message:message
-                                                       delegate:nil
-                                              cancelButtonTitle:@"OK"
-                                              otherButtonTitles: nil];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Test" message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
     [alertView show];
 }
 
