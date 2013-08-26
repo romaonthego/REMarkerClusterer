@@ -34,6 +34,7 @@
 @interface REMarkerClusterer ()
 
 @property (assign, readwrite, nonatomic) BOOL animating;
+@property (strong, readonly, nonatomic) NSArray *markerAnnotations;
 
 @end
 
@@ -86,6 +87,7 @@
     [_markers removeAllObjects];
     [self.mapView removeAnnotations:self.mapView.annotations];
 }
+
 
 - (BOOL)markerInBounds:(REMarker *)marker
 {
@@ -316,12 +318,12 @@
     NSMutableDictionary *mixDictionary = [NSMutableDictionary dictionaryWithCapacity:0];
     NSMutableArray *remainingAnnotations = [NSMutableArray arrayWithCapacity:0];
     
-    for (RECluster *cluster in ((_mapView.annotations.count > _clusters.count)?_mapView.annotations:_clusters)) {
+    for (RECluster *cluster in ((self.markerAnnotations.count > _clusters.count) ? self.markerAnnotations : _clusters)) {
         if ([cluster isKindOfClass:[MKUserLocation class]])
             continue;
         int numberOfMarkers = 1;
         NSMutableArray *posiblesArrays = [NSMutableArray arrayWithCapacity:0];
-        for (RECluster *cluster2 in ((_mapView.annotations.count <= _clusters.count)?_mapView.annotations:_clusters)) {
+        for (RECluster *cluster2 in ((self.markerAnnotations.count <= _clusters.count)?self.markerAnnotations:_clusters)) {
             if ([cluster2 isKindOfClass:[MKUserLocation class]])
                 continue;
             int markers = [cluster markersInClusterFromMarkers:cluster2.markers];
@@ -350,7 +352,7 @@
     
     NSMutableDictionary *mergeators = [NSMutableDictionary dictionaryWithCapacity:0];
     
-    for (RECluster *cluster in ((_mapView.annotations.count <= _clusters.count) ? _mapView.annotations : _clusters)) {
+    for (RECluster *cluster in ((self.markerAnnotations.count <= _clusters.count) ? self.markerAnnotations : _clusters)) {
         if ([cluster isKindOfClass:[MKUserLocation class]])
             continue;
         [mergeators setObject:cluster forKey:cluster.coordinateTag];
@@ -361,13 +363,13 @@
                          mixDictionary,mixesKey,
                          nil];
     
-    if (_mapView.annotations.count == 0) {
+    if (self.markerAnnotations.count == 0) {
         [_mapView addAnnotations:_clusters];
     }
-    else if (_mapView.annotations.count > _clusters.count) {
+    else if (self.markerAnnotations.count > _clusters.count) {
         [self joinAnnotationsWithDictionary:dic];
         //[self addAnnotationsWithOutSpliting:remainingAnnotations];
-    } else if(_mapView.annotations.count < _clusters.count) {
+    } else if(self.markerAnnotations.count < _clusters.count) {
         [self splitAnnotationsWithDictionary:dic];
     } else {
     }
@@ -398,6 +400,18 @@
         return CGPointZero;
     
     return result;
+}
+
+- (NSArray *)markerAnnotations
+{
+    NSMutableArray *annotations = [NSMutableArray array];
+    for (NSObject *annotation in self.mapView.annotations) {
+        if ([annotation isKindOfClass:[MKUserLocation class]])
+            continue;
+        
+        [annotations addObject:annotation];
+    }
+    return annotations;
 }
 
 #pragma mark -
