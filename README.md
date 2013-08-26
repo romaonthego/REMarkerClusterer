@@ -72,41 +72,40 @@ Now that the framework has been linked, all you need to do is drop files from `R
 ``` objective-c
 // Add map view
 //
-_mapView = [[MKMapView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
-_mapView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-[_mapView setRegion:MKCoordinateRegionMake(CLLocationCoordinate2DMake(37.786996, -97.440100), MKCoordinateSpanMake(30.03863, 30.03863)) animated:YES];
-[self.view addSubview:_mapView];
+self.mapView = [[MKMapView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+self.mapView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+[self.mapView setRegion:MKCoordinateRegionMake(CLLocationCoordinate2DMake(37.786996, -97.440100), MKCoordinateSpanMake(30.03863, 30.03863)) animated:YES];
+[self.view addSubview:self.mapView];
 
 // Create clusterer, assign a map view and delegate (MKMapViewDelegate)
 //
-_clusterer = [[REMarkerClusterer alloc] initWithMapView:_mapView delegate:self];
+self.clusterer = [[REMarkerClusterer alloc] initWithMapView:self.mapView delegate:self];
 
 // Set smaller grid size for an iPad
 //
-_clusterer.gridSize = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ? 25 : 20;
-_clusterer.clusterTitle = @"%i items";
+self.clusterer.gridSize = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ? 25 : 20;
+self.clusterer.clusterTitle = @"%i items";
 
 // Populate with sample data
 //
-NSDictionary *data = [[NSDictionary alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Points" ofType:@"plist"]];
-NSInteger index = 0;
-for (NSDictionary *dict in [data objectForKey:@"Points"]) {
+NSDictionary *data = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Points" ofType:@"plist"]];
+
+[data[@"Points"] enumerateObjectsUsingBlock:^(NSDictionary *dictionary, NSUInteger idx, BOOL *stop) {
     REMarker *marker = [[REMarker alloc] init];
-    marker.markerId = [[dict objectForKey:@"id"] intValue];
-    marker.coordinate = CLLocationCoordinate2DMake([[dict objectForKey:@"latitude"] floatValue], [[dict objectForKey:@"longitude"] floatValue]);
-    marker.title = [NSString stringWithFormat:@"One item <id: %i>", index];
-    marker.userInfo = @{@"index": @(index)};
-    [_clusterer addMarker:marker];
-    index++;
-}
+    marker.markerId = [dictionary[@"id"] integerValue];
+    marker.coordinate = CLLocationCoordinate2DMake([dictionary[@"latitude"] floatValue], [dictionary[@"longitude"] floatValue]);
+    marker.title = [NSString stringWithFormat:@"One item <id: %i>", idx];
+    marker.userInfo = @{ @"index": @(idx) };
+    [self.clusterer addMarker:marker];
+}];
 
 // Create clusters (without animations on view load)
 //
-[_clusterer clusterize:NO];
+[self.clusterer clusterize:NO];
 
 // Zoom to show all clusters/markers on the map
 //
-[_clusterer zoomToAnnotationsBounds:_clusterer.markers];
+[self.clusterer zoomToAnnotationsBounds:self.clusterer.markers];
 ```
 
 ## Contributors
