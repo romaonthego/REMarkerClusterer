@@ -39,17 +39,16 @@
     
     // Populate with sample data
     //
-    NSDictionary *data = [[NSDictionary alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Points" ofType:@"plist"]];
-    NSInteger index = 0;
-    for (NSDictionary *dict in [data objectForKey:@"Points"]) {
+    NSDictionary *data = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Points" ofType:@"plist"]];
+
+    [data[@"Points"] enumerateObjectsUsingBlock:^(NSDictionary *dictionary, NSUInteger idx, BOOL *stop) {
         REMarker *marker = [[REMarker alloc] init];
-        marker.markerId = [[dict objectForKey:@"id"] intValue];
-        marker.coordinate = CLLocationCoordinate2DMake([[dict objectForKey:@"latitude"] floatValue], [[dict objectForKey:@"longitude"] floatValue]);
-        marker.title = [NSString stringWithFormat:@"One item <id: %i>", index];
-        marker.userInfo = @{@"index": @(index)};
+        marker.markerId = [dictionary[@"id"] integerValue];
+        marker.coordinate = CLLocationCoordinate2DMake([dictionary[@"latitude"] floatValue], [dictionary[@"longitude"] floatValue]);
+        marker.title = [NSString stringWithFormat:@"One item <id: %i>", idx];
+        marker.userInfo = @{ @"index": @(idx) };
         [self.clusterer addMarker:marker];
-        index++;
-    }
+    }];
     
     // Create clusters (without animations on view load)
     //
