@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>66013B78-A444-4870-B471-C287645872D7</string>
+	<key>IDESourceControlProjectName</key>
+	<string>REMarkerClustererExample</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>833C3BE2-D27B-4491-8618-5F6B94E40577</key>
+		<string>ssh://github.com/romaonthego/REMarkerClusterer.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>REMarkerClustererExample/REMarkerClustererExample.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>833C3BE2-D27B-4491-8618-5F6B94E40577</key>
+		<string>../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>ssh://github.com/romaonthego/REMarkerClusterer.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>833C3BE2-D27B-4491-8618-5F6B94E40577</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>833C3BE2-D27B-4491-8618-5F6B94E40577</string>
+			<key>IDESourceControlWCCName</key>
+			<string>REMarkerClusterer</string>
+		</dict>
+	</array>
+</dict>
+</plist>
