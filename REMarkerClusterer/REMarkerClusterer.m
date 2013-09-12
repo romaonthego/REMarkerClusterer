@@ -321,12 +321,12 @@
     for (RECluster *cluster in ((self.markerAnnotations.count > _clusters.count) ? self.markerAnnotations : _clusters)) {
         if ([cluster isKindOfClass:[MKUserLocation class]])
             continue;
-        int numberOfMarkers = 1;
+        NSInteger numberOfMarkers = 1;
         NSMutableArray *posiblesArrays = [NSMutableArray arrayWithCapacity:0];
         for (RECluster *cluster2 in ((self.markerAnnotations.count <= _clusters.count)?self.markerAnnotations:_clusters)) {
             if ([cluster2 isKindOfClass:[MKUserLocation class]])
                 continue;
-            int markers = [cluster markersInClusterFromMarkers:cluster2.markers];
+            NSInteger markers = [cluster markersInClusterFromMarkers:cluster2.markers];
             if(markers >= numberOfMarkers){
                 [posiblesArrays addObject:cluster2];
                 numberOfMarkers = markers;
@@ -338,8 +338,8 @@
         } else if(posiblesArrays.count == 0) {
             [remainingAnnotations addObject:cluster];
         } else {
-            int minor = INT16_MAX;
-            int index = posiblesArrays.count-1;
+            NSInteger minor = INT16_MAX;
+            NSInteger index = posiblesArrays.count-1;
             for (RECluster *cluster in posiblesArrays) {
                 if (cluster.markers.count < minor) {
                     index = [posiblesArrays indexOfObject:cluster];

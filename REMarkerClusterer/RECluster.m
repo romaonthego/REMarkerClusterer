@@ -53,7 +53,7 @@
 
 - (NSInteger)markersInClusterFromMarkers:(NSArray *) markers
 {
-    int result = 0;
+    NSInteger result = 0;
     for (REMarker *marker in markers) {
         if ([self isMarkerAlreadyAdded:marker])
             result++;
