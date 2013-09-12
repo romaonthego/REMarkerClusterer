@@ -43,7 +43,7 @@
     _northWest = CLLocationCoordinate2DMake(ne.latitude, sw.longitude);
 }
 
-- (void)setExtendedBounds:(int)gridSize
+- (void)setExtendedBounds:(NSInteger)gridSize
 {
     CLLocationCoordinate2D tr = CLLocationCoordinate2DMake(_northEast.latitude, _northEast.longitude);
     CLLocationCoordinate2D bl = CLLocationCoordinate2DMake(_southWest.latitude, _southWest.longitude);

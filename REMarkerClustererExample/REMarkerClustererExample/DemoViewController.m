@@ -31,21 +31,21 @@
     // Create clusterer, assign a map view and delegate (MKMapViewDelegate)
     //
     self.clusterer = [[REMarkerClusterer alloc] initWithMapView:self.mapView delegate:self];
-
+    
     // Set smaller grid size for an iPad
     //
-    self.clusterer.gridSize = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ? 25 : 20;    
+    self.clusterer.gridSize = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ? 25 : 20;
     self.clusterer.clusterTitle = @"%i items";
     
     // Populate with sample data
     //
     NSDictionary *data = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Points" ofType:@"plist"]];
-
+    
     [data[@"Points"] enumerateObjectsUsingBlock:^(NSDictionary *dictionary, NSUInteger idx, BOOL *stop) {
         REMarker *marker = [[REMarker alloc] init];
         marker.markerId = [dictionary[@"id"] integerValue];
         marker.coordinate = CLLocationCoordinate2DMake([dictionary[@"latitude"] floatValue], [dictionary[@"longitude"] floatValue]);
-        marker.title = [NSString stringWithFormat:@"One item <id: %i>", idx];
+        marker.title = [NSString stringWithFormat:@"One item <id: %lu>", (unsigned long)idx];
         marker.userInfo = @{ @"index": @(idx) };
         [self.clusterer addMarker:marker];
     }];
@@ -84,8 +84,8 @@
         REMarker *marker = [cluster.markers objectAtIndex:0];
         message = [NSString stringWithFormat:@"%@", marker.userInfo];
     } else {
-         message = [NSString stringWithFormat:@"Count: %i", cluster.markers.count];
-    }   
+        message = [NSString stringWithFormat:@"Count: %lu", (unsigned long)cluster.markers.count];
+    }
     
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Test" message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
     [alertView show];

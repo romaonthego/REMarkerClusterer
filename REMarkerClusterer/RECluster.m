@@ -132,7 +132,7 @@
 
 - (void)printDescription
 {
-    NSLog(@"---- CLUSTER: %@ - %d ----",_coordinateTag, _markers.count);
+    NSLog(@"---- CLUSTER: %@ - %lu ----",_coordinateTag, (unsigned long)_markers.count);
     for (REMarker *marker in _markers) {
         NSLog(@"  MARKER: %@-%@", marker.title, marker.subtitle);
     }

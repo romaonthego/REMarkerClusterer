@@ -36,7 +36,7 @@
 
 - (id)initWithMapView:(MKMapView *)mapView;
 - (void)setSouthWest:(CLLocationCoordinate2D)sw northEast:(CLLocationCoordinate2D)ne;
-- (void)setExtendedBounds:(int)gridSize;
+- (void)setExtendedBounds:(NSInteger)gridSize;
 - (bool)contains:(CLLocationCoordinate2D)coordinate;
 
 @end
