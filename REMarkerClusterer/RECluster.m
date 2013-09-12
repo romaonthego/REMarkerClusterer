@@ -72,13 +72,13 @@
 
 - (void)setAverageCenter
 {
-    double x = 0;
-    double y = 0;
-    double z = 0;
+    CGFloat x = 0;
+    CGFloat y = 0;
+    CGFloat z = 0;
     
     for (REMarker *marker in _markers) {
-        double lat = marker.coordinate.latitude * M_PI /  180;
-        double lon = marker.coordinate.longitude * M_PI / 180;
+        CGFloat lat = marker.coordinate.latitude * M_PI /  180;
+        CGFloat lon = marker.coordinate.longitude * M_PI / 180;
 
         x += cos(lat) * cos(lon);
         y += cos(lat) * sin(lon);
@@ -89,9 +89,9 @@
     y = y / [_markers count];
     z = z / [_markers count];
     
-    double r = sqrt(x * x + y * y + z * z);
-    double lat1 = asin(z / r) / (M_PI / 180);
-    double lon1 = atan2(y, x) / (M_PI / 180);
+    CGFloat r = sqrt(x * x + y * y + z * z);
+    CGFloat lat1 = asin(z / r) / (M_PI / 180);
+    CGFloat lon1 = atan2(y, x) / (M_PI / 180);
     
     _coordinate = CLLocationCoordinate2DMake(lat1, lon1);
 }
@@ -108,9 +108,9 @@
         [self calculateBounds];
     } else {
         if (_averageCenter && [_markers count] >= 2) {
-            double l = [_markers count] + 1;
-            double lat = (_coordinate.latitude * (l - 1) + marker.coordinate.latitude) / l;
-            double lng = (_coordinate.longitude * (l - 1) + marker.coordinate.longitude) / l;
+            CGFloat l = [_markers count] + 1;
+            CGFloat lat = (_coordinate.latitude * (l - 1) + marker.coordinate.latitude) / l;
+            CGFloat lng = (_coordinate.longitude * (l - 1) + marker.coordinate.longitude) / l;
             _coordinate = CLLocationCoordinate2DMake(lat, lng);
             _coordinateTag = [NSString stringWithFormat:@"%f%f",_coordinate.latitude,_coordinate.longitude];
             _hasCenter = YES;

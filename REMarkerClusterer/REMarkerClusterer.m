@@ -108,9 +108,10 @@
     CLLocationDegrees maxLongitude = -DBL_MAX;
     
     for (REMarker *annotation in annotations) {
-        double annotationLat = annotation.coordinate.latitude;
-        double annotationLong = annotation.coordinate.longitude;
-        if (annotationLat == 0 && annotationLong == 0) continue;
+        CGFloat annotationLat = annotation.coordinate.latitude;
+        CGFloat annotationLong = annotation.coordinate.longitude;
+        if (annotationLat == 0 && annotationLong == 0)
+            continue;
         minLatitude = fmin(annotationLat, minLatitude);
         maxLatitude = fmax(annotationLat, maxLatitude);
         minLongitude = fmin(annotationLong, minLongitude);
@@ -130,10 +131,10 @@
     CLLocationCoordinate2D bottomCoord = [self.mapView convertPoint:CGPointMake(0, mapPadding.bottom) toCoordinateFromView:self.mapView];
     CLLocationCoordinate2D leftCoord = [self.mapView convertPoint:CGPointMake(0, mapPadding.left) toCoordinateFromView:self.mapView];
     
-    double latitudeSpanToBeAddedToTop = relativeFromCoord.latitude - topCoord.latitude;
-    double longitudeSpanToBeAddedToRight = relativeFromCoord.latitude - rightCoord.latitude;
-    double latitudeSpanToBeAddedToBottom = relativeFromCoord.latitude - bottomCoord.latitude;
-    double longitudeSpanToBeAddedToLeft = relativeFromCoord.latitude - leftCoord.latitude;
+    CGFloat latitudeSpanToBeAddedToTop = relativeFromCoord.latitude - topCoord.latitude;
+    CGFloat longitudeSpanToBeAddedToRight = relativeFromCoord.latitude - rightCoord.latitude;
+    CGFloat latitudeSpanToBeAddedToBottom = relativeFromCoord.latitude - bottomCoord.latitude;
+    CGFloat longitudeSpanToBeAddedToLeft = relativeFromCoord.latitude - leftCoord.latitude;
     
     maxLatitude = maxLatitude + latitudeSpanToBeAddedToTop;
     minLatitude = minLatitude - latitudeSpanToBeAddedToBottom;
@@ -144,7 +145,7 @@
     [self setMapRegionForMinLat:minLatitude minLong:minLongitude maxLat:maxLatitude maxLong:maxLongitude];
 }
 
-- (void)setMapRegionForMinLat:(double)minLatitude minLong:(double)minLongitude maxLat:(double)maxLatitude maxLong:(double)maxLongitude
+- (void)setMapRegionForMinLat:(CGFloat)minLatitude minLong:(CGFloat)minLongitude maxLat:(CGFloat)maxLatitude maxLong:(CGFloat)maxLongitude
 {    
     MKCoordinateRegion region;
     region.center.latitude = (minLatitude + maxLatitude) / 2;
@@ -165,24 +166,24 @@
     }
 }
 
-- (double)distanceBetweenPoints:(CLLocationCoordinate2D)p1 p2:(CLLocationCoordinate2D)p2
+- (CGFloat)distanceBetweenPoints:(CLLocationCoordinate2D)p1 p2:(CLLocationCoordinate2D)p2
 {
-	double R = 6371; // Radius of the Earth in km
-	double dLat = (p2.latitude - p1.latitude) * M_PI / 180;
-	double dLon = (p2.longitude - p1.longitude) * M_PI / 180;
-	double a = sin(dLat / 2) * sin(dLat / 2) + cos(p1.latitude * M_PI / 180) * cos(p2.latitude * M_PI / 180) * sin(dLon / 2) * sin(dLon / 2);
-	double c = 2 * atan2(sqrt(a), sqrt(1 - a));
-	double d = R * c;
+	CGFloat R = 6371; // Radius of the Earth in km
+	CGFloat dLat = (p2.latitude - p1.latitude) * M_PI / 180;
+	CGFloat dLon = (p2.longitude - p1.longitude) * M_PI / 180;
+	CGFloat a = sin(dLat / 2) * sin(dLat / 2) + cos(p1.latitude * M_PI / 180) * cos(p2.latitude * M_PI / 180) * sin(dLon / 2) * sin(dLon / 2);
+	CGFloat c = 2 * atan2(sqrt(a), sqrt(1 - a));
+	CGFloat d = R * c;
 	return d;
 }
 
 - (void)addToClosestCluster:(REMarker *)marker
 {
-    double distance = 40000; // Some large number
+    CGFloat distance = 40000; // Some large number
     RECluster *clusterToAddTo;
     for (RECluster *cluster in _clusters) {
         if ([cluster hasCenter]) {
-            double d = [self distanceBetweenPoints:cluster.coordinate p2:marker.coordinate];
+            CGFloat d = [self distanceBetweenPoints:cluster.coordinate p2:marker.coordinate];
             if (d < distance) {
                 distance = d;
                 clusterToAddTo = cluster;
@@ -376,20 +377,20 @@
 
 }
 
-- (CGPoint)findClosestAnnotationX:(double)x y:(double)y
+- (CGPoint)findClosestAnnotationX:(CGFloat)x y:(CGFloat)y
 {
     return [self findClosestAnnotationX:x y:y views:_tempViews];
 }
 
-- (CGPoint)findClosestAnnotationX:(double)x y:(double)y views:(NSArray *)views
+- (CGPoint)findClosestAnnotationX:(CGFloat)x y:(CGFloat)y views:(NSArray *)views
 {
     CGPoint result = CGPointMake(0, 0);
-    double diff = 10000;
+    CGFloat diff = 10000;
     for (NSInteger i=0; i < [views count]; i++) {
         MKAnnotationView* anView = [views objectAtIndex:i];
         if (anView) {
             CGPoint pos = anView.frame.origin;
-            double newDiff = sqrt((x - pos.x) * (x - pos.x) + (y - pos.y) * (y - pos.y));
+            CGFloat newDiff = sqrt((x - pos.x) * (x - pos.x) + (y - pos.y) * (y - pos.y));
             if (newDiff < diff) {
                 result = pos;
                 diff = newDiff;
