@@ -3,17 +3,17 @@
 // REMarkerClusterer
 //
 // Copyright (c) 2011-2013 Roman Efimov (https://github.com/romaonthego)
-// 
+//
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
 // in the Software without restriction, including without limitation the rights
 // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be included in
 // all copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -26,29 +26,35 @@
 #import "RECluster.h"
 #import "REMarkerClusterer.h"
 
+@interface RECluster ()
+
+@property (strong, readwrite, nonatomic) NSString *coordinateTag;
+
+@end
+
 @implementation RECluster
 
 - (id)initWithClusterer:(REMarkerClusterer *)clusterer
 {
     if ((self = [super init])) {
-        _markerClusterer = clusterer;
-        _averageCenter = [clusterer isAverageCenter];
-        _markers = [[NSMutableArray alloc] init];
-        _hasCenter = NO;
-        _bounds = [[RELatLngBounds alloc] initWithMapView:_markerClusterer.mapView];
+        self.markerClusterer = clusterer;
+        self.averageCenter = [clusterer isAverageCenter];
+        self.markers = [[NSMutableArray alloc] init];
+        self.hasCenter = NO;
+        self.bounds = [[RELatLngBounds alloc] initWithMapView:self.markerClusterer.mapView];
     }
     return self;
 }
 
 - (void)calculateBounds
 {
-    [_bounds setSouthWest:_coordinate northEast:_coordinate];
-    [_bounds setExtendedBounds:_markerClusterer.gridSize];
+    [self.bounds setSouthWest:self.coordinate northEast:self.coordinate];
+    [self.bounds setExtendedBounds:self.markerClusterer.gridSize];
 }
 
 - (BOOL)isMarkerInClusterBounds:(REMarker *)marker
 {
-    return [_bounds contains:marker.coordinate];
+    return [self.bounds contains:marker.coordinate];
 }
 
 - (NSInteger)markersInClusterFromMarkers:(NSArray *) markers
@@ -63,7 +69,7 @@
 
 - (BOOL)isMarkerAlreadyAdded:(REMarker *)marker
 {
-    for (REMarker *m in _markers) {
+    for (REMarker *m in self.markers) {
         if ([m isEqual:marker])
             return YES;
     }
@@ -76,54 +82,54 @@
     CGFloat y = 0;
     CGFloat z = 0;
     
-    for (REMarker *marker in _markers) {
+    for (REMarker *marker in self.markers) {
         CGFloat lat = marker.coordinate.latitude * M_PI /  180;
         CGFloat lon = marker.coordinate.longitude * M_PI / 180;
-
+        
         x += cos(lat) * cos(lon);
         y += cos(lat) * sin(lon);
         z += sin(lat);
     }
     
-    x = x / [_markers count];
-    y = y / [_markers count];
-    z = z / [_markers count];
+    x = x / self.markers.count;
+    y = y / self.markers.count;
+    z = z / self.markers.count;
     
     CGFloat r = sqrt(x * x + y * y + z * z);
     CGFloat lat1 = asin(z / r) / (M_PI / 180);
     CGFloat lon1 = atan2(y, x) / (M_PI / 180);
     
-    _coordinate = CLLocationCoordinate2DMake(lat1, lon1);
+    self.coordinate = CLLocationCoordinate2DMake(lat1, lon1);
 }
 
-- (BOOL)addMarker:(REMarker *)marker 
+- (BOOL)addMarker:(REMarker *)marker
 {
     if ([self isMarkerAlreadyAdded:marker])
         return NO;
-
-    if (!_hasCenter) {
-        _coordinate = marker.coordinate;
-        _coordinateTag = [NSString stringWithFormat:@"%f%f",_coordinate.latitude,_coordinate.longitude];
-        _hasCenter = YES;
+    
+    if (!self.hasCenter) {
+        self.coordinate = marker.coordinate;
+        self.coordinateTag = [NSString stringWithFormat:@"%f%f", self.coordinate.latitude, self.coordinate.longitude];
+        self.hasCenter = YES;
         [self calculateBounds];
     } else {
-        if (_averageCenter && [_markers count] >= 2) {
-            CGFloat l = [_markers count] + 1;
-            CGFloat lat = (_coordinate.latitude * (l - 1) + marker.coordinate.latitude) / l;
-            CGFloat lng = (_coordinate.longitude * (l - 1) + marker.coordinate.longitude) / l;
-            _coordinate = CLLocationCoordinate2DMake(lat, lng);
-            _coordinateTag = [NSString stringWithFormat:@"%f%f",_coordinate.latitude,_coordinate.longitude];
-            _hasCenter = YES;
+        if (self.averageCenter && self.markers.count >= 2) {
+            CGFloat l = self.markers.count + 1;
+            CGFloat lat = (self.coordinate.latitude * (l - 1) + marker.coordinate.latitude) / l;
+            CGFloat lng = (self.coordinate.longitude * (l - 1) + marker.coordinate.longitude) / l;
+            self.coordinate = CLLocationCoordinate2DMake(lat, lng);
+            self.coordinateTag = [NSString stringWithFormat:@"%f%f", self.coordinate.latitude, self.coordinate.longitude];
+            self.hasCenter = YES;
             [self calculateBounds];
         }
     }
-    [_markers addObject:marker];
+    [self.markers addObject:marker];
     
-    if (_markers.count == 1){
-        self.title = ((REMarker *)[_markers lastObject]).title;
-        self.subtitle = ((REMarker *)[_markers lastObject]).title;
+    if (self.markers.count == 1){
+        self.title = ((REMarker *)self.markers.lastObject).title;
+        self.subtitle = ((REMarker *)self.markers.lastObject).title;
     } else{
-        self.title = [NSString stringWithFormat:self.markerClusterer.clusterTitle, _markers.count];
+        self.title = [NSString stringWithFormat:self.markerClusterer.clusterTitle, self.markers.count];
         self.subtitle = @"";
     }
     
@@ -132,8 +138,8 @@
 
 - (void)printDescription
 {
-    NSLog(@"---- CLUSTER: %@ - %lu ----",_coordinateTag, (unsigned long)_markers.count);
-    for (REMarker *marker in _markers) {
+    NSLog(@"---- CLUSTER: %@ - %lu ----", self.coordinateTag, (unsigned long)self.markers.count);
+    for (REMarker *marker in self.markers) {
         NSLog(@"  MARKER: %@-%@", marker.title, marker.subtitle);
     }
 }
