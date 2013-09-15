@@ -85,7 +85,7 @@
 {
     [_clusters removeAllObjects];
     [_markers removeAllObjects];
-    [self.mapView removeAnnotations:[self markerAnnotations]];
+    [self.mapView removeAnnotations:self.markerAnnotations];
 }
 
 
