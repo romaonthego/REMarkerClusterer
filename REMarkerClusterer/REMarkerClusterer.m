@@ -86,6 +86,11 @@
     [_markers addObjectsFromArray:markers];
 }
 
+- (void)removeMarker:(id<REMarker>)marker;
+{
+    [_markers removeObject:marker];
+}
+
 - (void)removeAllMarkers
 {
     [_clusters removeAllObjects];
