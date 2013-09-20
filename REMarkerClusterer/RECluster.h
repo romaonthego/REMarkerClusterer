@@ -28,7 +28,7 @@
 #import "RELatLngBounds.h"
 
 @class REMarkerClusterer;
-@class REMarker;
+@protocol REMarker;
 
 @interface RECluster : NSObject <MKAnnotation>
 
@@ -43,10 +43,10 @@
 @property (strong, readonly, nonatomic) NSString *coordinateTag;
 
 - (id)initWithClusterer:(REMarkerClusterer *)clusterer;
-- (BOOL)isMarkerAlreadyAdded:(REMarker *)marker;
+- (BOOL)isMarkerAlreadyAdded:(id<REMarker>)marker;
 - (NSInteger)markersInClusterFromMarkers:(NSArray *)markers;
-- (BOOL)addMarker:(REMarker *)marker;
-- (BOOL)isMarkerInClusterBounds:(REMarker *)marker;
+- (BOOL)addMarker:(id<REMarker>)marker;
+- (BOOL)isMarkerInClusterBounds:(id<REMarker>)marker;
 - (void)setAverageCenter;
 - (void)printDescription;
 

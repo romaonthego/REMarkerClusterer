@@ -81,7 +81,7 @@
     NSString *message;
     
     if (cluster.markers.count == 1) {
-        REMarker *marker = [cluster.markers objectAtIndex:0];
+        REMarker *marker = (REMarker*)[cluster.markers objectAtIndex:0];
         message = [NSString stringWithFormat:@"%@", marker.userInfo];
     } else {
         message = [NSString stringWithFormat:@"Count: %lu", (unsigned long)cluster.markers.count];
