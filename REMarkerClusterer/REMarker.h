@@ -25,7 +25,10 @@
 
 #import <MapKit/MapKit.h>
 
-@interface REMarker : NSObject <MKAnnotation>
+@protocol REMarker <MKAnnotation>
+@end
+
+@interface REMarker : NSObject <REMarker>
 
 @property (assign, readwrite, nonatomic) NSUInteger markerId;
 @property (copy, readwrite, nonatomic) NSString *title;

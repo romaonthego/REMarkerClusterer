@@ -55,7 +55,7 @@
 @property (assign, readonly, nonatomic) BOOL animating;
 
 - (id)initWithMapView:(MKMapView *)mapView delegate:(id <REMarkerClusterDelegate>)delegate;
-- (void)addMarker:(REMarker *)marker;
+- (void)addMarker:(id<REMarker>)marker;
 - (void)removeAllMarkers;
 - (void)zoomToAnnotationsBounds:(NSArray *)annotations;
 - (void)clusterize:(BOOL)animated;

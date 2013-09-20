@@ -52,7 +52,7 @@
     [self.bounds setExtendedBounds:self.markerClusterer.gridSize];
 }
 
-- (BOOL)isMarkerInClusterBounds:(REMarker *)marker
+- (BOOL)isMarkerInClusterBounds:(id<REMarker>)marker
 {
     return [self.bounds contains:marker.coordinate];
 }
@@ -60,16 +60,16 @@
 - (NSInteger)markersInClusterFromMarkers:(NSArray *) markers
 {
     NSInteger result = 0;
-    for (REMarker *marker in markers) {
+    for (id<REMarker>marker in markers) {
         if ([self isMarkerAlreadyAdded:marker])
             result++;
     }
     return result;
 }
 
-- (BOOL)isMarkerAlreadyAdded:(REMarker *)marker
+- (BOOL)isMarkerAlreadyAdded:(id<REMarker>)marker
 {
-    for (REMarker *m in self.markers) {
+    for (id<REMarker>m in self.markers) {
         if ([m isEqual:marker])
             return YES;
     }
@@ -82,7 +82,7 @@
     CGFloat y = 0;
     CGFloat z = 0;
     
-    for (REMarker *marker in self.markers) {
+    for (id<REMarker>marker in self.markers) {
         CGFloat lat = marker.coordinate.latitude * M_PI /  180;
         CGFloat lon = marker.coordinate.longitude * M_PI / 180;
         
@@ -102,7 +102,7 @@
     self.coordinate = CLLocationCoordinate2DMake(lat1, lon1);
 }
 
-- (BOOL)addMarker:(REMarker *)marker
+- (BOOL)addMarker:(id<REMarker>)marker
 {
     if ([self isMarkerAlreadyAdded:marker])
         return NO;
@@ -126,8 +126,8 @@
     [self.markers addObject:marker];
     
     if (self.markers.count == 1){
-        self.title = ((REMarker *)self.markers.lastObject).title;
-        self.subtitle = ((REMarker *)self.markers.lastObject).title;
+        self.title = ((id<REMarker>)self.markers.lastObject).title;
+        self.subtitle = ((id<REMarker>)self.markers.lastObject).title;
     } else{
         self.title = [NSString stringWithFormat:self.markerClusterer.clusterTitle, self.markers.count];
         self.subtitle = @"";
@@ -139,7 +139,7 @@
 - (void)printDescription
 {
     NSLog(@"---- CLUSTER: %@ - %lu ----", self.coordinateTag, (unsigned long)self.markers.count);
-    for (REMarker *marker in self.markers) {
+    for (id<REMarker>marker in self.markers) {
         NSLog(@"  MARKER: %@-%@", marker.title, marker.subtitle);
     }
 }
