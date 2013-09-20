@@ -110,8 +110,9 @@ NSDictionary *data = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainB
 
 ## Contributors
 
-Nicolas Yuste ([@nicoyuste](https://github.com/nicoyuste))<br />
-Thomas Kollbach ([@toto](https://github.com/toto))
+Nicolas Yuste ([@nicoyuste](https://github.com/nicoyuste))  
+Thomas Kollbach ([@toto](https://github.com/toto))  
+Markus Emrich ([@jaydee3](https://github.com/jaydee3))
 
 ## Contact
 
