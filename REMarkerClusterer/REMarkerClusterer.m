@@ -81,6 +81,11 @@
     [_markers addObject:marker];
 }
 
+- (void)addMarkers:(NSArray*)markers;
+{
+    [_markers addObjectsFromArray:markers];
+}
+
 - (void)removeAllMarkers
 {
     [_clusters removeAllObjects];

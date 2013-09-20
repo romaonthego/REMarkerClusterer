@@ -56,6 +56,7 @@
 
 - (id)initWithMapView:(MKMapView *)mapView delegate:(id <REMarkerClusterDelegate>)delegate;
 - (void)addMarker:(id<REMarker>)marker;
+- (void)addMarkers:(NSArray*)markers;
 - (void)removeAllMarkers;
 - (void)zoomToAnnotationsBounds:(NSArray *)annotations;
 - (void)clusterize:(BOOL)animated;
