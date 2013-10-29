@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name = 'REMarkerClusterer'
-  s.version = '2.3'
+  s.version = '2.3.1'
   s.authors = {'Roman Efimov' => 'romefimov@gmail.com'}
   s.homepage = 'https://github.com/romaonthego/REMarkerClusterer'
   s.summary = 'REMarkerClusterer creates and manages per-zoom-level clusters for large amounts of markers.'
