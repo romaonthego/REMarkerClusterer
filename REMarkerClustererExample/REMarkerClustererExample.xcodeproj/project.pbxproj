@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		305CA896181FFF0300921B8F /* Pin_Red@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 305CA895181FFF0300921B8F /* Pin_Red@2x.png */; };
+		305CA898181FFFD900921B8F /* Pin_Purple@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 305CA897181FFFD900921B8F /* Pin_Purple@2x.png */; };
 		308DBF3C15ABC5BB00FC89AE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 308DBF3B15ABC5BB00FC89AE /* UIKit.framework */; };
 		308DBF3E15ABC5BB00FC89AE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 308DBF3D15ABC5BB00FC89AE /* Foundation.framework */; };
 		308DBF4015ABC5BB00FC89AE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 308DBF3F15ABC5BB00FC89AE /* CoreGraphics.framework */; };
@@ -25,6 +27,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		305CA895181FFF0300921B8F /* Pin_Red@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Pin_Red@2x.png"; sourceTree = "<group>"; };
+		305CA897181FFFD900921B8F /* Pin_Purple@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Pin_Purple@2x.png"; sourceTree = "<group>"; };
 		308DBF3715ABC5BB00FC89AE /* REMarkerClustererExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = REMarkerClustererExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		308DBF3B15ABC5BB00FC89AE /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		308DBF3D15ABC5BB00FC89AE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -112,6 +116,8 @@
 		308DBF4215ABC5BB00FC89AE /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				305CA895181FFF0300921B8F /* Pin_Red@2x.png */,
+				305CA897181FFFD900921B8F /* Pin_Purple@2x.png */,
 				30D8E0011633173200FC85A8 /* Default-568h@2x.png */,
 				308DBF4315ABC5BB00FC89AE /* REMarkerClustererExample-Info.plist */,
 				308DBF4415ABC5BB00FC89AE /* InfoPlist.strings */,
@@ -189,9 +195,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				305CA896181FFF0300921B8F /* Pin_Red@2x.png in Resources */,
 				308DBF4615ABC5BB00FC89AE /* InfoPlist.strings in Resources */,
 				308DBF6715ABD09F00FC89AE /* Points.plist in Resources */,
 				30D8E0021633173200FC85A8 /* Default-568h@2x.png in Resources */,
+				305CA898181FFFD900921B8F /* Pin_Purple@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

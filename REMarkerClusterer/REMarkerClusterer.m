@@ -267,6 +267,8 @@
                                          annotation.coordinate = realCoordinate;
                                      }  completion:^(BOOL finished){
                                          weakSelf.animating = NO;
+                                         [_mapView removeAnnotation:annotation];
+                                         [_mapView addAnnotation:annotation];
                                      }];
                 }
                 [_mapView removeAnnotation:endCluster];
@@ -300,7 +302,8 @@
                                      if (annotation != [annotations lastObject]) {
                                          [weakSelf.mapView removeAnnotation:annotation];
                                      } else {
-                                         
+                                         [_mapView removeAnnotation:annotation];
+                                         [_mapView addAnnotation:annotation];
                                      }
                                  }];
             }else{
