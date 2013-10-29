@@ -119,7 +119,7 @@
     
     static NSString *pinID;
     static NSString *defaultPinID = @"REDefaultPin";
-	static NSString *clusterPinID = @"REClusterPin";
+    static NSString *clusterPinID = @"REClusterPin";
     static NSString *markerPinID = @"REMarkerPin";
     
     if (self.segmentedControl.selectedSegmentIndex == 0) {
