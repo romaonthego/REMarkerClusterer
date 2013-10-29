@@ -12,6 +12,7 @@
 
 @property (strong, readwrite, nonatomic) MKMapView *mapView;
 @property (strong, readwrite, nonatomic) REMarkerClusterer *clusterer;
+@property (strong, readwrite, nonatomic) UISegmentedControl *segmentedControl;
 
 @end
 
@@ -20,6 +21,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    // Add segmented control
+    //
+    self.segmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"Simple", @"Custom Pins"]];
+    self.segmentedControl.selectedSegmentIndex = 0;
+    [self.segmentedControl addTarget:self action:@selector(segmentedControlChanged:) forControlEvents:UIControlEventValueChanged];
+    self.navigationItem.titleView = self.segmentedControl;
     
     // Add map view
     //
@@ -73,6 +81,15 @@
 }
 
 #pragma mark -
+#pragma mark Segmented control value observer
+
+- (void)segmentedControlChanged:(UISegmentedControl *)segmentedControl
+{
+    [self.mapView removeAnnotations:self.mapView.annotations];
+    [self.clusterer clusterize:NO];
+}
+
+#pragma mark -
 #pragma mark MKMapViewDeletate
 
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
@@ -89,6 +106,46 @@
     
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Test" message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
     [alertView show];
+}
+
+/* You can optionally implement
+   - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation
+   to have custom pin views as goes below:
+ */
+- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(RECluster *)annotation
+{
+    if ([annotation isKindOfClass:[MKUserLocation class]])
+        return nil;
+    
+    static NSString *pinID;
+    static NSString *defaultPinID = @"REDefaultPin";
+	static NSString *clusterPinID = @"REClusterPin";
+    static NSString *markerPinID = @"REMarkerPin";
+    
+    if (self.segmentedControl.selectedSegmentIndex == 0) {
+        pinID = defaultPinID;
+    } else {
+        pinID = annotation.markers.count == 1 ? markerPinID : clusterPinID;
+    }
+    
+	MKPinAnnotationView *pinView = (MKPinAnnotationView *)[self.mapView dequeueReusableAnnotationViewWithIdentifier:pinID];
+    
+	if (pinView == nil) {
+		pinView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:pinID];
+        
+        UIButton *detailButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+        detailButton.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+        detailButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+        pinView.rightCalloutAccessoryView = detailButton;
+        pinView.pinColor = MKPinAnnotationColorRed;
+        pinView.canShowCallout = YES;
+        
+        if (self.segmentedControl.selectedSegmentIndex == 1) {
+            pinView.image = [UIImage imageNamed:annotation.markers.count == 1 ? @"Pin_Red" : @"Pin_Purple"];
+        }
+    }
+    
+    return pinView;
 }
 
 @end
