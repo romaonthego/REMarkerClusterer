@@ -26,6 +26,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
 #import <MapKit/MapKit.h>
+#import <float.h>
 #import "REMarker.h"
 #import "RELatLngBounds.h"
 #import "RECluster.h"
