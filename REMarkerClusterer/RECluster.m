@@ -46,6 +46,19 @@
     return self;
 }
 
+- (void)setCoordinate:(CLLocationCoordinate2D)coordinate
+{
+    _coordinate = coordinate;
+
+    // To support dragging of individual (non-cluster) pins, we pass the new
+    // coordinate through to the underlying REMarker.
+    //
+    if (self.markers.count == 1) {
+        REMarker *marker = self.markers.lastObject;
+        marker.coordinate = coordinate;
+    }
+}
+
 - (void)calculateBounds
 {
     [self.bounds setSouthWest:self.coordinate northEast:self.coordinate];
