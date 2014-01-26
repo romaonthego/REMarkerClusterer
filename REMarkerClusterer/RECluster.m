@@ -140,7 +140,7 @@
     
     if (self.markers.count == 1){
         self.title = ((id<REMarker>)self.markers.lastObject).title;
-        self.subtitle = ((id<REMarker>)self.markers.lastObject).title;
+        self.subtitle = ((id<REMarker>)self.markers.lastObject).subtitle;
     } else{
         self.title = [NSString stringWithFormat:self.markerClusterer.clusterTitle, self.markers.count];
         self.subtitle = @"";
