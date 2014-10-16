@@ -569,4 +569,11 @@
         [_delegate mapView:mapView didChangeUserTrackingMode:mode animated:animated];
 }
 
+- (MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id<MKOverlay>)overlay{
+    if ([_delegate respondsToSelector:@selector(mapView:rendererForOverlay:)]) {
+        return [_delegate mapView:mapView rendererForOverlay:overlay];
+    }
+    return nil;
+}
+
 @end
