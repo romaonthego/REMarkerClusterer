@@ -576,4 +576,10 @@
     return nil;
 }
 
+-(void)mapViewDidFinishRenderingMap:(MKMapView *)mapView fullyRendered:(BOOL)fullyRendered
+{
+    if ([_delegate respondsToSelector:@selector(mapViewDidFinishRenderingMap:fullyRendered:)])
+        [_delegate mapViewDidFinishRenderingMap:mapView fullyRendered:fullyRendered];
+}
+
 @end
