@@ -569,4 +569,17 @@
         [_delegate mapView:mapView didChangeUserTrackingMode:mode animated:animated];
 }
 
+- (MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id<MKOverlay>)overlay{
+    if ([_delegate respondsToSelector:@selector(mapView:rendererForOverlay:)]) {
+        return [_delegate mapView:mapView rendererForOverlay:overlay];
+    }
+    return nil;
+}
+
+-(void)mapViewDidFinishRenderingMap:(MKMapView *)mapView fullyRendered:(BOOL)fullyRendered
+{
+    if ([_delegate respondsToSelector:@selector(mapViewDidFinishRenderingMap:fullyRendered:)])
+        [_delegate mapViewDidFinishRenderingMap:mapView fullyRendered:fullyRendered];
+}
+
 @end
