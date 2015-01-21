@@ -48,6 +48,7 @@
 - (BOOL)addMarker:(id<REMarker>)marker;
 - (BOOL)isMarkerInClusterBounds:(id<REMarker>)marker;
 - (void)setAverageCenter;
+- (void)assignCoordinateForAnimation:(CLLocationCoordinate2D)coordinate;
 - (void)printDescription;
 
 @end
