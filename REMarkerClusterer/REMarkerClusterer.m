@@ -25,6 +25,7 @@
 
 #import <MapKit/MapKit.h>
 #import <CoreLocation/CoreLocation.h>
+#include <libkern/OSAtomic.h>
 #import "REMarkerClusterer.h"
 #import "RECluster.h"
 
@@ -244,11 +245,19 @@
     return (((float) (arc4random() % ((unsigned)RAND_MAX + 1)) / RAND_MAX) * diff) + smallNumber;
 }
 
+- (void)clusterizeFinished
+{
+    if ([_delegate respondsToSelector:@selector(didClusterize:)])
+        [_delegate didClusterize:self];
+}
+
 - (void)splitAnnotationsWithDictionary:(NSDictionary *)dictionary
 {
     NSDictionary *mergeators = [dictionary objectForKey:mergeatorsKey];
     NSDictionary *mixes = [dictionary objectForKey:mixesKey];
     
+    __block int32_t pendingAnimationsCount = 0;
+    BOOL didUseAnimation = NO;
     for (NSString *mergeatorKey in [mergeators allKeys]){
         NSArray *annotations = [mixes objectForKey:mergeatorKey];
         RECluster *endCluster = [mergeators objectForKey:mergeatorKey];
@@ -260,6 +269,8 @@
                     CLLocationCoordinate2D realCoordinate = annotation.coordinate;
                     annotation.coordinate = endCluster.coordinate;
                     _animating = YES;
+                    didUseAnimation = YES;
+                    OSAtomicIncrement32Barrier(&pendingAnimationsCount);
                     __typeof (&*self) __weak weakSelf = self;
                     [UIView animateWithDuration:[self randomFloatBetween:0.25 and:_maxDurationOfSplitAnimation] delay:[self randomFloatBetween:0 and:_maxDelayOfSplitAnimation]
                                         options:UIViewAnimationCurveEaseInOut | UIViewAnimationOptionAllowUserInteraction
@@ -269,6 +280,8 @@
                                          weakSelf.animating = NO;
                                          [_mapView removeAnnotation:annotation];
                                          [_mapView addAnnotation:annotation];
+                                         if (OSAtomicDecrement32Barrier(&pendingAnimationsCount) <= 0)
+                                             [self clusterizeFinished];
                                      }];
                 }
                 [_mapView removeAnnotation:endCluster];
@@ -279,6 +292,9 @@
             [_mapView removeAnnotation:endCluster];
         }
     }
+
+    if (!didUseAnimation)
+        [self clusterizeFinished];
 }
 
 - (void)joinAnnotationsWithDictionary:(NSDictionary *)dictionary
@@ -286,11 +302,15 @@
     NSDictionary *mergeators = [dictionary objectForKey:mergeatorsKey];
     NSDictionary *mixes = [dictionary objectForKey:mixesKey];
     
+    __block int32_t pendingAnimationsCount = 0;
+    BOOL didUseAnimation = NO;
     for (NSString *mergeatorKey in [mergeators allKeys]) {
         NSArray *annotations = [mixes objectForKey:mergeatorKey];
         RECluster *endCluster = [mergeators objectForKey:mergeatorKey];
         for (RECluster *annotation in annotations){
             if (_animated) {
+                didUseAnimation = YES;
+                OSAtomicIncrement32Barrier(&pendingAnimationsCount);
                 _animating = YES;
                 __typeof (&*self) __weak weakSelf = self;
                 [UIView animateWithDuration:[self randomFloatBetween:0.25 and:_maxDurationOfSplitAnimation] delay:[self randomFloatBetween:0 and:_maxDelayOfSplitAnimation]
@@ -305,6 +325,8 @@
                                          [_mapView removeAnnotation:annotation];
                                          [_mapView addAnnotation:annotation];
                                      }
+                                     if (OSAtomicDecrement32Barrier(&pendingAnimationsCount) <= 0)
+                                         [self clusterizeFinished];
                                  }];
             }else{
                 [_mapView removeAnnotations:annotations];
@@ -320,12 +342,18 @@
             }
         }
     }
+
+    if (!didUseAnimation)
+        [self clusterizeFinished];
 }
 
 - (void)clusterize:(BOOL)animated
 {
     if (_animating && animated)
         return;
+
+    if ([_delegate respondsToSelector:@selector(willClusterize:)])
+        [_delegate willClusterize:self];
         
     _animated = animated;
     
@@ -381,6 +409,7 @@
     
     if (self.markerAnnotations.count == 0) {
         [_mapView addAnnotations:_clusters];
+        [self clusterizeFinished];
     }
     else if (self.markerAnnotations.count > _clusters.count) {
         [self joinAnnotationsWithDictionary:dic];
@@ -388,6 +417,7 @@
     } else if(self.markerAnnotations.count < _clusters.count) {
         [self splitAnnotationsWithDictionary:dic];
     } else {
+        [self clusterizeFinished];
     }
 
 }
@@ -442,7 +472,8 @@
 - (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated
 {
     [self clusterize:YES];
-    [self.mapView deselectAnnotation:[self.mapView.selectedAnnotations objectAtIndex:0] animated:NO];
+    if (![_delegate respondsToSelector:@selector(willClusterize:)])
+        [self.mapView deselectAnnotation:[self.mapView.selectedAnnotations objectAtIndex:0] animated:NO];
     
     if ([_delegate respondsToSelector:@selector(mapView:regionDidChangeAnimated:)])
         [_delegate mapView:mapView regionDidChangeAnimated:animated];
