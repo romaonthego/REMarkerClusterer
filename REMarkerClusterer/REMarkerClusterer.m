@@ -258,13 +258,13 @@
                 [_mapView addAnnotation:annotation];
                 if(annotation.coordinate.latitude != endCluster.coordinate.latitude || annotation.coordinate.longitude != endCluster.coordinate.longitude) {
                     CLLocationCoordinate2D realCoordinate = annotation.coordinate;
-                    annotation.coordinate = endCluster.coordinate;
+                    [annotation assignCoordinateForAnimation:endCluster.coordinate];
                     _animating = YES;
                     __typeof (&*self) __weak weakSelf = self;
                     [UIView animateWithDuration:[self randomFloatBetween:0.25 and:_maxDurationOfSplitAnimation] delay:[self randomFloatBetween:0 and:_maxDelayOfSplitAnimation]
                                         options:UIViewAnimationCurveEaseInOut | UIViewAnimationOptionAllowUserInteraction
                                      animations:^{
-                                         annotation.coordinate = realCoordinate;
+                                         [annotation assignCoordinateForAnimation:realCoordinate];
                                      }  completion:^(BOOL finished){
                                          weakSelf.animating = NO;
                                          [_mapView removeAnnotation:annotation];
@@ -296,7 +296,7 @@
                 [UIView animateWithDuration:[self randomFloatBetween:0.25 and:_maxDurationOfSplitAnimation] delay:[self randomFloatBetween:0 and:_maxDelayOfSplitAnimation]
                                     options:UIViewAnimationCurveEaseInOut | UIViewAnimationOptionAllowUserInteraction
                                  animations:^{
-                                     annotation.coordinate = endCluster.coordinate;
+                                     [annotation assignCoordinateForAnimation:endCluster.coordinate];
                                  }  completion:^(BOOL finished){
                                      weakSelf.animating = NO;
                                      if (annotation != [annotations lastObject]) {

@@ -59,6 +59,13 @@
     }
 }
 
+// Use assignCoordinateForAnimation when it is not desirable to affect
+// the position of the underlying REMarker objects.
+- (void)assignCoordinateForAnimation:(CLLocationCoordinate2D)coordinate
+{
+    _coordinate = coordinate;
+}
+
 - (void)calculateBounds
 {
     [self.bounds setSouthWest:self.coordinate northEast:self.coordinate];
