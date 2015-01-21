@@ -70,6 +70,13 @@
     return self;
 }
 
+- (void)dealloc
+{
+    // Break the MKMapView delegate connection to avoid potential use after
+    // free bugs.
+    _mapView.delegate = nil;
+}
+
 - (void)setMapView:(MKMapView *)mapView
 {
     _mapView = mapView;
