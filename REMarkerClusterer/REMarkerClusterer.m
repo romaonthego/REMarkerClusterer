@@ -356,10 +356,10 @@
         } else {
             NSInteger minor = INT16_MAX;
             NSInteger index = posiblesArrays.count-1;
-            for (RECluster *cluster in posiblesArrays) {
-                if (cluster.markers.count < minor) {
-                    index = [posiblesArrays indexOfObject:cluster];
-                    minor = cluster.markers.count;
+            for (RECluster *cluster2 in posiblesArrays) {
+                if (cluster2.markers.count < minor) {
+                    index = [posiblesArrays indexOfObject:cluster2];
+                    minor = cluster2.markers.count;
                 }
             }
             [self addObject:cluster toDictionary:mixDictionary withKey:((RECluster *)[posiblesArrays objectAtIndex:index]).coordinateTag];
