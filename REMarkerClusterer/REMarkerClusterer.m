@@ -98,18 +98,6 @@
     [self.mapView removeAnnotations:self.markerAnnotations];
 }
 
-
-- (BOOL)markerInBounds:(id<REMarker>)marker
-{
-    CGPoint pix = [self.mapView convertCoordinate:marker.coordinate toPointToView:nil];
-    if (pix.x >=-150 && pix.x <= _mapView.frame.size.width+150) {
-        if (pix.y >=-150 && pix.y <= _mapView.frame.size.height+150) {
-            return YES;
-        }
-    }
-    return NO;
-}
-
 - (void)zoomToAnnotationsBounds:(NSArray *)annotations
 {
     CLLocationDegrees minLatitude = DBL_MAX;
@@ -216,8 +204,8 @@
     for (id<REMarker>marker in _markers) {
         if (marker.coordinate.latitude == 0 && marker.coordinate.longitude == 0) 
             continue;
-        //if ([self markerInBounds:marker])
-             [self addToClosestCluster:marker];
+
+         [self addToClosestCluster:marker];
     }
 }
 
