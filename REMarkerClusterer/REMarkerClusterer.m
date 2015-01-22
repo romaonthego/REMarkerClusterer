@@ -258,8 +258,8 @@
                 [_mapView addAnnotation:annotation];
                 if(annotation.coordinate.latitude != endCluster.coordinate.latitude || annotation.coordinate.longitude != endCluster.coordinate.longitude) {
                     CLLocationCoordinate2D realCoordinate = annotation.coordinate;
-                    annotation.coordinate = endCluster.coordinate;
                     _animating = YES;
+                    annotation.coordinate = endCluster.coordinate;
                     __typeof (&*self) __weak weakSelf = self;
                     [UIView animateWithDuration:[self randomFloatBetween:0.25 and:_maxDurationOfSplitAnimation] delay:[self randomFloatBetween:0 and:_maxDelayOfSplitAnimation]
                                         options:UIViewAnimationCurveEaseInOut | UIViewAnimationOptionAllowUserInteraction
@@ -390,6 +390,11 @@
     } else {
     }
 
+}
+
+- (BOOL)isAnimating
+{
+    return _animating;
 }
 
 - (CGPoint)findClosestAnnotationX:(CGFloat)x y:(CGFloat)y

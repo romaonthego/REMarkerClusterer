@@ -51,9 +51,9 @@
     _coordinate = coordinate;
 
     // To support dragging of individual (non-cluster) pins, we pass the new
-    // coordinate through to the underlying REMarker.
-    //
-    if (self.markers.count == 1) {
+    // coordinate through to the underlying REMarker if we are not in the
+    // midst of animating pins.
+    if (![self.markerClusterer isAnimating] && (self.markers.count == 1)) {
         REMarker *marker = self.markers.lastObject;
         marker.coordinate = coordinate;
     }
