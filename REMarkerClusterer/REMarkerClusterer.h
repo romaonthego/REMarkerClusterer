@@ -36,6 +36,8 @@
 @optional
 
 - (void)markerClusterer:(REMarkerClusterer *)markerCluster withMapView:(MKMapView *)mapView updateViewOfAnnotation:(id<MKAnnotation>)annotation withView:(MKAnnotationView *)annotationView;
+- (void)willClusterize:(REMarkerClusterer *)markerClusterer;
+- (void)didClusterize:(REMarkerClusterer *)markerClusterer;
 
 @end
 
