@@ -94,6 +94,9 @@
 
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
 {
+    if (![view.annotation isKindOfClass:[RECluster class]])
+        return;
+
     RECluster *cluster = view.annotation;
     NSString *message;
     
@@ -112,9 +115,9 @@
    - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation
    to have custom pin views as goes below:
  */
-- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(RECluster *)annotation
+- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation
 {
-    if ([annotation isKindOfClass:[MKUserLocation class]])
+    if (![annotation isKindOfClass:[RECluster class]])
         return nil;
     
     static NSString *pinID;
@@ -122,10 +125,11 @@
     static NSString *clusterPinID = @"REClusterPin";
     static NSString *markerPinID = @"REMarkerPin";
     
+    NSArray *markers = ((RECluster *)annotation).markers;
     if (self.segmentedControl.selectedSegmentIndex == 0) {
         pinID = defaultPinID;
     } else {
-        pinID = annotation.markers.count == 1 ? markerPinID : clusterPinID;
+        pinID = markers.count == 1 ? markerPinID : clusterPinID;
     }
     
 	MKPinAnnotationView *pinView = (MKPinAnnotationView *)[self.mapView dequeueReusableAnnotationViewWithIdentifier:pinID];
@@ -141,7 +145,7 @@
         pinView.canShowCallout = YES;
         
         if (self.segmentedControl.selectedSegmentIndex == 1) {
-            pinView.image = [UIImage imageNamed:annotation.markers.count == 1 ? @"Pin_Red" : @"Pin_Purple"];
+            pinView.image = [UIImage imageNamed:markers.count == 1 ? @"Pin_Red" : @"Pin_Purple"];
         }
     }
     
