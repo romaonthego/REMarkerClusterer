@@ -62,6 +62,7 @@
 - (void)removeAllMarkers;
 - (void)zoomToAnnotationsBounds:(NSArray *)annotations;
 - (void)clusterize:(BOOL)animated;
+- (BOOL)isAnimating;
 
 // Deprecated methods
 //
